@@ -55,14 +55,13 @@ datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
 
-
-x1 = 253
-y1 = 535
+x1 = 118
+y1 = 349
 xyflux1 = findtarget(778*j+x1, 796*i+y1, starlight)
 plt.plot(xyflux1[0]-778*j,xyflux1[1]-796*i,'*')
 
-x2 = 216
-y2 = 563
+x2 = 327
+y2 = 533
 xyflux2 = findtarget(778*j+x2, 796*i+y2, starlight)
 plt.plot(xyflux2[0]-778*j,xyflux2[1]-796*i,'*')
 
@@ -72,11 +71,15 @@ plt.plot(datatime, xyflux2[2:]-xyflux1[2:],'.')
 
 tempflux = np.copy(starlight)
 hang,lie = tempflux.shape
+magflux = np.copy(starlight)
 
 jiaochatemp= []
+sigmatemp = []
 for m in range(hang):
     if tempflux[m,0] >= 778*j and tempflux[m,0] <= 778+778*j and tempflux[m,1] >= 796*i and tempflux[m,1] <= 796+796*i:
+        sigmatemp.append(magflux[m,2:])
         tempflux[m,2:] = tempflux[m,2:]-xyflux1[2:]
+        #tempflux[m,2:] = tempflux[m,2:]
         jiaochatemp.append(tempflux[m])
         
         displayimage(fitsdata, 1, 3)
@@ -87,8 +90,11 @@ for m in range(hang):
         plt.figure(4)
         plt.title(str(m))
         plt.plot(datatime,  tempflux[m,2:], '.')
-        plt.pause(0.5)
+        plt.pause(0.05)
         plt.clf()
         
 arrayjiaocha = np.array(jiaochatemp)
 np.savetxt('arrayjiaocha.txt', arrayjiaocha)
+
+arraysigma = np.array(sigmatemp)
+np.savetxt('sigma.txt', arraysigma)

@@ -41,7 +41,7 @@ def displayimage(img, coff, i):
 
 time = np.loadtxt('datatime.txt')
 data = np.loadtxt('arrayjiaocha.txt')
-
+magdata = np.loadtxt('sigma.txt')
 
 a = 2.4314987216301876e-07
 b = 0.7200849214208086
@@ -57,14 +57,18 @@ hang,lie = data.shape
 romstemp = []
 for i in range(hang):
     midium = np.median(data[i,2:])
-    sigma = np.log10(funcexp(data[i,2:]))
+    sigma = np.log10(funcexp(magdata[i]))
     wjz = np.abs((data[i,2:] - midium)/sigma)
-    Roms = np.sum(wjz)
-    romstemp.append(Roms)
+    #wjz = np.abs((data[i,2:] - midium))
+    Roms = np.sum(wjz)/268
+    #romstemp.append(Roms)
+    romstemp.append(np.std(data[i,2:]))
     
-index = 395
+index = 0
+flagrun = 1
 plt.figure(0)    
 plt.plot(time,data[index, 2:],'.')
+
 
 displayimage(imgdata, 1 ,1)
 plt.plot(data[index,0], data[index,1], '*')
@@ -75,5 +79,14 @@ plt.plot(romstemp, '.')
 
 temp = []
 for i in range(len(romstemp)):
-    if (romstemp[i]>5):
+    if (romstemp[i]>0.07):
         temp.append(i)
+
+if flagrun == 1:    
+    for i in range(len(temp)):
+        t = temp[i]
+        plt.figure(3)
+        plt.plot(time,data[t, 2:],'.')
+        plt.title(str(i))
+        plt.pause(1)
+        plt.clf()

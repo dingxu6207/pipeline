@@ -49,17 +49,17 @@ def findtarget(targetx, targety, sumpho, threshold=10):
 displayimage(data, 1, 0) 
 displayimage(fitsdata, 1, 1) 
 
-'''
+
 datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
-x1 = 191
-y1 = 697
+x1 = 118
+y1 = 349
 xyflux1 = findtarget(778*j+x1, 796*i+y1, starlight)
 plt.plot(xyflux1[0]-778*j,xyflux1[1]-796*i,'*')
 
-x2 = 499
-y2 = 285
+x2 = 327
+y2 = 533
 xyflux2 = findtarget(778*j+x2, 796*i+y2, starlight)
 plt.plot(xyflux2[0]-778*j,xyflux2[1]-796*i,'*')
 
@@ -67,7 +67,9 @@ plt.plot(xyflux2[0]-778*j,xyflux2[1]-796*i,'*')
 plt.figure(2)
 plt.plot(datatime, xyflux2[2:]-xyflux1[2:],'.')
 
+print(np.std(xyflux2[2:]-xyflux1[2:]))
 
+'''
 tempflux = np.copy(starlight)
 hang,lie = tempflux.shape
 for m in range(hang):
@@ -82,6 +84,6 @@ for m in range(hang):
         plt.plot(tempflux[m,0]-778*j,tempflux[m,1]-796*i,'*')
         plt.pause(0.1)
         plt.clf()
-'''        
+        
 #np.savetxt('tempflux'+str(i)+str(j)+'.txt', tempflux)
-   
+'''  
