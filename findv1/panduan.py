@@ -43,8 +43,8 @@ time = np.loadtxt('datatime.txt')
 data = np.loadtxt('arrayjiaocha.txt')
 
 
-a = 5.342944332436061e-08
-b = 0.8114966574650161
+a = 2.4314987216301876e-07
+b = 0.7200849214208086
 
 def funcexp(xdata):
     y = a*np.exp(b*xdata)
@@ -62,9 +62,18 @@ for i in range(hang):
     Roms = np.sum(wjz)
     romstemp.append(Roms)
     
-index = 242
+index = 395
 plt.figure(0)    
 plt.plot(time,data[index, 2:],'.')
 
 displayimage(imgdata, 1 ,1)
 plt.plot(data[index,0], data[index,1], '*')
+
+
+plt.figure(2)
+plt.plot(romstemp, '.')
+
+temp = []
+for i in range(len(romstemp)):
+    if (romstemp[i]>5):
+        temp.append(i)

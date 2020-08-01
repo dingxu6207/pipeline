@@ -87,7 +87,8 @@ def pltquxian(datayuan):
     print( len(error))
     return data_c
  
-lacation = np.loadtxt('location.txt')     
+lacation = np.loadtxt('pms.txt')    
+lacation = lacation[:,0:2] 
 
 fitshdu = fits.open(oripath+filetemp[0])
 fitsdata = fitshdu[0].data

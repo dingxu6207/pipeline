@@ -87,7 +87,7 @@ for m in range(hang):
         plt.figure(4)
         plt.title(str(m))
         plt.plot(datatime,  tempflux[m,2:], '.')
-        plt.pause(2)
+        plt.pause(0.5)
         plt.clf()
         
 arrayjiaocha = np.array(jiaochatemp)

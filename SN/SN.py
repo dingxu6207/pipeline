@@ -89,7 +89,7 @@ plt.plot(magstarSNvalue[:,0], 1/magstarSNvalue[:,1],'.')
 hang,lie = posSNvalue1.shape
 posmagsntemp = []
 for i in range(hang):
-    if 1/posSNvalue1[i,3]>0 and posSNvalue1[i,2]<18:
+    if 1/posSNvalue1[i,3]>0 and posSNvalue1[i,2]<17:
         posmagsntemp.append(posSNvalue1[i])
        
 arraypms = np.array(posmagsntemp)    
