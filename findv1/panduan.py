@@ -64,9 +64,10 @@ for i in range(hang):
     #romstemp.append(Roms)
     romstemp.append(np.std(data[i,2:]))
     
-index = 0
-flagrun = 1
+index = 182
+flagrun = 0
 plt.figure(0)    
+print(data[index, 0:2])
 plt.plot(time,data[index, 2:],'.')
 
 
@@ -79,7 +80,7 @@ plt.plot(romstemp, '.')
 
 temp = []
 for i in range(len(romstemp)):
-    if (romstemp[i]>0.07):
+    if (romstemp[i]>0.03):#0.07
         temp.append(i)
 
 if flagrun == 1:    
