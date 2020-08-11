@@ -64,7 +64,7 @@ for i in range(hang):
     #romstemp.append(Roms)
     romstemp.append(np.std(data[i,2:]))
     
-index = 182
+index = 129
 flagrun = 0
 plt.figure(0)    
 print(data[index, 0:2])
