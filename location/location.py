@@ -78,7 +78,7 @@ def displayimage(img, coff, i):
 sources1,positions1,mylist =  findsource(fitsdata)
 mylist1 = []
 for i, val in enumerate(mylist):
-    if mylist[i][2]>0:
+    if mylist[i][2]>2:
         mylist1.append(mylist[i])
      
         

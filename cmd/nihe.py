@@ -16,8 +16,8 @@ Vce = data[:,1]
 
 plt.figure(0)
 plt.plot(Bce-Vce,Vce,'.')
-plt.xlabel('b-v')
-plt.ylabel('v')
+plt.xlabel('B-V')
+plt.ylabel('V')
 #ax = plt.gca()
 #ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 #ax.invert_yaxis() #y轴反向
