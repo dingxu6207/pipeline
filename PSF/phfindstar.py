@@ -16,8 +16,11 @@ from scipy import asarray as ar
 
 
 #20190603132720Auto.fit
-file  = 'ftboYFAk010148.fits'
-path = 'E:\\shunbianyuan\\phometry\\todingx\\origindata\\'
+#file  = 'ftboYFAk010148.fits'
+#path = 'E:\\shunbianyuan\\phometry\\todingx\\origindata\\'
+#filename = path+file
+file  = '0.fits'
+path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 
 

@@ -17,7 +17,10 @@ from astropy.stats import gaussian_sigma_to_fwhm
 from photutils import CircularAperture, CircularAnnulus
 from photutils import aperture_photometry
 
-fitsname1 = 'E:\\shunbianyuan\\phometry\\todingx\\origindata\\'+'ftboYFAk010148.fits'
+#fitsname1 = 'E:\\shunbianyuan\\phometry\\todingx\\origindata\\'+'ftboYFAk010148.fits'
+file  = '0.fits'
+path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
+fitsname1 = path+file
 
 onehdu = fits.open(fitsname1)
 imgdata1 = onehdu[0].data  #hdu[0].header
@@ -97,18 +100,51 @@ def photomyPSF(psflocation,sigma):
                                     fitshape=(13,13))
 
     result_tab = photometry(image=imgdata1, init_guesses=pos)
-    print(result_tab)
+    #print(result_tab)
     
+    positionflux = np.transpose((result_tab['x_fit'], result_tab['y_fit'],  result_tab['flux_fit']))
+
+   # print(result_tab['flux_fit']) #flux_0  flux_fit
+    #return result_tab
+    return positionflux
+
+def photomyPSFmodel(imgdata, position,sigma):
+    imgdata1 = np.copy(imgdata)
+    sigma_psf = sigma
+    daogroup = DAOGroup(2.0*sigma_psf*gaussian_sigma_to_fwhm)
+    mmm_bkg = MMMBackground()
+    #fitter = LevMarLSQFitter()
+    psf_model = IntegratedGaussianPRF(sigma=sigma_psf)
+
+    sources = Table()
+
+    sources['x_mean'] = position[:,0].T
+    sources['y_mean'] = position[:,1].T
+
+    psf_model.x_0.fixed = True
+    psf_model.y_0.fixed = True
+    pos = Table(names=['x_0', 'y_0'], data=[sources['x_mean'],sources['y_mean']])
+    photometry = BasicPSFPhotometry(group_maker=daogroup,
+                                    bkg_estimator=mmm_bkg,
+                                    psf_model=psf_model,
+                                    fitter=LevMarLSQFitter(),
+                                    fitshape=(13,13))
+
+    result_tab = photometry(image=imgdata1, init_guesses=pos)
+    print(result_tab)    
+    positionflux = np.transpose((result_tab['x_fit'], result_tab['y_fit'],  result_tab['flux_fit']))
+    
+    magstar = 25 - 2.5*np.log10(abs(result_tab['flux_fit']/1))
+    return positionflux,magstar
 
 
-    print(result_tab['flux_fit']) #flux_0  flux_fit
-    return result_tab
 
+#fluxtable =  photomyPSF(position,sigma=2.23)
+fluxtable =  photomyPSF(position,0.89)
+positionflux,magstar = photomyPSFmodel(imgdata1, position, sigma=0.89)
 
-fluxtable =  photomyPSF(position,sigma=2.23)
+#posflux,magstar = photometryimg(position, imgdata1, 1)
+#print(posflux[10][2]-posflux[9][2])
 
-posflux,magstar = photometryimg(position, imgdata1, 1)
-print(posflux[10][2]-posflux[9][2])
-
-displayimage(imgdata1,1,0)
-plt.plot(posflux[7][0], posflux[7][1], '*')
+#displayimage(imgdata1,1,0)
+#plt.plot(posflux[7][0], posflux[7][1], '*')

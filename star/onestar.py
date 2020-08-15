@@ -22,8 +22,8 @@ path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-i = 6 #行扫描 i = 21
-j = 1#列扫描 j=20
+i = 5 #行扫描 i = 21
+j = 5#列扫描 j=20
 fitsdata = data[398*i:398+398*i,389*j:389+389*j]
 
 def adjustimage(imagedata, coffe):
@@ -42,7 +42,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm = 3, threshold=8.*std)
+    daofind = DAOStarFinder(fwhm = 2, threshold=5.*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
@@ -93,7 +93,7 @@ apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 #plt.plot( 3.27848,210.307, '*')
 #plt.plot( 0.262071,350.794, '*')
 
-np.savetxt(path+'location.txt', positions1,fmt='%f',delimiter=' ')
+np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
 mylist1.sort(key=lambda x:x[2],reverse=True)
 index = 4
@@ -108,5 +108,5 @@ black = np.mean(templist[0:5])
 
 popt,pcov = curve_fit(gaussian,x,templist,p0=[3,4,3])
 plt.plot(x,gaussian(x,*popt),'ro:',label='fit')
-print(popt[1])
+print(popt[2])
 print('FWHM =',2.35482*popt[2])

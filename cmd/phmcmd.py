@@ -93,7 +93,7 @@ def readdata(filename, i):
     fitsdata = np.copy(data)
     return fitsdata
  
-lacation = np.loadtxt('location.txt')  
+lacation = np.loadtxt('locationcha.txt')  
 startemp = []
 
 for i in range(0, 2):
