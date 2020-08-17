@@ -95,9 +95,10 @@ posiandmag2.sort(key=lambda x:x[2],reverse=True)
 
 ##选19颗亮星
 #lenstar = min(lenstar1,lenstar2)
-lenstar = 60
-posiandmag1 = posiandmag1[0:lenstar]
-posiandmag2 = posiandmag2[0:lenstar]
+lenstar = 30
+index = 2
+posiandmag1 = posiandmag1[lenstar*index:lenstar+lenstar*index]
+posiandmag2 = posiandmag2[lenstar*index:lenstar+lenstar*index]
 
 sanjiao1 = list(combinations(posiandmag1,3))
 sanjiao2 = list(combinations(posiandmag2,3))
