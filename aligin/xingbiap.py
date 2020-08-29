@@ -1,45 +1,43 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 17 16:40:01 2020
+Created on Mon Aug 24 11:13:39 2020
 
 @author: dingxu
 """
-
+import pandas as pd
 from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
 from photutils import DAOStarFinder
 from astropy.stats import sigma_clipped_stats
 from photutils import CircularAperture
-import cv2
-import os
+from itertools import combinations
 import math
-from itertools import combinations,permutations
-from time import time
-import ois
 import itertools
+from time import time
+import cv2
 
-#半高全宽和匹配数目修改即可
-fitsname1 = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'+'d4738777L016m001.fit'
-fitsname2 = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'+'d4738777L016m037.fit'
-onehdu = fits.open(fitsname1)
-imgdata1 = onehdu[0].data  #hdu[0].header
+file = 'E:\\shunbianyuan\\phometry\\data\\'+'dx.tsv'
+df = pd.read_csv(file,sep=';')
 
-copydata1 = np.copy(imgdata1)
-imgdata1 = np.float32(copydata1)
-imgdata1 = np.rot90(imgdata1)
-imgdata1 = np.rot90(imgdata1)
-oneimgdata = imgdata1
-hang1,lie1 = oneimgdata.shape
+#print(df.head())
 
-twohdu = fits.open(fitsname2)
-imgdata2 = twohdu[0].data  #hdu[0].header
-#imgdata2 = np.rot90(imgdata2)
-copydata2 = np.copy(imgdata2)
-imgdata2 = np.float32(copydata2)
-twoimgdata = imgdata2
-hang2,lie2 = twoimgdata.shape
+npgaia = df.as_matrix()
+#npgaia = npgaia[:,0:3]
 
+listgaia = npgaia.tolist()
+
+#listgaia.sort(key=lambda x:x[2],reverse=False)
+
+
+
+#20190603132720Auto.fit
+file  = 'ftboYFBc110170.fits'
+path = 'E:\\shunbianyuan\\phometry\\todingx\\origindata\\'
+filename = path+file
+fitshdu = fits.open(filename)
+data = fitshdu[0].data
+fitsdata = np.copy(data)
 
 def adjustimage(imagedata, coffe):
     mean = np.mean(imagedata)
@@ -57,8 +55,6 @@ def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
-    #plt.savefig(str(i)+'.jpg')
-
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0) 
@@ -70,35 +66,28 @@ def findsource(img):
     tezhen = np.transpose((sources['xcentroid'], sources['ycentroid']))
     posiandmag = np.transpose((sources['xcentroid'], sources['ycentroid'],sources['flux']))
 
-    return tezhen,posiandmag.tolist()
+    return tezhen,posiandmag.tolist()    
+    
 
-
-###实现找星###
-positions1,posiandmag1 =  findsource(oneimgdata)
-positions2,posiandmag2 =  findsource(twoimgdata)
-
-lenstar1 = len(positions1)
-lenstar2 = len(positions2)
-
-
-apertures1 = CircularAperture(positions1, r=13.)
-apertures2 = CircularAperture(positions2, r=13.)
-
-
+positions1,posiandmag1 =  findsource(fitsdata)
+posiandmag1.sort(key=lambda x:x[2],reverse=True)
 
 
 start = time()
 print("Start: " + str(start))
 
-posiandmag1.sort(key=lambda x:x[2],reverse=True)
-posiandmag2.sort(key=lambda x:x[2],reverse=True)
+apertures1 = CircularAperture(positions1, r=6.)   
+displayimage(fitsdata, 1 , 0)
+apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
-##选19颗亮星
-#lenstar = min(lenstar1,lenstar2)
-lenstar = 30
-index = 2
-posiandmag1 = posiandmag1[lenstar*index:lenstar+lenstar*index]
-posiandmag2 = posiandmag2[lenstar*index:lenstar+lenstar*index]
+
+
+
+lenstar1 = 30
+lenstar2 = 60
+lenstar = 0
+posiandmag1 = posiandmag1[lenstar:lenstar1+lenstar]
+posiandmag2 = listgaia[lenstar:lenstar2+lenstar]
 
 sanjiao1 = list(combinations(posiandmag1,3))
 sanjiao2 = list(combinations(posiandmag2,3))
@@ -121,22 +110,25 @@ def julisanjiao(sanjiao1,i):
     
     datadis3 = ((x2-x3)*(x2-x3)+(y2-y3)*(y2-y3))
     dS2S3 = math.sqrt(datadis3)
+    
+    dianchen1 = (x2-x1)*(x3-x1)+(y2-y1)*(y3-y1)
+    theta1 = dianchen1/(dS1S2*dS1S3)
+    
+    dianchen2 = (x1-x2)*(x3-x2)+(y1-y2)*(y3-y2)
+    theta2 = dianchen2/(dS1S2*dS2S3)
+    
+    dianchen3 = (x1-x3)*(x2-x3)+(y1-y3)*(y2-y3)
+    theta3 = dianchen3/(dS1S3*dS2S3)
        
-    return [[x1,y1],[x2,y2],[x3,y3],[dS1S2,dS1S3,dS2S3]]
+    return [[x1,y1],[x2,y2],[x3,y3],[dS1S2,dS1S3,dS2S3,dianchen1]]
 
 lensan1 = len(sanjiao1)
 temp1 = [julisanjiao(sanjiao1,i) for i in range (0,lensan1)]
-#temp1 = []
-#for i in range (0,lensan1):
-#    jie1 = julisanjiao(sanjiao1,i)
-#    temp1.append(jie1)
+
     
 lensan2 = len(sanjiao2)
 temp2 = [julisanjiao(sanjiao2,i) for i in range (0,lensan2)]    
-#temp2 = []
-#for i in range (0,lensan2):
-#    jie2 = julisanjiao(sanjiao2,i)
-#    temp2.append(jie2)
+
 
 pitemp1 = []
 pitemp2 = []   
@@ -146,21 +138,28 @@ for i in itertools.product(temp1, temp2):
     oneju0 = i[0][3][0]
     oneju1 = i[0][3][1]
     oneju2 = i[0][3][2]
+    dotmul1 = i[0][3][3]
     oneab = oneju0/oneju1
     onebc = oneju1/oneju2
     oneca = oneju2/oneju0
+    oneac = oneju0/oneju2
         
     twoju0 = i[1][3][0]
     twoju1 = i[1][3][1]
     twoju2 = i[1][3][2]
+    dotmul2 = i[1][3][3]
     twoab = twoju0/twoju1
     twobc = twoju1/twoju2
     twoca = twoju2/twoju0
+    twoac = twoju0/twoju2
         
     pan1 = abs(oneab-twoab)
     pan2 = abs(onebc-twobc)
     pan3 = abs(oneca-twoca)
+    pan4 = abs(oneac-twoac)
+    pan5 = abs(dotmul1-dotmul2)
         
+    
     if (pan1 < 0.0001)and(pan2<0.0001)and(pan3<0.0001):
         pitemp1.append(i[0])
         pitemp2.append(i[1])
@@ -171,24 +170,11 @@ stop = time()
 print("Stop: " + str(stop))
 print(str(stop-start) + "秒") 
 
-
-            
-displayimage(oneimgdata,3,0)
-apertures1.plot(color='blue', lw=1.5, alpha=0.5)
-#plt.plot(pitemp1[0][0][0],pitemp1[0][0][1],'*')
-
-displayimage(twoimgdata,3,1)
-apertures2.plot(color='blue', lw=1.5, alpha=0.5)
-#plt.plot(pitemp2[0][0][0],pitemp2[0][0][1],'*')    
-
-hmerge = np.hstack((oneimgdata, twoimgdata)) #水平拼接
-displayimage(hmerge, 1, 2) 
-   
-
 srckp1 = []
 srckp2 = []
 for i in range(0,count):
     for j in range(0,3):
+        
         x10 = pitemp1[i][j][0]
         x11 = pitemp2[i][j][0]
             
@@ -201,17 +187,9 @@ for i in range(0,count):
         srckp2.append(y11)
         src_pts = np.float32(srckp1).reshape(-1,2)
         dst_pts = np.float32(srckp2).reshape(-1,2)
-    
-        lie1 = imgdata1.shape[1]
-        plt.plot([x10,x11+lie1],[y10,y11],linewidth = 0.8)  
-
-
-H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)    
-newimg = cv2.warpPerspective(oneimgdata, H, (lie1,hang1))
-
-displayimage(newimg, 1, 3) 
-minusimg = np.float32(newimg) - np.float32(imgdata2)  
-displayimage(minusimg, 3, 4) 
-displayimage(newimg, 1, 5)  
-print(H)
-
+        
+        
+H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0) 
+pipeidata = np.hstack((src_pts,dst_pts))
+np.savetxt('pipeidata.txt', pipeidata)
+print(H)       

@@ -170,10 +170,10 @@ for i in range(0,count):
         y11 = pitemp2[i][j][1]
         
         displayimage(oneimgdata, 3 ,2)
-        plt.plot(x10,y10,'.')
+        plt.plot(x10,y10,'*')
         
         displayimage(twoimgdata, 3 ,3)
-        plt.plot(x11,y11,'.')
+        plt.plot(x11,y11,'*')
         
         srckp1.append(x10)
         srckp1.append(y10)

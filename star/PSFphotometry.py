@@ -90,7 +90,7 @@ def photomyPSF(imgdata, position,sigma):
     magstar = 25 - 2.5*np.log10(abs(result_tab['flux_fit']/1))
     return positionflux,magstar    
 
-lacation = np.loadtxt('target.txt')     
+lacation = np.loadtxt('location.txt')     
 
 fitshdu = fits.open(oripath+filetemp[0])
 fitsdata = fitshdu[0].data
@@ -102,9 +102,8 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 5#行扫描 i = 39
-n = 5#列扫描 j = 39
-
+m = 0#行扫描 i = 39
+n = 8#列扫描 j = 39
 
 for i in range(0, count):
     try:
@@ -117,12 +116,13 @@ for i in range(0, count):
         posflux,magstar = photomyPSF(fitsdata, lacation, 0.8647)        
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T 
+       
         
+        posflux1,mag1 = sourcephotometry(63, 24, posflux)  #比较星位置1 
+         
+        posflux2,mag2 = sourcephotometry(165, 89, posflux)  #比较星位置2
         
-        posflux1,mag1 = sourcephotometry(257, 197, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(213, 208, posflux)  #比较星位置2
-        
-        posflux3,mag3 = sourcephotometry(314, 129, posflux)   
+        posflux3,mag3 = sourcephotometry(76, 102, posflux)   
        
         jiaoyan = mag1-mag2 
         target = mag3 - mag1
