@@ -14,9 +14,9 @@ from photutils import CircularAperture
 from scipy.optimize import curve_fit
 from scipy import asarray as ar
 
-ib = 1 #行扫描 i = 21
-jb = 0#列扫描 j=20
-
+ib = 2 #行扫描 i = 21
+jb = 2#列扫描 j=20
+print(ib,jb)
 position = np.loadtxt('location.txt')
 hang,lie = position.shape
 
@@ -31,7 +31,7 @@ for i in range(hang):
         d2 = (temp1[1]-temp2[1])**2
         distance = np.sqrt((d1+d2))
         
-        if (distance < 16 ):
+        if (distance < 14 ):
             position1.append(tuple(temp1))
             position1.append(tuple(temp2))
         

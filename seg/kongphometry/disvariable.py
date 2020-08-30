@@ -15,9 +15,10 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 
-i = 0
-j = 4
+i = 2
+j = 2
 #hang = 0
+print(i,j)
 fitsdata = np.copy(data[796*i:796+796*i,778*j:778+778*j])
 
 def adjustimage(imagedata, coffe):
@@ -53,13 +54,13 @@ displayimage(fitsdata, 1, 1)
 datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
-x1 = 231
-y1 = 194
+x1,y1 = 165, 635
+#y1 = 194
 xyflux1 = findtarget(x1, y1, starlight)
 plt.plot(xyflux1[0],xyflux1[1],'*')
 
-x2 = 552
-y2 = 137
+x2,y2 = 428, 138
+#y2 = 137
 xyflux2 = findtarget(x2, y2, starlight)
 plt.plot(xyflux2[0],xyflux2[1],'*')
 

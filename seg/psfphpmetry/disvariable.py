@@ -15,7 +15,7 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 
-i = 0
+i = 2
 j = 2
 #hang = 0
 fitsdata = np.copy(data[796*i:796+796*i,778*j:778+778*j])
@@ -39,7 +39,7 @@ def displayimage(img, coff, i):
     #plt.clf()
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     
-def findtarget(targetx, targety, sumpho, threshold=10):
+def findtarget(targetx, targety, sumpho, threshold=5):
     hang,lie = sumpho.shape    
     for m in range(hang):
         delt = np.sqrt((targetx - sumpho[m][0])**2+(targety - sumpho[m][1])**2)
@@ -53,15 +53,13 @@ displayimage(fitsdata, 1, 1)
 datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
-x1 = 571
-y1 = 123
+x1,y1 = 482, 639
 xyflux1 = findtarget(x1,y1, starlight)
-plt.plot(xyflux1[1],xyflux1[0],'*')
+plt.plot(xyflux1[0],xyflux1[1],'*')
 
-x2 = 432
-y2 = 165
+x2,y2 = 702, 527
 xyflux2 = findtarget(x2, y2, starlight)
-plt.plot(xyflux2[1],xyflux2[0],'*')
+plt.plot(xyflux2[0],xyflux2[1],'*')
 
 
 plt.figure(2)
@@ -81,7 +79,7 @@ for m in range(hang):
     jiaochatemp.append(tempflux[m])
         
     displayimage(fitsdata, 1, 3)
-    plt.plot(tempflux[m,1],tempflux[m,0],'*')
+    plt.plot(tempflux[m,0],tempflux[m,1],'*')
     plt.pause(0.1)
     plt.clf()
         

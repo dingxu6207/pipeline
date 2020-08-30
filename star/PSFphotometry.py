@@ -102,8 +102,8 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 0#行扫描 i = 39
-n = 0#列扫描 j = 39
+m = 5#行扫描 i = 39
+n = 5#列扫描 j = 39
 
 for i in range(0, count):
     try:
@@ -118,11 +118,11 @@ for i in range(0, count):
         arraytemp = np.array(startemp).T 
        
         
-        posflux1,mag1 = sourcephotometry(366, 335, posflux)  #比较星位置1 
+        posflux1,mag1 = sourcephotometry(214, 207, posflux)  #比较星位置1 
          
-        posflux2,mag2 = sourcephotometry(93, 72, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(132, 244, posflux)  #比较星位置2
         
-        posflux3,mag3 = sourcephotometry(285, 363, posflux)   
+        posflux3,mag3 = sourcephotometry(316, 129, posflux)   
        
         jiaoyan = mag1-mag2 
         target = mag3 - mag1

@@ -11,7 +11,7 @@ from astropy.io import fits
 
 light = np.loadtxt('arrayjiaocha.txt')
 datatime = np.loadtxt('datatime.txt')
-hang = 254
+hang = 58
 plt.figure(0)
 plt.plot(datatime, light[hang,2:], '.')
 ax = plt.gca()

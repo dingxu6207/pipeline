@@ -51,7 +51,7 @@ def displayimage(img, coff, i):
     #plt.savefig(oripath+str(i)+'.jpg')
 
 
-def sourcephotometry(targetx, targety, sumpho, threshold=10):
+def sourcephotometry(targetx, targety, sumpho, threshold=5):
     hang,lie = sumpho.shape    
     for i in range(hang):
         delt = np.sqrt((targetx - sumpho[i][0])**2+(targety - sumpho[i][1])**2)
@@ -90,7 +90,7 @@ def photomyPSF(imgdata, position,sigma):
     magstar = 25 - 2.5*np.log10(abs(result_tab['flux_fit']/1))
     return positionflux,magstar    
 
-files = 'locationmi02.txt' 
+files = 'locationmi22.txt' 
 pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\seg\\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
@@ -104,9 +104,10 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 0#行扫描 i = 39
-n = 3#列扫描 j = 39
+m = 2#行扫描 i = 39
+n = 2#列扫描 j = 39
 #796*i:796+796*i,778*j:778+778*j
+
 for i in range(0, count):
     try:
         fitshdu = fits.open(oripath+filetemp[i])
@@ -117,12 +118,12 @@ for i in range(0, count):
         
         posflux,magstar = photomyPSF(fitsdata, lacation, 0.90)        
         startemp.append(magstar) 
-        arraytemp = np.array(startemp).T 
+        #arraytemp = np.array(startemp).T 
        
         
-        posflux1,mag1 = sourcephotometry(571, 123, posflux)  #比较星位置1 
+        posflux1,mag1 = sourcephotometry(482, 639, posflux)  #比较星位置1 
          
-        posflux2,mag2 = sourcephotometry(432, 165, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(702, 527, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(285, 363, posflux)   
        
@@ -140,7 +141,7 @@ for i in range(0, count):
         print('error!!!')
     
 arraytemp = np.array(startemp).T
-starlight = np.hstack((lacation, arraytemp)) 
+starlight = np.hstack((posflux[:,0:2], arraytemp)) 
 np.savetxt('starlight.txt', starlight)   
 #jiaoyandata = pltquxian(jiaoyan)       
 plt.figure(2)
