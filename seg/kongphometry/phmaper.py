@@ -52,7 +52,7 @@ def photometryimg(positions, img, i):
     positionslist = positions.tolist()
     
     aperture = CircularAperture(positionslist, r=4.8) #2*FWHM
-    annulus_aperture = CircularAnnulus(positionslist, r_in=6.3, r_out=7.4)#4-5*FWHM+2*FWHM
+    annulus_aperture = CircularAnnulus(positionslist, r_in=7, r_out=9)#4-5*FWHM+2*FWHM
     apers = [aperture, annulus_aperture]
     
     displayimage(img, 1, i) ###画图1
@@ -91,7 +91,9 @@ def pltquxian(datayuan):
     print( len(error))
     return data_c
  
-lacation = np.loadtxt('location.txt')     
+files = 'locationsan10.txt' 
+pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\seg\\location\\'+files
+lacation = np.loadtxt(pathfile)     
 
 fitshdu = fits.open(oripath+filetemp[0])
 fitsdata = fitshdu[0].data
@@ -102,29 +104,30 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 5#行扫描 i = 39
-n = 5#列扫描 j = 39
+#796*i:796+796*i,778*j:778+778*j
+m = 1#行扫描 i = 39
+n = 0#列扫描 j = 39
 for i in range(0, count):
     try:
         fitshdu = fits.open(oripath+filetemp[i])
         datatime = fitshdu[0].header['DATE']
         t = Time(datatime, format='isot', scale='utc')
         data = fitshdu[0].data    
-        fitsdata = data[398*m:398+398*m,389*n:389+389*n]
+        fitsdata = data[796*m:796+796*m,778*n:778+778*n]
         posflux,magstar = photometryimg(lacation, fitsdata, 1)           
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(214, 207, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(132, 244, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(520, 376, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(488, 423, posflux)  #比较星位置2
         
-        posflux3,mag3 = sourcephotometry(314, 129, posflux)   
+        #posflux3,mag3 = sourcephotometry(249, 234, posflux)   
        
         jiaoyan = mag1-mag2 
-        target = mag3 - mag1
+        #target = mag3 - mag1
                 
         jiaoyantemp.append(jiaoyan)
-        targettemp.append(target)
+        #targettemp.append(target)
         datatemp.append(t.jd)
                 
         
@@ -133,22 +136,11 @@ for i in range(0, count):
     except:
         print('error!!!')
     
-#datatemp[:] = [x - 2458776 for x in datatemp]
+arraytemp = np.array(startemp).T
+starlight = np.hstack((lacation, arraytemp)) 
+np.savetxt('starlight.txt', starlight)   
+#jiaoyandata = pltquxian(jiaoyan)       
 plt.figure(2)
-plt.plot(datatemp, jiaoyantemp,'.')
-plt.xlabel('JD',fontsize=14)
-plt.ylabel('mag',fontsize=14)
-
-plt.figure(3)
-plt.plot(datatemp,targettemp,'.')
-plt.xlabel('JD',fontsize=14)
-plt.ylabel('mag',fontsize=14)
-ax = plt.gca()
-ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
-ax.invert_yaxis() #y轴反向
-
-templist = []
-templist.append(datatemp)
-templist.append(targettemp)
-tempmatrix = np.array(templist)
-np.savetxt('datamag.txt', tempmatrix)
+plt.plot(datatemp,jiaoyantemp,'.')
+arraytime = np.array(datatemp)
+np.savetxt('datatime.txt', arraytime)

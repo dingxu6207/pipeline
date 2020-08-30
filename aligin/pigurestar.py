@@ -46,14 +46,14 @@ def displayimage(img, coff, i):
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     
     
-    
+'''    
 filestar = 'E:\\shunbianyuan\\phometry\\'+'ngc7142variable.txt'
 fileposition = np.loadtxt(filestar)
 
 i = 0
 displayimage(fitsdata,1,2)
 plt.plot(fileposition[i][0], fileposition[i][1], '*')
-
+'''
 
 xynumpy = np.zeros((4,2))
 radecnumpy = np.zeros((4,2))
@@ -85,8 +85,8 @@ dst_pts = radecnumpy
 H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
 tempmatrix = np.zeros((3,1),dtype = np.float64)
 tempmatrix[2] = 1
-tempmatrix[0] = 2633.28     
-tempmatrix[1] = 511.132
+tempmatrix[0] = 3188.281978
+tempmatrix[1] = 102.649531
 result = np.dot(H,tempmatrix)
     
 ra = result[0]/result[2]

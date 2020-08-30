@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 10 17:53:46 2020
+Created on Fri Jul  3 16:02:24 2020
 
 @author: dingxu
 """
@@ -22,7 +22,10 @@ path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-fitsdata = np.copy(data)
+ib = 1 #行扫描 i = 21
+jb = 0#列扫描 j=20
+fitsdata = data[796*ib:796+796*ib,778*jb:778+778*jb]
+#796*i:796+796*i,778*j:778+778*j
 
 def adjustimage(imagedata, coffe):
     mean = np.mean(imagedata)
@@ -40,7 +43,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm = 2.4, threshold=3.*std)
+    daofind = DAOStarFinder(fwhm = 2.23, threshold=5.*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
@@ -78,7 +81,7 @@ def displayimage(img, coff, i):
 sources1,positions1,mylist =  findsource(fitsdata)
 mylist1 = []
 for i, val in enumerate(mylist):
-    if mylist[i][2]>2:
+    if mylist[i][2] > 2:
         mylist1.append(mylist[i])
      
         
@@ -87,7 +90,9 @@ positions1 = arraylist[:,0:2]
 apertures1 = CircularAperture(positions1, r=5.)
 displayimage(fitsdata,1,0)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
-
+#plt.plot( 382.673,68.8134, '*')
+#plt.plot( 3.27848,210.307, '*')
+#plt.plot( 0.262071,350.794, '*')
 
 np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
@@ -104,5 +109,5 @@ black = np.mean(templist[0:5])
 
 popt,pcov = curve_fit(gaussian,x,templist,p0=[3,4,3])
 plt.plot(x,gaussian(x,*popt),'ro:',label='fit')
-print(popt[1])
+print(popt[2])
 print('FWHM =',2.35482*popt[2])

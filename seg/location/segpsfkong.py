@@ -14,6 +14,8 @@ from photutils import CircularAperture
 from scipy.optimize import curve_fit
 from scipy import asarray as ar
 
+ib = 1 #行扫描 i = 21
+jb = 0#列扫描 j=20
 
 position = np.loadtxt('location.txt')
 hang,lie = position.shape
@@ -49,8 +51,10 @@ path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-fitsdata = np.copy(data)
-
+#ib = 0 #行扫描 i = 21
+#jb = 0#列扫描 j=20
+fitsdata = data[796*ib:796+796*ib,778*jb:778+778*jb]
+#796*i:796+796*i,778*j:778+778*j
 def adjustimage(imagedata, coffe):
     mean = np.mean(imagedata)
     sigma = np.std(imagedata)
@@ -69,17 +73,17 @@ def displayimage(img, coff, i):
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     
 apertures1 = CircularAperture(positionarr, r=6.)   
-displayimage(fitsdata, 3 , 1)
+displayimage(fitsdata, 1 , 1)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
 
 apertures2 = CircularAperture(arraycha, r=6.)   
-displayimage(fitsdata, 3 , 2)
+displayimage(fitsdata, 1 , 2)
 apertures2.plot(color='blue', lw=1.5, alpha=0.5)
 
 apertures3 = CircularAperture(position, r=6.)   
-displayimage(fitsdata, 3 , 3)
+displayimage(fitsdata, 1 , 3)
 apertures3.plot(color='blue', lw=1.5, alpha=0.5)
 
-np.savetxt('locationsan.txt', arraycha)
-np.savetxt('locationmi.txt', positionarr)
+np.savetxt('locationsan'+str(ib)+str(jb)+'.txt', arraycha)
+np.savetxt('locationmi'+str(ib)+str(jb)+'.txt', positionarr)
