@@ -27,8 +27,8 @@ imgdata1 = onehdu[0].data  #hdu[0].header
 
 copydata1 = np.copy(imgdata1)
 imgdata1 = np.float32(copydata1)
-imgdata1 = np.rot90(imgdata1)
-imgdata1 = np.rot90(imgdata1)
+#imgdata1 = np.rot90(imgdata1)
+#imgdata1 = np.rot90(imgdata1)
 oneimgdata = imgdata1
 hang1,lie1 = oneimgdata.shape
 

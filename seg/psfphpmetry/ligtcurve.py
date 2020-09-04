@@ -11,7 +11,7 @@ from astropy.io import fits
 
 light = np.loadtxt('arrayjiaocha.txt')
 datatime = np.loadtxt('datatime.txt')
-hang = 58
+hang = 53
 plt.figure(0)
 plt.plot(datatime, light[hang,2:], '.')
 ax = plt.gca()
@@ -26,8 +26,8 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 imgdata = np.copy(data)
-ib = 2
-jb = 2
+ib = 0
+jb = 3
 #hang = 0
 fitsdata = np.copy(imgdata[796*ib:796+796*ib,778*jb:778+778*jb])
 

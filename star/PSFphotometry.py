@@ -51,7 +51,7 @@ def displayimage(img, coff, i):
     #plt.savefig(oripath+str(i)+'.jpg')
 
 
-def sourcephotometry(targetx, targety, sumpho, threshold=10):
+def sourcephotometry(targetx, targety, sumpho, threshold=3):
     hang,lie = sumpho.shape    
     for i in range(hang):
         delt = np.sqrt((targetx - sumpho[i][0])**2+(targety - sumpho[i][1])**2)
@@ -102,8 +102,8 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 5#行扫描 i = 39
-n = 5#列扫描 j = 39
+m = 3#行扫描 i = 39
+n = 9#列扫描 j = 39
 
 for i in range(0, count):
     try:
@@ -113,16 +113,16 @@ for i in range(0, count):
         data = fitshdu[0].data    
         fitsdata = data[398*m:398+398*m,389*n:389+389*n]  
         
-        posflux,magstar = photomyPSF(fitsdata, lacation, 0.91)        
+        posflux,magstar = photomyPSF(fitsdata, lacation, 0.86)        
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T 
        
         
-        posflux1,mag1 = sourcephotometry(214, 207, posflux)  #比较星位置1 
+        posflux1,mag1 = sourcephotometry(245, 159, posflux)  #比较星位置1 
          
-        posflux2,mag2 = sourcephotometry(132, 244, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(237, 92, posflux)  #比较星位置2
         
-        posflux3,mag3 = sourcephotometry(316, 129, posflux)   
+        posflux3,mag3 = sourcephotometry(208, 251, posflux)   
        
         jiaoyan = mag1-mag2 
         target = mag3 - mag1

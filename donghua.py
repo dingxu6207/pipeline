@@ -1,32 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul 17 14:00:24 2020
+Created on Mon Aug 31 13:35:34 2020
 
 @author: dingxu
 """
-
 import numpy as np
 from astropy.io import fits
 import matplotlib.pyplot as plt
+import os
 
-lightdata = np.loadtxt('starlight.txt')
 
-mhang = 2140
-x,y = lightdata[mhang,0:2]
-
-x,y = 3709.14095, 1445.410713
-file  = '0.fits'
-path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
-filename = path+file
-fitshdu = fits.open(filename)
-data = fitshdu[0].data
-
-j = int(x/389) #行扫描 i = 21
-i = int(y/398)#列扫描 j=20
-
-print(i,j)
-fitsdata = np.copy(data[398*i:398+398*i,389*j:389+389*j])
-
+filetemp = []
+count = 0
+oripath = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'  #路径参数
+for root, dirs, files in os.walk(oripath):
+   for file in files:
+       if (file[-4:] == '.fit'):
+           count = count+1
+           filetemp.append(file)
+       
+       
 def adjustimage(imagedata, coffe):
     mean = np.mean(imagedata)
     sigma = np.std(imagedata)
@@ -43,13 +36,14 @@ def adjustimage(imagedata, coffe):
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
-    #plt.clf()
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     
-displayimage(fitsdata, 1, 0) 
-x1 = x-389*j
-y1 = y - i*398
-plt.plot(x1,y1,'*')
-
-displayimage(data, 1, 1) 
-plt.plot(x,y,'*')
+    
+ 
+for i in range(count):
+    fitshdu = fits.open(oripath+filetemp[i])
+    imgdata = fitshdu[0].data
+    displayimage(imgdata,1,0)
+    plt.pause(0.01)
+    plt.clf()
+    

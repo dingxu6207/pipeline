@@ -22,8 +22,8 @@ path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-i = 5 #行扫描 i = 21
-j = 5#列扫描 j=20
+i = 3 #行扫描 i = 21
+j = 9#列扫描 j=20
 fitsdata = data[398*i:398+398*i,389*j:389+389*j]
 
 def adjustimage(imagedata, coffe):
@@ -80,7 +80,7 @@ def displayimage(img, coff, i):
 sources1,positions1,mylist =  findsource(fitsdata)
 mylist1 = []
 for i, val in enumerate(mylist):
-    if mylist[i][2] > 3 and mylist[i][2] < 1920:
+    if mylist[i][2] > 2 :
         mylist1.append(mylist[i])
      
         
@@ -96,8 +96,8 @@ apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
 mylist1.sort(key=lambda x:x[2],reverse=True)
-index = 1
-width = 10
+index = 3
+width = 9
 
 templist = FWHMplot(mylist1[index][1],mylist1[index][0],width,fitsdata,1)
 

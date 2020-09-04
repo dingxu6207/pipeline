@@ -22,8 +22,8 @@ path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-ib = 2 #行扫描 i = 21
-jb = 2#列扫描 j=20
+ib = 0 #行扫描 i = 21
+jb = 2 #列扫描 j=20
 print(ib,jb)
 fitsdata = data[796*ib:796+796*ib,778*jb:778+778*jb]
 #796*i:796+796*i,778*j:778+778*j
@@ -98,7 +98,7 @@ apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
 mylist1.sort(key=lambda x:x[2],reverse=True)
-index = 3
+index = 4
 width = 10
 
 templist = FWHMplot(mylist1[index][1],mylist1[index][0],width,fitsdata,1)
