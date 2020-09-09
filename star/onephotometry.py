@@ -115,8 +115,8 @@ for i in range(0, count):
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(245, 159, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(237, 92, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(237, 93, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(245, 159, posflux)  #比较星位置2
         
         posflux3,mag3 = sourcephotometry(208, 251, posflux)   
        
@@ -152,3 +152,4 @@ templist.append(datatemp)
 templist.append(targettemp)
 tempmatrix = np.array(templist)
 np.savetxt('datamag.txt', tempmatrix)
+

@@ -8,8 +8,8 @@ https://docs.astropy.org/en/stable/coordinates/index.html
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 
-jra = 326.05499554
-jdec = 65.74059634
+jra = 324.82271151
+jdec = 66.48183361
 c1 = SkyCoord(ra=10.625*u.degree, dec=41.2*u.degree, frame='icrs')
 #c2 = SkyCoord(10.625, 41.2, frame='icrs', unit='deg')
 c2 = SkyCoord(jra, jdec, frame='icrs', unit='deg')

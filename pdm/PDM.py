@@ -59,3 +59,4 @@ plt.show()
 plt.figure(1)
 plt.plot(phases, flux, 'bp')
 
+
