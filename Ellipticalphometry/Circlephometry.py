@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep  8 15:22:46 2020
+Created on Wed Sep  9 10:40:49 2020
 
 @author: dingxu
 """
@@ -15,6 +15,7 @@ from photutils import EllipticalAperture
 from photutils import aperture_photometry
 import math
 from photutils import EllipticalAnnulus
+from photutils import CircularAnnulus
 
 
 filename = 'E:\\shunbianyuan\\newdata\\201911162230420716.fit'
@@ -59,82 +60,69 @@ def displayimage(img, coff, i):
     plt.savefig(str(i)+'.jpg')
     
 
-def EllipticalAperturePhometry(data,location, jiao = 1.2,index = 1):
-    Eimgdata = np.copy(data)
-    Elocatin = np.copy(location)
+def CircleAperturePhometry(data,location,index):
+    Cimgdata = np.copy(data)
+    Clocatin = np.copy(location)
     
-    Eapeture = EllipticalAperture(Elocatin, a=12, b=8, theta = jiao)
-    Eannuals = EllipticalAnnulus(Elocatin, a_in=18, a_out=22, b_out=16, theta = jiao)
+    Caperture = CircularAperture(Clocatin, r=12)
+    Cannulusaperture = CircularAnnulus(Clocatin, r_in=14., r_out=18.)
     
-    displayimage(Eimgdata,3,index)
-    Eapeture.plot(color='blue', lw=1.5, alpha=0.5)
-    Eannuals.plot(color='red', lw=1.5, alpha=0.5)
+    displayimage(Cimgdata,3,index)
+    Caperture.plot(color='blue', lw=1.5, alpha=0.5)
+    Cannulusaperture.plot(color='red', lw=1.5, alpha=0.5)
     
-    apers = [Eapeture, Eannuals]
-    phot_table = aperture_photometry(Eimgdata, apers)
+    apers = [Caperture, Cannulusaperture]
+    phot_table = aperture_photometry(Cimgdata, apers)
     
-    bkg_mean = phot_table['aperture_sum_1'] / Eannuals.area
-    bkg_sum = bkg_mean * Eapeture.area
+    bkg_mean = phot_table['aperture_sum_1'] / Cannulusaperture.area
+    bkg_sum = bkg_mean * Caperture.area
     final_sum = phot_table['aperture_sum_0'] - bkg_sum
     phot_table['residual_aperture_sum'] = final_sum
     
-    Epositionflux = np.transpose((phot_table['xcenter'], phot_table['ycenter'],  phot_table['residual_aperture_sum']))
+    Cpositionflux = np.transpose((phot_table['xcenter'], phot_table['ycenter'],  phot_table['residual_aperture_sum']))
 
-    return Epositionflux
+    return Cpositionflux
     
-def EllipticalMaskPhometry(data,location, jiao = 1.2,index = 2):
-    Eimgdata = np.copy(data)
-    Elocatin = np.copy(location)
+def CircleMaskPhometry(data,location,index = 2):
+    Mimgdata = np.copy(data)
+    Mlocatin = np.copy(location)
     
-    Eapeture = EllipticalAperture(Elocatin, a=12, b=8, theta = jiao)
-    Eannuals = EllipticalAnnulus(Elocatin, a_in=18, a_out=22, b_out=16, theta = jiao)
+    Mapeture = CircularAperture(Mlocatin, r=12)
+    Mannuals = CircularAnnulus(Mlocatin, r_in=14., r_out=18.)
         
-    Eannuals_masks = Eannuals.to_mask(method='center')
+    Eannuals_masks = Mannuals.to_mask(method='center')
     
     bkg_median = []
     for mask in Eannuals_masks:
-        Eannuals_data = mask.multiply(Eimgdata)
+        Eannuals_data = mask.multiply(Mimgdata)
         Eannulus_data_1d = Eannuals_data[mask.data > 0]
         meandata,median_sigclip,_ = sigma_clipped_stats(Eannulus_data_1d)
         bkg_median.append(median_sigclip) 
         
     bkg_median = np.array(bkg_median)     
-    phot = aperture_photometry(Eimgdata, Eapeture)
+    phot = aperture_photometry(Mimgdata, Mapeture)
     phot['annulus_median'] = bkg_median
-    phot['aper_bkg'] = bkg_median * Eapeture.area
+    phot['aper_bkg'] = bkg_median * Mapeture.area
     phot['aper_sum_bkgsub'] = phot['aperture_sum'] - phot['aper_bkg']
     
-    EMpositionflux = np.transpose((phot['xcenter'], phot['ycenter'],  phot['aper_sum_bkgsub']))
+    Mpositionflux = np.transpose((phot['xcenter'], phot['ycenter'],  phot['aper_sum_bkgsub']))
     
-    displayimage(Eimgdata,3,index)
-    Eapeture.plot(color='blue', lw=1.5, alpha=0.5)
-    Eannuals.plot(color='red', lw=1.5, alpha=0.5)
-    Eannulus_data = Eannuals_masks[0].multiply(Eimgdata)
-    displayimage(Eannulus_data,3,index+1)
+    displayimage(Mimgdata,3,index)
+    Mapeture.plot(color='blue', lw=1.5, alpha=0.5)
+    Mannuals.plot(color='red', lw=1.5, alpha=0.5)
+    Mannulus_data = Eannuals_masks[0].multiply(Mimgdata)
+    displayimage(Mannulus_data,3,index+1)
 
-    return EMpositionflux
+    return Mpositionflux
     
 sources1,positions1,mylist1 =  findsource(fitsdata)
-apertures1 = CircularAperture(positions1, r=10.)
+apertures1 = CircularAperture(positions1, r=12.)
 displayimage(fitsdata,3,0)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
-
-x1,y1 = 397,130
-x2,y2 = 405,151
-
-thetajiao = math.atan((y1-y2)/(x1-x2))
-
-Eposlux = EllipticalAperturePhometry(fitsdata, positions1)
-Mposflux = EllipticalMaskPhometry(fitsdata,positions1)
-
+Cpositionflux = CircleAperturePhometry(fitsdata,positions1,index=1)
+Mpositionflux = CircleMaskPhometry(fitsdata, positions1, 2)
 
 plt.figure(4)
-plt.plot(Eposlux[:,2]-Mposflux[:,2], '*')
-
-#plt.xlabel('Eposlux',fontsize=14)
-#plt.ylabel('Mposflux',fontsize=14)
-
-
-
+plt.plot(Cpositionflux[:,2]-Mpositionflux[:,2], '.')
 
