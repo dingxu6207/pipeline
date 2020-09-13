@@ -15,6 +15,7 @@ from scipy.optimize import curve_fit
 from scipy import asarray as ar
 import astroalign as aa
 import imageio
+import ois
 
 
 #20190603132720Auto.fit
@@ -32,7 +33,7 @@ fitshdu1 = fits.open(filename1)
 data1 = fitshdu1[0].data
 fitsdata1 = np.copy(data1)
 
-m,n = 1,0
+m,n = 0,1
 segimg0 = fitsdata0[528*m:528*m+528, 528*n:528*n+528]
 segimg1 = fitsdata1[528*m:528*m+528, 528*n:528*n+528]
 
@@ -71,6 +72,7 @@ def displayimage(img, coff, i):
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     plt.savefig(str(i)+'.jpg')
     
+   
     
 displayimage(segimg0, 3, 0)
 displayimage(segimg1, 3, 1)
@@ -85,3 +87,6 @@ gif_images = []
 for path in img_paths:
     gif_images.append(imageio.imread(path))
 imageio.mimsave("test.gif",gif_images,fps=0.9)
+
+diff = ois.optimal_system(segimg1, aligned_image)[0]
+displayimage(diff, 3, 3)
