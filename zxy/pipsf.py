@@ -68,17 +68,24 @@ def findsource(img):
 
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
-    plt.figure(i)
+    #plt.figure(i)
+    plt.figure(1)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     plt.savefig(str(i)+'.jpg')
+    plt.clf()
+    plt.pause(1)
     
 i = 0
+krn_shape = (15,15)
+m_name = 'Bramich'
 for m in range(0,20):
     for n in range(0,20):
         segimg0 = fitsdata0[528*m:528*m+528, 528*n:528*n+528]
         segimg1 = fitsdata1[528*m:528*m+528, 528*n:528*n+528]
         aligned_image, footprint = aa.register(segimg0, segimg1)
-        diff = ois.optimal_system(segimg1, aligned_image)[0]
+        #diff = ois.optimal_system(segimg1, aligned_image)[0]
+        #diff = segimg1-aligned_image
+        diff, __, krn, __ = ois.optimal_system(segimg1, aligned_image, kernelshape=krn_shape, method=m_name,bkgdegree=None)
         displayimage(diff, 3, i)
         i = i+1
         print('it is ok!')

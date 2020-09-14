@@ -88,5 +88,9 @@ for path in img_paths:
     gif_images.append(imageio.imread(path))
 imageio.mimsave("test.gif",gif_images,fps=0.9)
 
-diff = ois.optimal_system(segimg1, aligned_image)[0]
+#diff = ois.optimal_system(segimg1, aligned_image)[0]
+krn_shape = (15,15)
+m_name = 'Bramich'
+diff, __, krn, __ = ois.optimal_system(segimg1, aligned_image, kernelshape=krn_shape, method=m_name,bkgdegree=None)
+
 displayimage(diff, 3, 3)
