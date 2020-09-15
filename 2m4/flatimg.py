@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 10 16:49:41 2020
+Created on Mon Aug 10 17:02:33 2020
 
 @author: dingxu
 """
@@ -31,7 +31,7 @@ def displayimage(img, coff, i):
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\bias\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\flat\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-5:] == '.fits'):
@@ -43,11 +43,11 @@ count = len(filetemp)
 temp = []        
 for i in range(0, count):
     fitshdu = fits.open(oripath+filetemp[i])
-    headdata = fitshdu[0].header
     data = fitshdu[1].data   
     fitsdata = np.copy(data)
     print(fitsdata.shape)
     temp.append(fitsdata)
+    headdata = fitshdu[0].header
     
 sum = 0    
 for i in range(0,count):
@@ -59,14 +59,13 @@ average = sum/count
 displayimage(average,3,1)
 
 
-
 def witefits(data,name, head):
     writepath = oripath
     os.chdir(writepath)
-    if(os.path.exists(writepath+name + '.fits')):
-        os.remove(name + '.fits')
+    if(os.path.exists(writepath+name + '.fit')):
+        os.remove(name + '.fit')
 
     fitsdata = np.float32(data)
-    fits.writeto(name + '.fits', fitsdata, head)
+    fits.writeto(name + '.fit', fitsdata, head)
     
-witefits(average, 'bias', headdata)
+witefits(average, 'flat', headdata)   

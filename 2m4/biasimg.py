@@ -31,7 +31,7 @@ def displayimage(img, coff, i):
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\bias\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190131_6478\\bias\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-5:] == '.fits'):
@@ -63,10 +63,10 @@ displayimage(average,3,1)
 def witefits(data,name, head):
     writepath = oripath
     os.chdir(writepath)
-    if(os.path.exists(writepath+name + '.fits')):
-        os.remove(name + '.fits')
+    if(os.path.exists(writepath+name + '.fit')):
+        os.remove(name + '.fit')
 
     fitsdata = np.float32(data)
-    fits.writeto(name + '.fits', fitsdata, head)
+    fits.writeto(name + '.fit', fitsdata, head)
     
 witefits(average, 'bias', headdata)
