@@ -16,7 +16,7 @@ count = 0
 oripath = 'H:\\wuzy\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
-       if (file[-5:] == '.fits'):
+       if (file[-4:] == '.fit'):
            count = count+1
            filetemp.append(file)
        
@@ -47,13 +47,13 @@ file60 = 'H:\\wuzy\\60\\'
 
 
 for i in range(count):      
-    if (int(filetemp[i][:-1])/2 == 0):
-        shutil.copy(oripath+filetemp[i], file10)
+    if (int(filetemp[i][-6:-4])%2 == 0):
+        shutil.move(oripath+filetemp[i], file10)
         
-    if (int(filetemp[i][:-1])/2 == 1):
-        shutil.copy(oripath+filetemp[i], file60)
+    if (int(filetemp[i][-6:-4])%2 == 1):
+        shutil.move(oripath+filetemp[i], file60)
         
-   
+    #print((filetemp[i][-6:-4]))
 
     #displayimage(imgdata,1,0)
     #plt.pause(0.01)

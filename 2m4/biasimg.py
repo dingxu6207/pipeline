@@ -31,7 +31,7 @@ def displayimage(img, coff, i):
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190131_6478\\bias\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\bias\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-5:] == '.fits'):

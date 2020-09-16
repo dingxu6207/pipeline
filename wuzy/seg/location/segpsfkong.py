@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 from scipy import asarray as ar
 
 ib = 0 #行扫描 i = 21
-jb = 2 #列扫描 j=20
+jb = 0 #列扫描 j=20
 print(ib,jb)
 position = np.loadtxt('location.txt')
 hang,lie = position.shape
@@ -46,8 +46,8 @@ arraycha = np.array(cha)
 #20190603132720Auto.fit
 #file  = 'imgv.fit'
 #path = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142cmd\\'
-file  = '0.fits'
-path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
+file  = 'p4225414UV07R010.fit'
+path = 'H:\\wuzy\\10\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data

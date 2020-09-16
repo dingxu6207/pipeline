@@ -43,15 +43,15 @@ def displayimage(img, coff, i):
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\newdata\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\probiasflat\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
            count = count+1
            filetemp.append(file)
  
-    
-wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\alligendata\\'
+print(count)   
+wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'
 def witefits(data,name, head):
     writepath = wrpath
     os.chdir(writepath)
@@ -64,16 +64,18 @@ def witefits(data,name, head):
 zampledata = readdata(oripath+filetemp[0], 0)  
    
        
-for i in range(1, count):
+for i in range(0, count):
     fitshdu = fits.open(oripath+filetemp[i])
     data = fitshdu[0].data   
     fitsdata = np.copy(data)
-    aligned_image, footprint = aa.register(fitsdata, zampledata)
-    
-    headdata = fitshdu[0].header
-    
-    witefits(aligned_image, filetemp[i][:-4], headdata)   
-
-    displayimage(aligned_image,1,0)
-    plt.pause(0.1)
-    plt.clf()
+    try:
+        aligned_image, footprint = aa.register(fitsdata, zampledata)          
+        headdata = fitshdu[0].header    
+        witefits(aligned_image, filetemp[i][:-4], headdata)   
+        displayimage(aligned_image,1,0)
+        plt.pause(0.1)
+        plt.clf()
+        #print('it is ok!\n')  
+    except:
+        print('it is eror!\n') 
+        print(filetemp[i])

@@ -67,7 +67,7 @@ zamplefile = oripath+filetemp[0]
 zamplehdu = fits.open(zamplefile)  
 zampledata = zamplehdu[0].data
        
-for i in range(0+270, count):
+for i in range(0+1219, count):
     fitshdu = fits.open(oripath+filetemp[i])
     headdata = fitshdu[0].header
     

@@ -19,10 +19,10 @@ from astropy.time import Time
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'  #路径参数
+oripath = 'H:\\wuzy\\10\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
-       if (file[-5:] == '.fits'):
+       if (file[-4:] == '.fit'):
            count = count+1
            filetemp.append(file)
        
@@ -91,8 +91,8 @@ def pltquxian(datayuan):
     print( len(error))
     return data_c
  
-files = 'locationsan44.txt' 
-pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\seg\\location\\'+files
+files = 'locationsan00.txt' 
+pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\wuzy\\seg\\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
 fitshdu = fits.open(oripath+filetemp[0])
@@ -105,10 +105,11 @@ targettemp = []
 datatemp = []
 
 #796*i:796+796*i,778*j:778+778*j
-m = 4#行扫描 i = 39
-n = 4#列扫描 j = 39
+m = 0#行扫描 i = 39
+n = 0#列扫描 j = 39
 print(m,n)
-for i in range(0, count):
+#for i in range(0, count):
+for i in range(0, 120):
     try:
         fitshdu = fits.open(oripath+filetemp[i])
         datatime = fitshdu[0].header['DATE']
@@ -119,8 +120,8 @@ for i in range(0, count):
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(523, 224, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(325, 130, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(284, 486, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(298, 570, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(249, 234, posflux)   
        
@@ -142,6 +143,10 @@ starlight = np.hstack((posflux[:,0:2], arraytemp))
 np.savetxt('starlight.txt', starlight)   
 #jiaoyandata = pltquxian(jiaoyan)       
 plt.figure(2)
+#plt.subplot(211)
 plt.plot(datatemp,jiaoyantemp,'.')
+#plt.subplot(211)
+#plt.plot(datatemp[120:count],jiaoyantemp[120:count],'.')
+
 arraytime = np.array(datatemp)
 np.savetxt('datatime.txt', arraytime)

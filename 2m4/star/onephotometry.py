@@ -16,10 +16,11 @@ import matplotlib.pyplot as plt
 from photutils import CircularAperture, CircularAnnulus
 from photutils import aperture_photometry
 from astropy.time import Time
+from matplotlib.pyplot import MultipleLocator
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\alligendata\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -27,7 +28,7 @@ for root, dirs, files in os.walk(oripath):
            filetemp.append(file)
            
 txttemp = []
-txtpath = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\2m4\\location\\'
+txtpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\location\\'
 for root, dirs, files in os.walk(txtpath):
    for file in files:
        if (file[-4:] == '.txt'):
@@ -57,7 +58,7 @@ def photometryimg(positions, img, i):
     
     positionslist = positions.tolist()
     
-    aperture = CircularAperture(positionslist, r=11) #2*FWHM
+    aperture = CircularAperture(positionslist, r=8) #2*FWHM
     annulus_aperture = CircularAnnulus(positionslist, r_in=14, r_out=18)#4-5*FWHM+2*FWHM
     apers = [aperture, annulus_aperture]
     
@@ -122,13 +123,14 @@ for i in range(0, count):
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(652, 192, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(725, 450, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(350, 160, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(473, 289, posflux)  #比较星位置2
         
-        posflux3,mag3 = sourcephotometry(336-i*0.50224, 395+i*0.2531, posflux)   
+        #posflux3,mag3 = sourcephotometry(373.903924-i*0.1556, 400.986487-i*1.587, posflux)
+        posflux3,mag3 = sourcephotometry(373.903924-i*0.432685, 400.986487-i*1.05535, posflux)
        
         jiaoyan = mag1-mag2 
-        target = mag3 - mag2
+        target = mag3 - (mag1+mag2)/2
                 
         jiaoyantemp.append(jiaoyan)
         targettemp.append(target)
@@ -147,16 +149,20 @@ plt.xlabel('JD',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 plt.figure(3)
+#plt.figure(figsize=(10,5))
 plt.plot(datatemp,targettemp,'.')
 plt.xlabel('JD',fontsize=14)
 plt.ylabel('mag',fontsize=14)
+#y_major_locator= MultipleLocator(0.05)
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
+#ax.yaxis.set_major_locator(y_major_locator)
 
 templist = []
 templist.append(datatemp)
 templist.append(targettemp)
 tempmatrix = np.array(templist)
+tempmatrix = tempmatrix.T
 np.savetxt('datamag.txt', tempmatrix)
 

@@ -17,13 +17,13 @@ from scipy import asarray as ar
 
 
 #20190603132720Auto.fit
-file  = '0.fits'
-path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
+file  = 'p4225414UV07R010.fit'
+path = 'H:\\wuzy\\10\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 ib = 0 #行扫描 i = 21
-jb = 2 #列扫描 j=20
+jb = 0 #列扫描 j=20
 print(ib,jb)
 fitsdata = data[1024*ib:1024+1024*ib,1024*jb:1024+1024*jb]
 #796*i:796+796*i,778*j:778+778*j
@@ -44,7 +44,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm = 2.23, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm = 2.31, threshold=5.*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:

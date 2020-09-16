@@ -17,7 +17,7 @@ from photutils import CircularAperture
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\alligendata\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -54,7 +54,9 @@ def findsource(img):
     
     return sources,positions,mylist
 
+changefile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\location\\'
 for i in range(0,count):   
+    os.chdir(changefile)
     fitshdu = fits.open(oripath+filetemp[i])
     data = fitshdu[0].data
     fitsdata = np.copy(data)
