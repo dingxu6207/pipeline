@@ -17,8 +17,8 @@ from scipy import asarray as ar
 
 
 #20190603132720Auto.fit
-file  = 'YFCa260278.fit'
-path = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20190126_6478\\alligendata\\'
+file  = 'YFDh260160.fit'
+path = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
@@ -92,7 +92,7 @@ np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
 
 mylist1.sort(key=lambda x:x[2],reverse=True)
-index = 1
+index = 2
 width = 9
 
 templist = FWHMplot(mylist1[index][1],mylist1[index][0],width,fitsdata,1)

@@ -20,7 +20,7 @@ from matplotlib.pyplot import MultipleLocator
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -28,7 +28,7 @@ for root, dirs, files in os.walk(oripath):
            filetemp.append(file)
            
 txttemp = []
-txtpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\location\\'
+txtpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\location\\'
 for root, dirs, files in os.walk(txtpath):
    for file in files:
        if (file[-4:] == '.txt'):
@@ -58,8 +58,8 @@ def photometryimg(positions, img, i):
     
     positionslist = positions.tolist()
     
-    aperture = CircularAperture(positionslist, r=8) #2*FWHM
-    annulus_aperture = CircularAnnulus(positionslist, r_in=14, r_out=18)#4-5*FWHM+2*FWHM
+    aperture = CircularAperture(positionslist, r=7.5) #2*FWHM
+    annulus_aperture = CircularAnnulus(positionslist, r_in=12, r_out=14.5)#4-5*FWHM+2*FWHM
     apers = [aperture, annulus_aperture]
     
     displayimage(img, 1, i) ###画图1
@@ -121,13 +121,13 @@ for i in range(0, count):
         lacation = np.loadtxt(txtpath+txttemp[i])
         posflux,magstar = photometryimg(lacation, fitsdata, 1)           
         startemp.append(magstar) 
-        arraytemp = np.array(startemp).T        
+        #arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(350, 160, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(473, 289, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(269, 221, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(258, 368, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(373.903924-i*0.1556, 400.986487-i*1.587, posflux)
-        posflux3,mag3 = sourcephotometry(373.903924-i*0.432685, 400.986487-i*1.05535, posflux)
+        posflux3,mag3 = sourcephotometry(382.740811-i*0.41007, 409.660915-i*1.05459, posflux)
        
         jiaoyan = mag1-mag2 
         target = mag3 - (mag1+mag2)/2

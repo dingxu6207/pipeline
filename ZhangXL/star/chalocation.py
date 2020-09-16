@@ -34,22 +34,22 @@ def displayimage(img, coff, i):
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     
-oneimg = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\YFDh260160.fit' 
-twoimg = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\YFDh260310.fit' 
+oneimg = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\YFDh250237.fit' 
+twoimg = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\YFDh250372.fit' 
 
 onedata = readdata(oneimg, 0)
 twodata = readdata(twoimg, 0)
 
 displayimage(onedata, 1 ,0)
-plt.plot(373.903924, 400.986487, '*')
+#plt.plot(373.903924, 400.986487, '*')
 displayimage(twodata, 1 ,1)
-plt.plot(308.568518, 241.628884, '*')
+#plt.plot(308.568518, 241.628884, '*')
 
-location = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\location\\'
+location = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\location\\'
 
-location0 = np.loadtxt(location+'YFDh260160.txt')
+location0 = np.loadtxt(location+'YFDh250237.txt')
 
-location1 = np.loadtxt(location+'YFDh260310.txt')
+location1 = np.loadtxt(location+'YFDh250372.txt')
 
 
 def sourcephotometry(targetx, targety, sumpho, threshold=3):
@@ -60,5 +60,5 @@ def sourcephotometry(targetx, targety, sumpho, threshold=3):
             print(sumpho[i])
             
 
-kaishi =  sourcephotometry(374,400,location0)   
-zuihou =  sourcephotometry(308,241,location1)         
+kaishi =  sourcephotometry(382,409,location0)   
+zuihou =  sourcephotometry(326,266,location1)         

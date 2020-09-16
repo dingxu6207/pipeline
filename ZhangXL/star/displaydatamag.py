@@ -8,7 +8,7 @@ Created on Wed Sep 16 15:05:25 2020
 import numpy as np
 import matplotlib.pyplot as plt
 
-datamag = np.loadtxt('datamag.txt')
+datamag = np.loadtxt('datamag26.txt')
 
 time = datamag[:,0]
 mag = datamag[:,1]
