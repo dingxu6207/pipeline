@@ -9,9 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from astropy.io import fits
 
-light = np.loadtxt('arrayjiaocha.txt')
-datatime = np.loadtxt('datatime.txt')
-hang = 154
+path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\kongphometry\\'
+light = np.loadtxt(path+'arrayjiaocha.txt')
+datatime = np.loadtxt(path+'datatime.txt')
+hang = 68
 plt.figure(0)
 plt.plot(datatime, light[hang,2:], '.')
 ax = plt.gca()
@@ -20,14 +21,14 @@ ax.invert_yaxis() #y轴反向
 plt.xlabel('JD',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
-file  = '0.fits'
-path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
+file  = 'd4738787L018m000.fit'
+path = 'E:\\shunbianyuan\\dataxingtuan\\alberkeley99\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 imgdata = np.copy(data)
-ib = 4
-jb = 4
+ib = 0
+jb = 2
 #hang = 0
 fitsdata = np.copy(imgdata[796*ib:796+796*ib,778*jb:778+778*jb])
 

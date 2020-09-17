@@ -85,15 +85,15 @@ for i in range(0, count):
     
     try:
 
-        transf, (s_list, t_list) = aa.find_transform(fitsdata, zampledata)
+        transf, (s_list, t_list) = aa.find_transform(fitsdata[0:796*2,0:lie1], zampledata[0:796*2,0:lie1])
         H, mask = cv2.findHomography(s_list, t_list, cv2.RANSAC,5.0)
         
         newdata = cv2.warpPerspective(data, H, (lie1,hang1))
         witefits(newdata, filetemp[i][:-4], datatime)
         
-        displayimage(newdata,1,0)
-        plt.pause(0.1)
-        plt.clf()
+        #displayimage(newdata,1,0)
+        #plt.pause(0.1)
+        #plt.clf()
         print('it is ok!')  
     except:
         print('it is eror!') 

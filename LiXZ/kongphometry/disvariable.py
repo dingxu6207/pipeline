@@ -9,14 +9,14 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 
 
-file  = '0.fits'
-path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
+file  = 'd4738787L018m000.fit'
+path = 'E:\\shunbianyuan\\dataxingtuan\\alberkeley99\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 
-i = 4
-j = 4
+i = 0
+j = 2
 #hang = 0
 print(i,j)
 fitsdata = np.copy(data[796*i:796+796*i,778*j:778+778*j])
@@ -54,12 +54,12 @@ displayimage(fitsdata, 1, 1)
 datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
-x1,y1 = 523, 224
+x1,y1 = 101, 507
 #y1 = 194
 xyflux1 = findtarget(x1, y1, starlight)
 plt.plot(xyflux1[0],xyflux1[1],'*')
 
-x2,y2 = 325, 130
+x2,y2 = 214, 497
 #y2 = 137
 xyflux2 = findtarget(x2, y2, starlight)
 plt.plot(xyflux2[0],xyflux2[1],'*')

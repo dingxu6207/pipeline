@@ -91,7 +91,7 @@ def pltquxian(datayuan):
     print( len(error))
     return data_c
  
-files = 'locationsan00.txt' 
+files = 'locationsan02.txt' 
 pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
@@ -106,7 +106,7 @@ datatemp = []
 
 #796*i:796+796*i,778*j:778+778*j
 m = 0#行扫描 i = 39
-n = 0#列扫描 j = 39
+n = 2#列扫描 j = 39
 print(m,n)
 for i in range(0, count):
     try:
@@ -119,8 +119,8 @@ for i in range(0, count):
         startemp.append(magstar) 
         #arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(449, 470, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(391, 414, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(101, 507, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(214, 497, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(249, 234, posflux)   
        
