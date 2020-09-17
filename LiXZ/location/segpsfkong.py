@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 from scipy import asarray as ar
 
 ib = 0 #行扫描 i = 21
-jb = 2 #列扫描 j=20
+jb = 0 #列扫描 j=20
 print(ib,jb)
 position = np.loadtxt('location.txt')
 hang,lie = position.shape
@@ -31,7 +31,7 @@ for i in range(hang):
         d2 = (temp1[1]-temp2[1])**2
         distance = np.sqrt((d1+d2))
         
-        if (distance < 15 ):
+        if (distance < 17 ):
             position1.append(tuple(temp1))
             position1.append(tuple(temp2))
         
@@ -77,11 +77,11 @@ displayimage(fitsdata, 1 , 1)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
 
-apertures2 = CircularAperture(arraycha, r=6.)   
+apertures2 = CircularAperture(arraycha, r=7.)   
 displayimage(fitsdata, 1 , 2)
 apertures2.plot(color='blue', lw=1.5, alpha=0.5)
 
-apertures3 = CircularAperture(position, r=6.)   
+apertures3 = CircularAperture(position, r=7.)   
 displayimage(fitsdata, 1 , 3)
 apertures3.plot(color='blue', lw=1.5, alpha=0.5)
 

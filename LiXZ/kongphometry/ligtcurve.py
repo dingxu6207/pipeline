@@ -12,7 +12,7 @@ from astropy.io import fits
 path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\kongphometry\\'
 light = np.loadtxt(path+'arrayjiaocha.txt')
 datatime = np.loadtxt(path+'datatime.txt')
-hang = 68
+hang = 152
 plt.figure(0)
 plt.plot(datatime, light[hang,2:], '.')
 ax = plt.gca()
@@ -27,8 +27,8 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 imgdata = np.copy(data)
-ib = 0
-jb = 2
+ib = 1
+jb = 4
 #hang = 0
 fitsdata = np.copy(imgdata[796*ib:796+796*ib,778*jb:778+778*jb])
 

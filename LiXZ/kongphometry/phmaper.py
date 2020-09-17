@@ -51,8 +51,8 @@ def photometryimg(positions, img, i):
     
     positionslist = positions.tolist()
     
-    aperture = CircularAperture(positionslist, r=4.8) #2*FWHM
-    annulus_aperture = CircularAnnulus(positionslist, r_in=7, r_out=9)#4-5*FWHM+2*FWHM
+    aperture = CircularAperture(positionslist, r=7) #2*FWHM
+    annulus_aperture = CircularAnnulus(positionslist, r_in=10, r_out=12)#4-5*FWHM+2*FWHM
     apers = [aperture, annulus_aperture]
     
     displayimage(img, 1, i) ###画图1
@@ -91,7 +91,7 @@ def pltquxian(datayuan):
     print( len(error))
     return data_c
  
-files = 'locationsan02.txt' 
+files = 'locationsan14.txt' 
 pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
@@ -105,8 +105,8 @@ targettemp = []
 datatemp = []
 
 #796*i:796+796*i,778*j:778+778*j
-m = 0#行扫描 i = 39
-n = 2#列扫描 j = 39
+m = 1#行扫描 i = 39
+n = 4#列扫描 j = 39
 print(m,n)
 for i in range(0, count):
     try:
@@ -119,8 +119,8 @@ for i in range(0, count):
         startemp.append(magstar) 
         #arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(101, 507, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(214, 497, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(59, 342, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(626, 243, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(249, 234, posflux)   
        
