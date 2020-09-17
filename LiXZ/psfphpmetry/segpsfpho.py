@@ -22,10 +22,10 @@ from photutils.psf import BasicPSFPhotometry
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\dataxingtuan\\alberkeley99\\' #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
-       if (file[-5:] == '.fits'):
+       if (file[-4:] == '.fit'):
            count = count+1
            filetemp.append(file)
        
@@ -90,8 +90,8 @@ def photomyPSF(imgdata, position,sigma):
     magstar = 25 - 2.5*np.log10(abs(result_tab['flux_fit']/1))
     return positionflux,magstar    
 
-files = 'locationmi02.txt' 
-pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\seg\\location\\'+files
+files = 'locationmi00.txt' 
+pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
 fitshdu = fits.open(oripath+filetemp[0])
@@ -105,7 +105,7 @@ targettemp = []
 datatemp = []
 
 m = 0#行扫描 i = 39
-n = 2#列扫描 j = 39
+n = 0#列扫描 j = 39
 #796*i:796+796*i,778*j:778+778*j
 
 for i in range(0, count):
@@ -121,9 +121,9 @@ for i in range(0, count):
         #arraytemp = np.array(startemp).T 
        
         
-        posflux1,mag1 = sourcephotometry(161, 297, posflux)  #比较星位置1 
+        posflux1,mag1 = sourcephotometry(299, 575, posflux)  #比较星位置1 
          
-        posflux2,mag2 = sourcephotometry(679, 385, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(168, 429, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(285, 363, posflux)   
        
