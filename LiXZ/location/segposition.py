@@ -18,12 +18,12 @@ from scipy import asarray as ar
 
 #20190603132720Auto.fit
 file  = 'd4738787L018m000.fit'
-path = 'E:\\shunbianyuan\\dataxingtuan\\berkeley99\\'
+path = 'E:\\shunbianyuan\\dataxingtuan\\alberkeley99\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
-ib = 1 #行扫描 i = 21
-jb = 4 #列扫描 j=20
+ib = 2 #行扫描 i = 21
+jb = 2 #列扫描 j=20
 print(ib,jb)
 fitsdata = data[796*ib:796+796*ib,778*jb:778+778*jb]
 #796*i:796+796*i,778*j:778+778*j
