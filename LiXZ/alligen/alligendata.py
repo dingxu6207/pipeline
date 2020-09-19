@@ -71,6 +71,7 @@ zampledata = np.float32(zampledata)
 #displayimage(zampledata, 1 ,4)  
        
 
+hangexrdata = np.zeros((8,lie1))
 
 for i in range(0, count):
     fitshdu = fits.open(oripath+filetemp[i])
@@ -85,10 +86,13 @@ for i in range(0, count):
     
     try:
 
-        transf, (s_list, t_list) = aa.find_transform(fitsdata[0:796*2,0:lie1], zampledata[0:796*2,0:lie1])
+        transf, (s_list, t_list) = aa.find_transform(fitsdata[796*3:796*4,0:lie1], zampledata[796*3:796*4,0:lie1])
         H, mask = cv2.findHomography(s_list, t_list, cv2.RANSAC,5.0)
         
         newdata = cv2.warpPerspective(data, H, (lie1,hang1))
+        
+        newdata = np.vstack((newdata,hangexrdata))
+        
         witefits(newdata, filetemp[i][:-4], datatime)
         
         #displayimage(newdata,1,0)
