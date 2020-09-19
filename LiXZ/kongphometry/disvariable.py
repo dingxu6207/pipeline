@@ -15,7 +15,7 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 
-i = 3
+i = 4
 j = 4
 #hang = 0
 print(i,j)
@@ -54,12 +54,12 @@ displayimage(fitsdata, 1, 1)
 datatime = np.loadtxt('datatime.txt')
 starlight = np.loadtxt('starlight.txt')
 
-x1,y1 = 625, 88
+x1,y1 = 167, 161
 #y1 = 194
 xyflux1 = findtarget(x1, y1, starlight)
 plt.plot(xyflux1[0],xyflux1[1],'*')
 
-x2,y2 = 113, 530
+x2,y2 = 204, 146
 #y2 = 137
 xyflux2 = findtarget(x2, y2, starlight)
 plt.plot(xyflux2[0],xyflux2[1],'*')

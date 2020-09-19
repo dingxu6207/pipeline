@@ -90,7 +90,7 @@ def photomyPSF(imgdata, position,sigma):
     magstar = 25 - 2.5*np.log10(abs(result_tab['flux_fit']/1))
     return positionflux,magstar    
 
-files = 'locationmi34.txt' 
+files = 'locationmi44.txt' 
 pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\location\\'+files
 lacation = np.loadtxt(pathfile)     
 
@@ -105,8 +105,7 @@ targettemp = []
 datatemp = []
 
 m = 4#行扫描 i = 39
-n = 0#列扫描 j = 39
-dx = 0
+n = 4#列扫描 j = 39
 #796*i:796+796*i,778*j:778+778*j
 
 for i in range(0, count):
@@ -115,16 +114,16 @@ for i in range(0, count):
         datatime = fitshdu[0].header['DATE']
         t = Time(datatime, format='isot', scale='utc')
         data = fitshdu[0].data    
-        fitsdata = data[796*m:796+796*m+dx,778*n:778+778*n]  
+        fitsdata = data[796*m:796+796*m,778*n:778+778*n]  
         
         posflux,magstar = photomyPSF(fitsdata, lacation, 0.90)        
         startemp.append(magstar) 
         #arraytemp = np.array(startemp).T 
        
         
-        posflux1,mag1 = sourcephotometry(342, 393, posflux)  #比较星位置1 
+        posflux1,mag1 = sourcephotometry(74, 456, posflux)  #比较星位置1 
          
-        posflux2,mag2 = sourcephotometry(240, 609, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(63, 657, posflux)  #比较星位置2
         
         #posflux3,mag3 = sourcephotometry(285, 363, posflux)   
        

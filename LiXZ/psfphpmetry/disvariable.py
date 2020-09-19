@@ -15,7 +15,7 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 
-i = 3
+i = 4
 j = 4
 #hang = 0
 fitsdata = np.copy(data[796*i:796+796*i,778*j:778+778*j])
