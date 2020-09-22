@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 from scipy import asarray as ar
 
 ib = 4 #行扫描 i = 21
-jb = 4#列扫描 j=20
+jb = 1#列扫描 j=20
 print(ib,jb)
 position = np.loadtxt('location.txt')
 hang,lie = position.shape

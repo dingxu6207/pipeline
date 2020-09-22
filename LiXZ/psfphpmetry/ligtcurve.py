@@ -13,7 +13,7 @@ path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\psfphpmetry\\'
 light = np.loadtxt(path+'arrayjiaocha.txt')
 #light = np.loadtxt('arrayjiaocha.txt')
 datatime = np.loadtxt('datatime.txt')
-hang = 13
+hang = 58
 plt.figure(0)
 plt.plot(datatime, light[hang,2:], '.')
 ax = plt.gca()
@@ -28,8 +28,8 @@ filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
 imgdata = np.copy(data)
-ib = 3
-jb = 3
+ib = 4
+jb = 1
 #hang = 0
 fitsdata = np.copy(imgdata[796*ib:796+796*ib,778*jb:778+778*jb])
 
