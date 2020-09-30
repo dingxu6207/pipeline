@@ -26,6 +26,7 @@ $RECYCLE.BIN/
 location/locationcha
 cmd/locationcha
 *.gif
-*.py
 *.csv
 *.fits
+*.tsv
+*.lc

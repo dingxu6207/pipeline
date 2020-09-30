@@ -105,6 +105,6 @@ ax.invert_yaxis() #y轴反向
 
 plt.figure(3)
 plt.scatter(waidata[:,0], waidata[:,1], marker='o', color='grey',s=5.0)
-plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=20.0)
+plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=5.0)
 plt.xlabel('RA',fontsize=14)
 plt.ylabel('DEC',fontsize=14)
