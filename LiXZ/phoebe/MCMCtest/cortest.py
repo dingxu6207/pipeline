@@ -5,12 +5,16 @@ Created on Wed Sep 30 16:56:04 2020
 @author: dingxu
 """
 
+import phoebe
+from phoebe import u # units
 import numpy as np
-import corner
 import matplotlib.pyplot as plt
 
-ndim, nsamples = 5, 10000
-samples = np.random.randn(ndim * nsamples).reshape([nsamples, ndim])
-figure = corner.corner(samples)
-figure.savefig("corner.png")
+logger = phoebe.logger()
+
+b = phoebe.default_binary(contact_binary=True)
+
+print(b.filter(qualifier=['q_max', 'q_min']))
+
+#print(b.filter(qualifier=['requiv_max', 'requiv_min', 'pot_max', 'pot_min', 'q_max', 'q_min']))
 

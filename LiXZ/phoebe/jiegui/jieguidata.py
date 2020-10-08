@@ -20,6 +20,7 @@ b = phoebe.default_binary()
 lc = np.loadtxt('data.lc')
 times = lc[:,0]
 fluxes = lc[:,1]
+
 #sigmas = 0.05*np.ones(len(lc)
 b.add_dataset('lc', times=times, fluxes=fluxes, sigmas=0.05*np.ones(len(lc)))
 
@@ -33,10 +34,12 @@ b.get_parameter(context='compute', component='secondary', qualifier='ntriangles'
 #b['requiv@primary@star@component'] = 1.2
 #b['requiv@secondary@star@component'] = 0.8
 #b['q@binary@orbit@component'] = 0.7
-b['period@orbit'] = 1.5
+#b['period@orbit'] = 0.5
 #b['pblum@primary@dataset'] = 2.9*np.pi
 
 #Now we will compute our phoebe model, add noise and plot the results:
+b['period@orbit'] = 1.5
+b['sma@orbit'] = 3.5
 b.run_compute()
 
 fluxes = b['fluxes@latest@model'].get_value()
@@ -56,8 +59,8 @@ pl.show()
 #Here the prior boxes provide the lower and upper limits for the phoebe parameter values. 
 #We will select the order to be incl, requiv1, requiv2, mass ratio:
 #Now we will set up some prior information
-nwalkers = 10
-niter = 2
+nwalkers = 30
+niter = 100
 init_dist = [(86.4,87.3),(1.15,1.25),(0.725,0.825),(0.675,0.725)]
 
 priors = [(80.,90),(1.1,1.3),(0.7,0.9),(0.6,0.9)]
@@ -66,8 +69,9 @@ priors = [(80.,90),(1.1,1.3),(0.7,0.9),(0.6,0.9)]
 #to compute the model to fit the synthetic data we just generated:
 mod = phoebe.default_binary()
 
+mod['period@orbit'] = 1.5
 #We will generate the model with less data points than our data in phase space
-mod.add_dataset('lc', times = times, fluxes=fluxes, sigmas=sigmas,compute_phases=np.linspace(0,1.,151), passband='Kepler:mean')
+mod.add_dataset('lc', times = times, fluxes=fluxes, sigmas=sigmas)
 
 #gain, for the purpose of speeding up computations we will set the number of triangles 
 #to a (ridiciously) low value and turn off reflection:
@@ -77,8 +81,10 @@ mod.get_parameter(context='compute', component='secondary', qualifier='ntriangle
 
 #Since we have a dataset, we can add the helper function that calculates the passband luminosity 
 #at each iteration instead of fitting for it:
-mod.set_value('pblum_mode',value='dataset-scaled')
+#mod.set_value('pblum_mode',value='dataset-scaled')
 
+mod.flip_constraint('compute_phases', 'compute_times')
+mod['compute_phases@lc@dataset'] = np.linspace(-0.5,0.5,100)
 
 #Generate an initial guess for all the parameters by drawing from initial distributions:
 def rpars(init_dist):
@@ -102,8 +108,7 @@ def lnprob(z):
     mod['incl@binary@orbit@component'] = z[0]
     mod['requiv@primary@star@component'] = z[1]
     mod['requiv@secondary@star@component'] = z[2]
-    mod['q@binary@orbit@component'] = z[3]
-    mod['period@orbit'] = 1.5
+    mod['q@binary@orbit@component'] = z[3]    
     
     lnp = lnprior(priors,z)
     if not np.isfinite(lnp):
@@ -144,8 +149,7 @@ for i,c in zip(range(nwalkers),color):
     mod['incl@binary@orbit@component'] = pos[-1-i,0]
     mod['requiv@primary@star@component'] = pos[-1-i,1]
     mod['requiv@secondary@star@component'] = pos[-1-i,2]
-    mod['q@binary@orbit@component'] = pos[-1-i,3]
-    mod['period@orbit'] = 1.5    
+    mod['q@binary@orbit@component'] = pos[-1-i,3]    
     mod.run_compute(model='run{}'.format(i))
 
 
@@ -158,6 +162,7 @@ pl.plot(times,noisy,"k.")
 pl.xlabel("Times")
 pl.ylabel("Flux")
    
+
 
 
 '''

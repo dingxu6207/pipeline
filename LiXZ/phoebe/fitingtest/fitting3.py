@@ -11,6 +11,7 @@ import matplotlib.pyplot as pl
 from matplotlib.pyplot import cm 
 import matplotlib.mlab as mlab
 from scipy.stats import norm
+import matplotlib.pyplot as plt
 
 def q(a,b,c,x):
     quad = a*x**2. + b*x + c
@@ -21,11 +22,12 @@ x = np.linspace(-1,1,101)
 quad = q(1.,0.,-0.2,x)
 noise = np.random.normal(0.0, 0.1, quad.shape)
 noisy = quad + noise
+plt.figure(0)
 pl.plot (x,noisy,"k.")
 pl.show()
 
-nwalkers = 20
-niter = 10
+nwalkers = 130
+niter = 250
 init_dist = [(-2.,0.),(-0.5,0.5),(-0.5,0.)]
 ndim = len(init_dist)
 sigma = 0.1
@@ -71,6 +73,7 @@ def run(init_dist, nwalkers, niter, ndim):
 
     # Generate initial guesses for all parameters for all chains
     p0 = np.array([rpars(init_dist) for i in range(nwalkers)])
+    print(p0)
 
     # Generate the emcee sampler. Here the inputs provided include the 
     # lnprob function. With this setup, the first parameter
@@ -81,7 +84,7 @@ def run(init_dist, nwalkers, niter, ndim):
     pos, prob, state = sampler.run_mcmc(p0, niter)
 
     for i in range(ndim):
-        pl.figure()
+        pl.figure(1)
         y = sampler.flatchain[:,i]
         n, bins, patches = pl.hist(y, 200, normed=1, color="b", alpha=0.45)
         pl.title("Dimension {0:d}".format(i))
@@ -106,8 +109,9 @@ for i,c in zip(range(nwalkers),color):
     
     model = pos[-1-i,0]*x**2 + pos[-1-i,1]*x + pos[-1-i,2]
     
-    pl.plot(x,model,c=c)
-    
+   
+    plt.figure(3)
+    pl.plot(x,model,c=c)    
 pl.plot(x,noisy,"k.")
 pl.xlabel("x")
 pl.ylabel("f(x)")
