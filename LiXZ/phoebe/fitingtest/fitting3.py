@@ -31,6 +31,7 @@ niter = 250
 init_dist = [(-2.,0.),(-0.5,0.5),(-0.5,0.)]
 ndim = len(init_dist)
 sigma = 0.1
+#sigma = 0.05
 
 priors = [(-4.,4.),(-1.,1.),(-1.,1.)]
 
@@ -99,7 +100,7 @@ def run(init_dist, nwalkers, niter, ndim):
     pl.show()
     return pos
 
-
+'''
 niter=10
 pos = run(init_dist, nwalkers, niter, ndim)
 
@@ -129,6 +130,7 @@ for i,c in zip(range(nwalkers),color):
     
     model = pos[-1-i,0]*x**2 + pos[-1-i,1]*x + pos[-1-i,2]
     
+    plt.figure(3)
     pl.plot(x,model,c=c)
     
 pl.plot(x,noisy,"k.")
@@ -136,4 +138,4 @@ pl.xlabel("x")
 pl.ylabel("f(x)")
 pl.show()
 
-'''
+
