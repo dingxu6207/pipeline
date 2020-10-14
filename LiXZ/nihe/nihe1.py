@@ -35,6 +35,9 @@ def fft_combine(freqs, n, loops=1):
         if k != 0: p *= 2 # 除去直流成分之外，其余的系数都*2
         data += np.real(p) * np.cos(k*index) # 余弦成分的系数为实数部
         data -= np.imag(p) * np.sin(k*index) # 正弦成分的系数为负的虚数部
+        #print(data)
+    #print(np.real(p), -np.imag(p))
+    
     return index, data
 
 
@@ -46,7 +49,9 @@ for i in range(5):
     index, data = fft_combine(fy, i+1, 1)  # 计算1个周期的合成波形
     plt.plot(data,label = "N=%s" % i)
     temp.append(data)
-    
+
+print(fy[:5])  
+
 #plt.plot(nihedata, '.')
 plt.legend()
 plt.title("partial Fourier series of triangle wave")
@@ -54,12 +59,12 @@ plt.show()
 
 
 
-dataflux =temp[0]
+dataflux =temp[2]
 phrasefluxdata = np.vstack((phrase, dataflux))
 
-np.savetxt('N0data.txt', phrasefluxdata.T)
+np.savetxt('N2data.txt', phrasefluxdata.T)
 
-N4data = np.loadtxt('N0data.txt')
+N4data = np.loadtxt('N2data.txt')
 
 phrase = N4data[:,0]
 Nflux = N4data[:,1]

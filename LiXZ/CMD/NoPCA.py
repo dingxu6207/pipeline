@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 22 17:23:48 2020
+Created on Wed Oct 14 19:20:44 2020
 
+@author: dingxu
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Sep 22 17:23:48 2020
 @author: dingxu
 """
 
@@ -14,8 +20,6 @@ from sklearn.cluster import KMeans,DBSCAN,AgglomerativeClustering
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import mixture
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import Normalizer
 
 
 
@@ -31,17 +35,10 @@ data = data[data[:,3]>-15]
 data = data[data[:,4]<15]
 data = data[data[:,4]>-15]
 
-#data = data[data[:,5]<20]
 #data = data[data[:,7]<18]
 
-data[:,0:5] = Normalizer().fit_transform(data[:,0:5])
 
-pca = PCA(n_components=3)   #降到2维
-pca.fit(data[:,0:5])                  #训练
-newX = pca.fit_transform(data[:,0:5])  
-
-X = newX
-#X = np.copy(data[:,0:5])
+X = np.copy(data[:,0:5])
 
 #zsx = 1.0*(X-X.mean())/(X.std())
 '''
@@ -85,38 +82,36 @@ ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
 
 
-#datalable = np.column_stack((data ,predicted_lables))
-datalable = np.column_stack((newX ,predicted_lables))
+datalable = np.column_stack((data ,predicted_lables))
 
-cydata = datalable[datalable[:,3]==1]
-waidata = datalable[datalable[:,3]==0]
+cydata = datalable[datalable[:,8]==1]
+waidata = datalable[datalable[:,8]==0]
 
 
 datapro = np.column_stack((data ,prodata))
 highdata = datapro[datapro[:,9] > datapro[:,8]]
-highdata = highdata[highdata[:,9]>0.95]
+highdata = highdata[highdata[:,9]>0.985]
 
-'''
+
 plt.figure(1)
-#plt.scatter(waidata[:,0], waidata[:,1], marker='o', color='grey',s=10.0)
-plt.scatter(highdata[:,1], highdata[:,2], marker='o', color='lightcoral',s=10.0)
+plt.scatter(waidata[:,3], waidata[:,4], marker='o', color='grey',s=10.0)
+plt.scatter(highdata[:,3], highdata[:,4], marker='o', color='lightcoral',s=10.0)
 plt.xlabel('pmRA',fontsize=14)
 plt.ylabel('pmDEC',fontsize=14)
-'''
+
 plt.figure(2)
 highdataGmag = highdata[:,5]
 highdataBPRP = highdata[:,6]-highdata[:,7]
-plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=1.0)
+plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=5.0)
 plt.xlabel('BP-RP',fontsize=14)
 plt.ylabel('Gmag',fontsize=14)
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
 
-'''
 plt.figure(3)
 plt.scatter(waidata[:,0], waidata[:,1], marker='o', color='grey',s=5.0)
 plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=5.0)
 plt.xlabel('RA',fontsize=14)
 plt.ylabel('DEC',fontsize=14)
-'''
+
