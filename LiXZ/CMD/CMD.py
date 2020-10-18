@@ -8,8 +8,9 @@ Created on Tue Sep 22 09:09:58 2020
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('vizier_votable.tsv', sep = ';', encoding='gbk')
+#df = pd.read_csv('vizier_votable.tsv', sep = ';', encoding='gbk')
 
+df = pd.read_csv('Be9910.tsv', sep = ';', encoding='gbk')
 #df = pd.read_csv('NGC7142O.tsv', sep = ';', encoding='gbk')
 
 

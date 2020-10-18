@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Sep  9 10:40:49 2020
+Created on Thu Oct 15 04:40:37 2020
 
 @author: dingxu
 """
@@ -18,7 +18,7 @@ from photutils import EllipticalAnnulus
 from photutils import CircularAnnulus
 
 
-filename = 'E:\\shunbianyuan\\newdata\\201911162230420716.fit'
+filename = 'E:\\shunbianyuan\\phometry\\todingx\\aligendata\\0.fits'
 fitshdu = fits.open(filename)
 fitsdata = fitshdu[0].data
 
@@ -38,7 +38,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm=3, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm=8.0, threshold=5.*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
@@ -117,12 +117,13 @@ def CircleMaskPhometry(data,location,index = 2):
     
 sources1,positions1,mylist1 =  findsource(fitsdata)
 apertures1 = CircularAperture(positions1, r=12.)
-displayimage(fitsdata,1,0)
+displayimage(fitsdata,0.6,0)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
+'''
 Cpositionflux = CircleAperturePhometry(fitsdata,positions1,index=1)
 Mpositionflux = CircleMaskPhometry(fitsdata, positions1, 2)
 
 plt.figure(4)
 plt.plot(Cpositionflux[:,2]-Mpositionflux[:,2], '.')
-
+'''
