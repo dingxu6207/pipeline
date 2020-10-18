@@ -20,14 +20,14 @@ from sklearn.cluster import KMeans,DBSCAN,AgglomerativeClustering
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import mixture
+from matplotlib.pyplot import MultipleLocator
+from sklearn.preprocessing import StandardScaler
 
-
-
-np.random.seed(6)
+np.random.seed(8)
 
 data = np.loadtxt('Gaiadata.txt')
-data = data[data[:,2]>0]
-data = data[data[:,2]<1]
+#data = data[data[:,2]>0]
+#data = data[data[:,2]<1]
 
 data = data[data[:,3]<15]
 data = data[data[:,3]>-15]
@@ -47,7 +47,7 @@ for i in range(0,hang):
     X[i:,] = (X[i:,]-np.min(X[i:,]))/(np.max(X[i:,]) - np.min(X[i:,]))
     
 ''' 
-   
+X = StandardScaler().fit_transform(X)
 #zsx = X
 #model = KMeans(n_clusters = 3)
 #model = AgglomerativeClustering(n_clusters = 2)
@@ -94,18 +94,23 @@ highdata = highdata[highdata[:,9]>0.985]
 
 
 plt.figure(1)
-plt.scatter(waidata[:,3], waidata[:,4], marker='o', color='grey',s=10.0)
-plt.scatter(highdata[:,3], highdata[:,4], marker='o', color='lightcoral',s=10.0)
+plt.scatter(waidata[:,3], waidata[:,4], marker='o', color='grey',s=5.0)
+plt.scatter(highdata[:,3], highdata[:,4], marker='o', color='lightcoral',s=5.0)
 plt.xlabel('pmRA',fontsize=14)
 plt.ylabel('pmDEC',fontsize=14)
 
 plt.figure(2)
 highdataGmag = highdata[:,5]
 highdataBPRP = highdata[:,6]-highdata[:,7]
-plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=5.0)
+plt.xlim((-1,4))
+plt.ylim((10,22))
+plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=2.5)
+#plt.scatter(highdataBPRP, highdataGmag, marker='o', c='',edgecolors='g')
+x_major_locator = MultipleLocator(1)
 plt.xlabel('BP-RP',fontsize=14)
 plt.ylabel('Gmag',fontsize=14)
 ax = plt.gca()
+ax.xaxis.set_major_locator(x_major_locator)
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
 
@@ -115,3 +120,9 @@ plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=5.0)
 plt.xlabel('RA',fontsize=14)
 plt.ylabel('DEC',fontsize=14)
 
+plt.figure(4)
+plt.scatter(waidata[:,5], waidata[:,2], marker='o', color='grey',s=5.0)
+plt.scatter(highdata[:,5], highdata[:,2], marker='o', color='lightcoral',s=5.0)
+#plt.scatter(waidata[:,5], waidata[:,2], marker='o', color='grey',s=5.0)
+plt.xlabel('Gmg',fontsize=14)
+plt.ylabel('parallex',fontsize=14)
