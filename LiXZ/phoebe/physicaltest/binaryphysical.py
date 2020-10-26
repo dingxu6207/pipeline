@@ -20,9 +20,12 @@ print(b_detached.hierarchy)
 
 print(b_cb.hierarchy)
 
-print(b_cb.filter(component='contact_envelope', kind='envelope', context='component'))
+#print(b_cb.filter(component='contact_envelope', kind='envelope', context='component'))
 
 print(b_cb.filter(component='primary', kind='star', context='component'))
+
+
+#print(b_cb.filter(component='binary'))
 
 b_cb['requiv@primary'] = 1.5
 

@@ -19,3 +19,6 @@ second = sleeptime(0,10,0)
 while 1==1:
     time.sleep(second)
     os.system(cmd)
+    
+    print('it is ok!')
+    
