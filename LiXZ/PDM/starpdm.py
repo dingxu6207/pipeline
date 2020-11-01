@@ -35,7 +35,7 @@ sortIndi = np.argsort(phases)
 phases = phases[sortIndi]
 flux = flux[sortIndi]
 
-
+'''
 plt.figure(1)
 plt.plot(phases, flux, '.')
 ax = plt.gca()
@@ -53,4 +53,3 @@ f2, t2 = P.pdmEquiBin(10, S)
 plt.figure(2)
 plt.plot(f2, t2, 'gp-')
 plt.plot(f1, t1, 'rp-')
-'''

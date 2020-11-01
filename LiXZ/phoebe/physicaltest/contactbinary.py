@@ -19,12 +19,23 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,100))#compute_phases
 
 b['period@binary'] = 1
 
-b['incl@binary'] = 78
+b['incl@binary'] = 90
 
-b['q@binary'] = 0.43
+b['q@binary'] = 0.46
 
-b['sma@binary'] = 3.25 #0.05 2.32
+b['teff@primary'] = 4080
+
+b['teff@secondary'] = 4000
+
+#b['fillout_factor@contact_envelope@envelope@component'] = 0.5
+
+b['sma@binary'] = 1 #0.05 2.32
 #print(b['sma@binary'])
+
+b['requiv@primary'] = 0.52 #(0.6,0.68)-(0.03,0.11) 
+
+#print(b['requiv@primary'])
+#print(b['requiv@secondary'])
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
