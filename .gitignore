@@ -31,3 +31,4 @@ cmd/locationcha
 *.tsv
 *.lc
 *.rar
+*.h5

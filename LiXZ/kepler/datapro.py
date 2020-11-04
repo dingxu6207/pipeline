@@ -24,7 +24,8 @@ ydata = ydata.flatten()
 plt.plot(hangdata, liedata, '.')
 '''
 
-path = 'E:\\shunbianyuan\\data\\kpdata\\jiegui\\'
+#path = 'E:\\shunbianyuan\\data\\kpdata\\jiegui\\'
+path = 'E:\\shunbianyuan\\data\\kpdata\\test\\jiegui\\jiegui\\'
 mypath = []
 for root, dirs, files in os.walk(path):
    for file in files:
