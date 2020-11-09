@@ -10,19 +10,19 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
-#model = load_model('phoebemodel.h5') #phoebemodel.h5
-model = load_model('phmod.h5')
+model = load_model('phoebemodel.h5') #phoebemodel.h5
+#model = load_model('phmod.h5')
 #model = load_model('m3.h5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 10226388.txt'
+file = 'KIC 8097902.txt'
 
 data = np.loadtxt(path+file)
 
-datay = 10**(data[:,1]/(-2.5))
-datay = (datay-np.mean(datay))/np.std(datay)
-
+#datay = 10**(data[:,1]/(-2.5))
+#datay = (datay-np.min(datay))/(np.max(datay)-np.min(datay))
+datay = data[:,1]-np.mean(data[:,1])
 
 plt.figure(0)
 plt.plot(data[:,0], datay, '.')

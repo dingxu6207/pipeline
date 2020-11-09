@@ -8,14 +8,19 @@ Created on Sun Oct 11 22:03:08 2020
 import numpy as np
 import matplotlib.pyplot as plt
 
-phraseflux = np.loadtxt('mag.txt')
+#phraseflux = np.loadtxt('mag.txt') #
+phraseflux = np.loadtxt('D:\\Phoebe\\data\\v737per.B')
 
 phrase = phraseflux[:,0]
 
 flux = phraseflux[:,1]
 
+sortIndi = np.argsort(phrase)
+phrase = phrase[sortIndi]
+flux = flux[sortIndi]
 
-fft_size = 345
+
+fft_size = 310
  
 
 fy = np.fft.fft(flux) / fft_size
@@ -45,7 +50,7 @@ def fft_combine(freqs, n, loops=1):
 temp = []
 plt.figure(1)
 plt.plot(flux,'.')
-for i in range(5):
+for i in range(10):
     index, data = fft_combine(fy, i+1, 1)  # 计算1个周期的合成波形
     plt.plot(data,label = "N=%s" % i)
     temp.append(data)
@@ -59,7 +64,7 @@ plt.show()
 
 
 
-dataflux =temp[2]
+dataflux =temp[7]
 phrasefluxdata = np.vstack((phrase, dataflux))
 
 np.savetxt('N2data.txt', phrasefluxdata.T)

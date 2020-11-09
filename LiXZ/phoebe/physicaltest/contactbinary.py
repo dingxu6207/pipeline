@@ -20,20 +20,20 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,100), passband= 'Kepler:mean')#com
 
 b['period@binary'] = 1
 
-b['incl@binary'] = 32.4
+b['incl@binary'] =  68.63
 
-b['q@binary'] = 0.56477654
+b['q@binary'] =  0.9
 
-b['teff@primary'] = 7181
+b['teff@primary'] = 6000
 
-b['teff@secondary'] = 7587
+b['teff@secondary'] = 5800  
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
-b['sma@binary'] = 1 #0.05 2.32
+b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 0.47197175 #(0.6,0.68)-(0.03,0.11) 
+b['requiv@primary'] = 0.4#(0.6,0.68)-(0.03,0.11) 
 
 #print(b['requiv@primary'])
 #print(b['requiv@secondary'])
@@ -54,15 +54,22 @@ np.savetxt('data0.lc',
 
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 10292413.txt'
+file = 'KIC 8097902.txt'
 
 yuandata = np.loadtxt(path+file)
-datay = 10**(yuandata[:,1]/(-2.5))
-#datay = data[:,1]
+#datay = 10**(yuandata[:,1]/(-2.512))
+datay = yuandata[:,1]
+datay = datay-np.mean(datay)
 
+#datay = datay/np.mean(datay)
+
+fluxmodel = b['value@fluxes@lc01@model']
+resultflux = -2.5*np.log10(fluxmodel)
+resultflux = resultflux - np.mean(resultflux)
 plt.figure(1)
 plt.plot(yuandata[:,0], datay, '.')
-plt.plot(b['value@times@lc01@model'], b['value@fluxes@lc01@model']-0.9, '.')
+plt.plot(b['value@times@lc01@model'], resultflux+0.02, '.')
+#plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
 
 
 
