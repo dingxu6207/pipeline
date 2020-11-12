@@ -11,14 +11,14 @@ from PyAstronomy.pyasl import foldAt
 from PyAstronomy.pyTiming import pyPDM
 
 
-#path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\kongphometry\\'
+#pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\kongphometry\\'+'datamag.txt'
 #path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\psfphpmetry\\'
 pathfile = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\star\\'+'datamag.txt'
 lighttime = np.loadtxt(pathfile)
 light = lighttime[1,:]
 time = lighttime[0,:]
 
-hang = 0
+hang = 59
 flux = light
 
 
@@ -29,13 +29,13 @@ ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
 
 
-phases = foldAt(time, 0.6025294184988582)
+phases = foldAt(time, 0.3636)
 sortIndi = np.argsort(phases)
 # ... and, second, rearrange the arrays.
 phases = phases[sortIndi]
 flux = flux[sortIndi]
 
-'''
+
 plt.figure(1)
 plt.plot(phases, flux, '.')
 ax = plt.gca()
@@ -53,3 +53,4 @@ f2, t2 = P.pdmEquiBin(10, S)
 plt.figure(2)
 plt.plot(f2, t2, 'gp-')
 plt.plot(f1, t1, 'rp-')
+'''

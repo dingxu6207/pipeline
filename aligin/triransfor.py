@@ -20,8 +20,8 @@ import ois
 import itertools
 
 #半高全宽和匹配数目修改即可
-fitsname1 = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'+'d4738777L016m001.fit'
-fitsname2 = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'+'d4738777L016m037.fit'
+fitsname1 = 'E:\\shunbianyuan\\dataxingtuan\\berkeley99\\'+'d4738787L018m000.fit'
+fitsname2 = 'E:\\shunbianyuan\\dataxingtuan\\berkeley99\\'+'d4738787L018m001.fit'
 onehdu = fits.open(fitsname1)
 imgdata1 = onehdu[0].data  #hdu[0].header
 
@@ -95,8 +95,8 @@ posiandmag2.sort(key=lambda x:x[2],reverse=True)
 
 ##选19颗亮星
 #lenstar = min(lenstar1,lenstar2)
-lenstar = 30
-index = 2
+lenstar = 100
+index = 0
 posiandmag1 = posiandmag1[lenstar*index:lenstar+lenstar*index]
 posiandmag2 = posiandmag2[lenstar*index:lenstar+lenstar*index]
 

@@ -12,7 +12,7 @@ import os
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\dataxingtuan\\berkeley99\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -44,6 +44,7 @@ for i in range(count):
     fitshdu = fits.open(oripath+filetemp[i])
     imgdata = fitshdu[0].data
     displayimage(imgdata,1,0)
+    plt.title(str(i))
     plt.pause(0.01)
     plt.clf()
     
