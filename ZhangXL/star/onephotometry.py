@@ -17,10 +17,11 @@ from photutils import CircularAperture, CircularAnnulus
 from photutils import aperture_photometry
 from astropy.time import Time
 from matplotlib.pyplot import MultipleLocator
+import imageio
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -28,7 +29,7 @@ for root, dirs, files in os.walk(oripath):
            filetemp.append(file)
            
 txttemp = []
-txtpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\location\\'
+txtpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\location\\'
 for root, dirs, files in os.walk(txtpath):
    for file in files:
        if (file[-4:] == '.txt'):
@@ -46,20 +47,25 @@ def adjustimage(imagedata, coffe):
     maxdata = min(Imax,maxdata)
     return mindata,maxdata
 
-
+gif_images = []
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
     #plt.plot(376.82, 137.232, '*')
     #plt.savefig(oripath+str(i)+'.jpg')
+    if i==1:
+        plt.savefig('img.jpg')
+        gif_images.append(imageio.imread('img.jpg'))
+        
 
+gif_images = []
 def photometryimg(positions, img, i):
     
     positionslist = positions.tolist()
     
-    aperture = CircularAperture(positionslist, r=7.5) #2*FWHM
-    annulus_aperture = CircularAnnulus(positionslist, r_in=12, r_out=14.5)#4-5*FWHM+2*FWHM
+    aperture = CircularAperture(positionslist, r=10) #2*FWHM
+    annulus_aperture = CircularAnnulus(positionslist, r_in=14, r_out=18)#4-5*FWHM+2*FWHM
     apers = [aperture, annulus_aperture]
     
     displayimage(img, 1, i) ###画图1
@@ -67,7 +73,7 @@ def photometryimg(positions, img, i):
     annulus_aperture.plot(color='red', lw=0.2)
     plt.pause(0.001)
     plt.clf()
-    
+        
     phot_table = aperture_photometry(img, apers)
     bkg_mean = phot_table['aperture_sum_1'] / annulus_aperture.area
     bkg_sum = bkg_mean * aperture.area
@@ -78,7 +84,7 @@ def photometryimg(positions, img, i):
     magstar = 25 - 2.5*np.log10(abs(final_sum/1))
     return posflux,magstar
 
-def sourcephotometry(targetx, targety, sumpho, threshold=3):
+def sourcephotometry(targetx, targety, sumpho, threshold=4):
     hang,lie = sumpho.shape    
     for i in range(hang):
         delt = np.sqrt((targetx - sumpho[i][0])**2+(targety - sumpho[i][1])**2)
@@ -123,11 +129,12 @@ for i in range(0, count):
         startemp.append(magstar) 
         #arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(269, 221, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(258, 368, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(631, 520, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(836, 1301, posflux)  #比较星位置2
         
+        #posflux3,mag3 = sourcephotometry(836, 1301, posflux)
         #posflux3,mag3 = sourcephotometry(373.903924-i*0.1556, 400.986487-i*1.587, posflux)
-        posflux3,mag3 = sourcephotometry(382.740811-i*0.41007, 409.660915-i*1.05459, posflux)
+        posflux3,mag3 = sourcephotometry(677.775221+i*1.1204847375, 601.190259+i*1.7056967625, posflux)
        
         jiaoyan = mag1-mag2 
         target = mag3 - (mag1+mag2)/2
@@ -153,6 +160,7 @@ plt.figure(3)
 plt.plot(datatemp,targettemp,'.')
 plt.xlabel('JD',fontsize=14)
 plt.ylabel('mag',fontsize=14)
+plt.ylim(3,8)
 #y_major_locator= MultipleLocator(0.05)
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
@@ -166,3 +174,4 @@ tempmatrix = np.array(templist)
 tempmatrix = tempmatrix.T
 np.savetxt('datamag.txt', tempmatrix)
 
+imageio.mimsave('test.gif', gif_images, fps=10)

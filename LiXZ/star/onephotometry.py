@@ -116,7 +116,7 @@ for i in range(0, count):
         arraytemp = np.array(startemp).T        
         
         posflux1,mag1 = sourcephotometry(282, 288, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(187, 267, posflux)  #比较星位置2
+        posflux2,mag2 = sourcephotometry(191, 136, posflux)  #比较星位置2
         
         posflux3,mag3 = sourcephotometry(186, 357, posflux)   
        
@@ -138,6 +138,8 @@ plt.figure(2)
 plt.plot(datatemp, jiaoyantemp,'.')
 plt.xlabel('JD',fontsize=14)
 plt.ylabel('mag',fontsize=14)
+npjiyan = np.array(jiaoyantemp)
+np.savetxt('jiaoyan.txt', npjiyan)
 
 plt.figure(3)
 plt.plot(datatemp,targettemp,'.')

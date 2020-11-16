@@ -86,8 +86,8 @@ dst_pts = radecnumpy
 H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
 tempmatrix = np.zeros((3,1),dtype = np.float64)
 tempmatrix[2] = 1
-tempmatrix[0] = 1458.313908
-tempmatrix[1] = 3463.575996
+tempmatrix[0] = 3006.135694
+tempmatrix[1] = 2910.8089840000002
 result = np.dot(H,tempmatrix)
     
 ra = result[0]/result[2]

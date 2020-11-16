@@ -47,13 +47,13 @@ position = [(142.581222, 515.658569),(1598.27,746.609), (2131.493345,357.152787)
            ,(830.073831, 3702.420595),(3006.135694, 2910.8089840000002),(1808.134938, 3220.980439),(1458.313908, 3463.575996)
            ]
 position = np.array(position)
-displayimage(imgdata1,1,0)
+displayimage(imgdata1,0.3,0)
 #displayimage(imgdata2,3,1)
 apertures1 = CircularAperture(position, r=7.)
-apertures1.plot(color='blue', lw=4.5, alpha=0.5)
+apertures1.plot(color='blue', lw=2.5, alpha=0.5)
 
 titletemp = ['V1', 'V2']
 lenposition = len(position)
 for i in range(lenposition):  
-    plt.text(position[i][0], position[i][1], 'V'+str(i), fontsize=10, color = "r", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+    plt.text(position[i][0], position[i][1], 'V'+str(i+1), fontsize=10, color = "r", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
 

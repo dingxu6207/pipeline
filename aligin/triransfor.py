@@ -62,7 +62,7 @@ def displayimage(img, coff, i):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0) 
-    daofind = DAOStarFinder(fwhm = 4, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm = 2, threshold=5.*std)
     sources = daofind(img - median)
 
     #tezhen = np.transpose((sources['sharpness'], sources['roundness1'],sources['flux']))
@@ -95,7 +95,7 @@ posiandmag2.sort(key=lambda x:x[2],reverse=True)
 
 ##选19颗亮星
 #lenstar = min(lenstar1,lenstar2)
-lenstar = 100
+lenstar = 50
 index = 0
 posiandmag1 = posiandmag1[lenstar*index:lenstar+lenstar*index]
 posiandmag2 = posiandmag2[lenstar*index:lenstar+lenstar*index]
@@ -203,13 +203,14 @@ for i in range(0,count):
         dst_pts = np.float32(srckp2).reshape(-1,2)
     
         lie1 = imgdata1.shape[1]
-        plt.plot([x10,x11+lie1],[y10,y11],linewidth = 0.8)  
+        if(int(x10) != 169) and (int(x10) != 2682):
+            plt.plot([x10,x11+lie1],[y10,y11],linewidth = 0.8)  
 
 
 H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)    
 newimg = cv2.warpPerspective(oneimgdata, H, (lie1,hang1))
 
-displayimage(newimg, 1, 3) 
+displayimage(newimg, 0.1, 3) 
 minusimg = np.float32(newimg) - np.float32(imgdata2)  
 displayimage(minusimg, 3, 4) 
 displayimage(newimg, 1, 5)  

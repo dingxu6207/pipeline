@@ -17,7 +17,7 @@ from photutils import CircularAperture
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -41,7 +41,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm = 4.52, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm = 4.62, threshold=6*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
@@ -54,7 +54,7 @@ def findsource(img):
     
     return sources,positions,mylist
 
-changefile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\location\\'
+changefile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\location\\'
 for i in range(0,count):   
     os.chdir(changefile)
     fitshdu = fits.open(oripath+filetemp[i])
@@ -63,3 +63,4 @@ for i in range(0,count):
     sources1,positions1,mylist =  findsource(fitsdata)
     
     np.savetxt(filetemp[i][:-4]+'.txt', positions1,fmt='%f',delimiter=' ')
+    print('it is ok!')

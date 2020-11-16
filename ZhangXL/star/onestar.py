@@ -17,8 +17,8 @@ from scipy import asarray as ar
 
 
 #20190603132720Auto.fit
-file  = 'YFDh260160.fit'
-path = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'
+file  = 'A_6478-Rc-180s-20201112_013226.fit'#20201112_013226 #20201111_203859
+path = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\alligen\\'
 filename = path+file
 fitshdu = fits.open(filename)
 data = fitshdu[0].data
@@ -41,7 +41,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm = 4.52, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm = 4.62, threshold=6*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
@@ -85,14 +85,14 @@ for i, val in enumerate(mylist):
         
 arraylist = np.array(mylist1)
 positions1 = arraylist[:,0:2]
-apertures1 = CircularAperture(positions1, r=8.)
+apertures1 = CircularAperture(positions1, r=18.)
 displayimage(fitsdata,1,0)
 apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 np.savetxt('location.txt', positions1,fmt='%f',delimiter=' ')
 
 
 mylist1.sort(key=lambda x:x[2],reverse=True)
-index = 2
+index = 3
 width = 9
 
 templist = FWHMplot(mylist1[index][1],mylist1[index][0],width,fitsdata,1)

@@ -31,7 +31,7 @@ def displayimage(img, coff, i):
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\bias\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\bias\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-5:] == '.fits'):
@@ -44,7 +44,7 @@ temp = []
 for i in range(0, count):
     fitshdu = fits.open(oripath+filetemp[i])
     headdata = fitshdu[0].header
-    data = fitshdu[1].data   
+    data = fitshdu[0].data   
     fitsdata = np.copy(data)
     print(fitsdata.shape)
     temp.append(fitsdata)

@@ -48,11 +48,11 @@ def displayimage(img, coff, i):
 #imgdata = readdata(imgfile,1)
 #displayimage(imgdata, 3 ,1)
 
-biasfile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\bias\\'+'bias.fit'
+biasfile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\bias\\bias.fit'
 biasdata = readdata(biasfile,0)
 displayimage(biasdata, 3 ,2)
 
-flatfile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\flat\\'+'flat.fit' #目标滤光片
+flatfile = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\flat\\flat.fit' #目标滤光片
 flatdata = readdata(flatfile,0)
 displayimage(flatdata, 3 ,3)
 
@@ -63,14 +63,14 @@ flatmean = np.mean(flat)
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\target\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\target\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-5:] == '.fits'):
            count = count+1
            filetemp.append(file)
  
-wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\probiasflat\\'
+wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\probiasflat\\'
 def witefits(data,name, head):
     writepath = wrpath
     os.chdir(writepath)
@@ -83,11 +83,11 @@ def witefits(data,name, head):
           
 for i in range(0, count):
     fitshdu = fits.open(oripath+filetemp[i])
-    data = fitshdu[1].data   
+    data = fitshdu[0].data   
     fitsdata = np.copy(data)
-    guiyi = (fitsdata-Biasmean)/flat
+    guiyi = (fitsdata-Biasmean)/np.median(flat)
     gaizheng = flatmean*guiyi+Biasmean
-    gaizheng = gaizheng[150:920,150:920]
+    gaizheng = gaizheng[400:2000,400:2000]
     
     headdata = fitshdu[0].header
     

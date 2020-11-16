@@ -13,6 +13,7 @@ from photutils import CircularAperture, CircularAnnulus
 from photutils import aperture_photometry
 from astropy.time import Time
 import astroalign as aa
+import imageio
 
 def readdata(filename, i):
     fitshdu = fits.open(filename)
@@ -32,18 +33,19 @@ def adjustimage(imagedata, coffe):
     maxdata = min(Imax,maxdata)
     return mindata,maxdata
 
-
+gif_images = []
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
-
+    plt.savefig('img.jpg')
+    gif_images.append(imageio.imread('img.jpg'))
 
 
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\probiasflat\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\probiasflat\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -51,7 +53,7 @@ for root, dirs, files in os.walk(oripath):
            filetemp.append(file)
  
 print(count)   
-wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200826_6478\\alligen\\'
+wrpath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\2020-11-11\\2020-11-11\\alligen\\'
 def witefits(data,name, head):
     writepath = wrpath
     os.chdir(writepath)
@@ -73,9 +75,12 @@ for i in range(0, count):
         headdata = fitshdu[0].header    
         witefits(aligned_image, filetemp[i][:-4], headdata)   
         displayimage(aligned_image,1,0)
-        plt.pause(0.1)
+        plt.pause(0.001)
         plt.clf()
-        #print('it is ok!\n')  
+        print('it is ok!\n')  
     except:
         print('it is eror!\n') 
         print(filetemp[i])
+        
+
+imageio.mimsave('test.gif', gif_images, fps=10)

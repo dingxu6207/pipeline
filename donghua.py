@@ -8,11 +8,11 @@ import numpy as np
 from astropy.io import fits
 import matplotlib.pyplot as plt
 import os
-
+import imageio
 
 filetemp = []
 count = 0
-oripath = 'E:\\shunbianyuan\\dataxingtuan\\berkeley99\\'  #路径参数
+oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\'  #路径参数
 for root, dirs, files in os.walk(oripath):
    for file in files:
        if (file[-4:] == '.fit'):
@@ -32,14 +32,15 @@ def adjustimage(imagedata, coffe):
     maxdata = min(Imax,maxdata)
     return mindata,maxdata
 
-
+gif_images = []
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
+    plt.savefig('img.jpg')
+    gif_images.append(imageio.imread('img.jpg'))
     
-    
- 
+
 for i in range(count):
     fitshdu = fits.open(oripath+filetemp[i])
     imgdata = fitshdu[0].data
@@ -48,3 +49,4 @@ for i in range(count):
     plt.pause(0.01)
     plt.clf()
     
+imageio.mimsave('test.gif', gif_images, fps=10)

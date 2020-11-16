@@ -89,6 +89,10 @@ waidata = datalable[datalable[:,8]==0]
 
 
 datapro = np.column_stack((data ,prodata))
+
+lowdata = datapro[datapro[:,9] < datapro[:,8]]
+lowdata = lowdata[lowdata[:,9]<0.9]
+
 highdata = datapro[datapro[:,9] > datapro[:,8]]
 highdata = highdata[highdata[:,9]>0.985]
 
@@ -98,16 +102,21 @@ plt.scatter(waidata[:,3], waidata[:,4], marker='o', color='grey',s=5.0)
 plt.scatter(highdata[:,3], highdata[:,4], marker='o', color='lightcoral',s=5.0)
 plt.xlabel('pmRA',fontsize=14)
 plt.ylabel('pmDEC',fontsize=14)
+plt.xlim((-15,15))
+plt.ylim((-15,15))
 
 plt.figure(2)
 highdataGmag = highdata[:,5]
 highdataBPRP = highdata[:,6]-highdata[:,7]
+loaddata = np.vstack((highdataGmag,highdataBPRP))
+np.savetxt('BPRPG.txt', loaddata)
 plt.xlim((-1,4))
 plt.ylim((10,22))
-plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=2.5)
-#plt.scatter(highdataBPRP, highdataGmag, marker='o', c='',edgecolors='g')
+plt.scatter((lowdata[:,6]-lowdata[:,7]), lowdata[:,5], marker='o', color='grey',s=5)
+plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=5)
 x_major_locator = MultipleLocator(1)
 plt.xlabel('BP-RP',fontsize=14)
+#plt.xlabel('G-RP',fontsize=14)
 plt.ylabel('Gmag',fontsize=14)
 ax = plt.gca()
 ax.xaxis.set_major_locator(x_major_locator)
@@ -121,8 +130,12 @@ plt.xlabel('RA',fontsize=14)
 plt.ylabel('DEC',fontsize=14)
 
 plt.figure(4)
-plt.scatter(waidata[:,5], waidata[:,2], marker='o', color='grey',s=5.0)
-plt.scatter(highdata[:,5], highdata[:,2], marker='o', color='lightcoral',s=5.0)
 #plt.scatter(waidata[:,5], waidata[:,2], marker='o', color='grey',s=5.0)
+plt.scatter(highdata[:,5], highdata[:,2], marker='o', color='lightcoral',s=5.0)
+plt.scatter(waidata[:,5], waidata[:,2], marker='o', color='grey',s=5.0)
+plt.ylim((-6, 8))
 plt.xlabel('Gmg',fontsize=14)
 plt.ylabel('parallex',fontsize=14)
+loaddatag = np.vstack((highdata[:,5],highdata[:,2]))
+np.savetxt('parallexg.txt', loaddatag)
+
