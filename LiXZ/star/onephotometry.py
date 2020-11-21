@@ -102,8 +102,8 @@ startemp = []
 targettemp = []
 datatemp = []
 
-m = 0#行扫描 i = 39
-n = 5#列扫描 j = 39
+m = 8#行扫描 i = 39
+n = 4#列扫描 j = 39
 for i in range(0, count):
     try:
         fitshdu = fits.open(oripath+filetemp[i])
@@ -115,10 +115,10 @@ for i in range(0, count):
         startemp.append(magstar) 
         arraytemp = np.array(startemp).T        
         
-        posflux1,mag1 = sourcephotometry(282, 288, posflux)  #比较星位置1        
-        posflux2,mag2 = sourcephotometry(191, 136, posflux)  #比较星位置2
+        posflux1,mag1 = sourcephotometry(228, 43, posflux)  #比较星位置1        
+        posflux2,mag2 = sourcephotometry(203, 315, posflux)  #比较星位置2
         
-        posflux3,mag3 = sourcephotometry(186, 357, posflux)   
+        posflux3,mag3 = sourcephotometry(252, 36, posflux)   
        
         jiaoyan = mag1-mag2 
         target = mag3 - mag1
@@ -153,5 +153,5 @@ templist = []
 templist.append(datatemp)
 templist.append(targettemp)
 tempmatrix = np.array(templist)
-np.savetxt('datamag.txt', tempmatrix)
+np.savetxt('datamag.txt', tempmatrix.T)
 

@@ -14,7 +14,7 @@ lightdata = np.loadtxt('starlight.txt')
 mhang = 2140
 x,y = lightdata[mhang,0:2]
 
-x,y = 1916.01,2065.02
+x,y = 3608.404395, 831.514009
 file  = '0.fits'
 path = 'E:\\shunbianyuan\\dataxingtuan\\alngc7142\\'
 filename = path+file

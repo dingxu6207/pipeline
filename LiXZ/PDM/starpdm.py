@@ -45,7 +45,7 @@ plt.xlabel('Phrase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 '''
-S = pyPDM.Scanner(minVal=1, maxVal=2, dVal=0.01, mode="frequency")
+S = pyPDM.Scanner(minVal=3.3, maxVal=4, dVal=0.01, mode="frequency")
 P = pyPDM.PyPDM(time, flux)
 
 f1, t1 = P.pdmEquiBinCover(10, 3, S)
