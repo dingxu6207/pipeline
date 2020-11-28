@@ -38,7 +38,7 @@ prodata = clst.predict_proba(data_zs)
 
 proflag = []
 for i in range (0,len(data_zs)):
-    if prodata[i,1]>0.985:
+    if prodata[i,1]>0.995:
         proflag.append(1)
     else:
         proflag.append(0)
@@ -98,11 +98,11 @@ for t in range (0,1000):
     ax1.set_title('GMM')
    
     d = tsne[pddata.iloc[:,5] == 0]
-    ax1.scatter3D(d[0], d[1], d[2], c ='b', marker='o', s=1)
+    ax1.scatter3D(d[0], d[1], d[2], c ='b', marker='o', s=0.01)
     plt.pause(0.01)
     
     d = tsne[pddata.iloc[:,5] == 1]
-    ax1.scatter3D(d[0], d[1], d[2], c ='r', marker='x', s=10)
+    ax1.scatter3D(d[0], d[1], d[2], c ='r', marker='x', s=20)
       
     plt.pause(0.01)
     plt.savefig('1.jpg')

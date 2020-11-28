@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Nov 20 00:13:19 2020
+Created on Sat Nov 28 21:08:47 2020
 
 @author: dingxu
 """
@@ -36,7 +36,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.15, min_samples = 10)
+clt = DBSCAN(eps = 0.1, min_samples = 7)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -70,46 +70,20 @@ plt.scatter(hGmag, hparallax, marker='o', color='lightcoral',s=5)
 plt.xlabel('Gmag',fontsize=14)
 plt.ylabel('parallax',fontsize=14)
 
-
-
-dataable = np.column_stack((data_zs ,datalables))
-pddata = pd.DataFrame(dataable)
-datazs = pd.DataFrame(data_zs)
-
-tsne = TSNE(n_components=3, learning_rate=100, n_iter=1000, init='pca')
-tsne.fit_transform(data_zs)    #进行降维
-tsne = pd.DataFrame(tsne.embedding_, index=datazs.index)    #转换数据格式
-
 plt.figure(3)
-ax1 = plt.axes(projection='3d')
-
-#plt.rcParams['font.sans-serif'] = ['SimHei']
-#plt.rcParams['axes.unicode_minus'] = False
-#不同类别用不同颜色和样式绘图
-#plt.plot(d[0], d[1], 'b.')
-#plt.plot(d[0], d[1], 'r.')
-
-gif_images = []
-for t in range (0,1000):
-    if t == 360:
-        break
-    plt.cla() # 此命令是每次清空画布，所以就不会有前序的效果
-    
-    ax1.set_title('DBSCAN')
-    
-    d = tsne[pddata.iloc[:,5] == -1]
-    ax1.scatter3D(d[0], d[1], d[2], c ='b', marker='o', s=0.01)
-    #ax1.scatter3D(d[0], d[1], c ='b', marker='o', s=0.01)
-    plt.pause(0.01)
-    
-    d = tsne[pddata.iloc[:,5] == 0]
-    ax1.scatter3D(d[0], d[1], d[2], c ='r', marker='x', s=20)
-    #ax1.scatter3D(d[0], d[1], c ='r', marker='x', s=20)
-    plt.pause(0.01)
-    plt.savefig('1.jpg')
-    
-    ax1.view_init(elev=0., azim=t+1)
-    gif_images.append(imageio.imread('1.jpg'))
-    
-    
-imageio.mimsave("dbscantest.gif",gif_images,fps=20)
+highdataGmag = highdata[:,5]
+highdataBPRP = highdata[:,6]-highdata[:,7]
+loaddata = np.vstack((highdataGmag,highdataBPRP))
+np.savetxt('BPRPG.txt', loaddata)
+plt.xlim((-1,4))
+plt.ylim((10,22))
+plt.scatter((lowdata[:,6]-lowdata[:,7]), lowdata[:,5], marker='o', color='grey',s=5)
+plt.scatter(highdataBPRP, highdataGmag, marker='o', color='lightcoral',s=5)
+x_major_locator = MultipleLocator(1)
+plt.xlabel('BP-RP',fontsize=14)
+#plt.xlabel('G-RP',fontsize=14)
+plt.ylabel('Gmag',fontsize=14)
+ax = plt.gca()
+ax.xaxis.set_major_locator(x_major_locator)
+ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
+ax.invert_yaxis() #y轴反向
