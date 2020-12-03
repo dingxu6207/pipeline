@@ -18,7 +18,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Gaiadata.txt')
+data = np.loadtxt('NGC6812.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -49,7 +49,7 @@ print(r1)
 
 res = []
 i = 0
-for eps in np.arange(0.01,1,0.01):
+for eps in np.arange(0.1,0.5,0.01):
     # 迭代不同的min_samples值
     for min_samples in range(2,15):
         clt = DBSCAN(eps = eps, min_samples = min_samples)

@@ -19,7 +19,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Gaiadata.txt')
+data = np.loadtxt('NGC6812.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -36,7 +36,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.1, min_samples = 7)
+clt = DBSCAN(eps = 0.1, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -87,3 +87,65 @@ ax = plt.gca()
 ax.xaxis.set_major_locator(x_major_locator)
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
+
+
+plt.figure(5)
+
+ax1 = plt.axes(projection='3d')
+ax1.scatter3D(lowdata[:,0], lowdata[:,1], lowdata[:,2], c = 'b', marker='o', s=0.01)
+ax1.scatter3D(highdata[:,0], highdata[:,1], highdata[:,2], c ='r', marker='o', s=1)
+ax1.set_xlabel('RA')
+#ax1.set_xlim(-6, 4)  #拉开坐标轴范围显示投影
+ax1.set_ylabel('DEC')
+#ax1.set_ylim(-4, 6)
+ax1.set_zlabel('Parallax')
+#ax1.set_zlim(-2, 2)
+ax1.set_title('NGC6819')
+
+#ax1.view_init(elev=30, azim=30)
+
+
+
+plt.figure(6)
+ax1 = plt.axes(projection='3d')
+
+gif_images = []
+for t in range (0,1000):
+    if t == 360:
+        break
+    plt.cla()
+    
+    #ax1.set_zlim(-5, 5)
+    ax1.scatter3D(lowdata[:,0], lowdata[:,1], lowdata[:,2], c = 'b', marker='o', s=0.01)
+    ax1.scatter3D(highdata[:,0], highdata[:,1], highdata[:,2], c ='r', marker='o', s=1)
+    
+    ax1.set_xlabel('RA')
+    ax1.set_ylabel('DEC')
+    ax1.set_zlabel('Parallax')
+
+    plt.pause(0.01)
+    plt.savefig('1.jpg')
+    
+    ax1.view_init(elev=30, azim=t+1)
+    gif_images.append(imageio.imread('1.jpg'))
+    
+imageio.mimsave("NGC6819.gif",gif_images,fps=20)
+   
+    
+'''
+plt.figure(4)
+dataable = np.column_stack((data_zs ,datalables))
+pddata = pd.DataFrame(dataable)
+datazs = pd.DataFrame(data_zs)
+
+tsne = TSNE(n_components=2, learning_rate=100, n_iter=1000, init='pca')
+tsne.fit_transform(data_zs)    #进行降维
+tsne = pd.DataFrame(tsne.embedding_, index=datazs.index)    #转换数据格式
+
+d = tsne[pddata.iloc[:,5] == -1]
+plt.scatter(d[0], d[1], c = 'b', s = 0.1)
+
+#d = tsne[pddata.iloc[:,5] == 0]
+#plt.scatter(d[0], d[1], c = 'r', s = 5)
+
+'''

@@ -95,10 +95,11 @@ posiandmag2.sort(key=lambda x:x[2],reverse=True)
 
 ##选19颗亮星
 #lenstar = min(lenstar1,lenstar2)
-lenstar = 50
-index = 0
+lenstar = 30
+index = 4
 posiandmag1 = posiandmag1[lenstar*index:lenstar+lenstar*index]
 posiandmag2 = posiandmag2[lenstar*index:lenstar+lenstar*index]
+
 
 sanjiao1 = list(combinations(posiandmag1,3))
 sanjiao2 = list(combinations(posiandmag2,3))
@@ -161,7 +162,7 @@ for i in itertools.product(temp1, temp2):
     pan2 = abs(onebc-twobc)
     pan3 = abs(oneca-twoca)
         
-    if (pan1 < 0.0001)and(pan2<0.0001)and(pan3<0.0001):
+    if (pan1 < 0.00009)and(pan2<0.00009)and(pan3<0.00009):
         pitemp1.append(i[0])
         pitemp2.append(i[1])
         count = count+1    
@@ -203,8 +204,8 @@ for i in range(0,count):
         dst_pts = np.float32(srckp2).reshape(-1,2)
     
         lie1 = imgdata1.shape[1]
-        if(int(x10) != 169) and (int(x10) != 2682):
-            plt.plot([x10,x11+lie1],[y10,y11],linewidth = 0.8)  
+        #if(int(x10) != 169) and (int(x10) != 2682):
+        plt.plot([x10,x11+lie1],[y10,y11],linewidth = 0.8)  
 
 
 H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)    
@@ -216,3 +217,5 @@ displayimage(minusimg, 3, 4)
 displayimage(newimg, 1, 5)  
 print(H)
 
+np.savetxt('src'+str(index)+'.txt', src_pts)
+np.savetxt('dst'+str(index)+'.txt', dst_pts)

@@ -11,8 +11,8 @@ import numpy as np
 #df = pd.read_csv('vizier_votable.tsv', sep = ';', encoding='gbk')
 
 #df = pd.read_csv('Be9910.tsv', sep = ';', encoding='gbk')
-df = pd.read_csv('NGC7142O.tsv', sep = ';', encoding='gbk')
-
+#df = pd.read_csv('Be18.tsv', sep = ';', encoding='gbk')#NGC6819.tsv
+df = pd.read_csv('NGC6819.tsv', sep = ';', encoding='gbk')#NGC6819.tsv
 
 dataframe = df.dropna()
 

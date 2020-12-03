@@ -41,19 +41,20 @@ data_zs = np.copy(X)
 #clt = DBSCAN(eps = 0.88, min_samples = 290)
 #datalables = clt.fit_predict(data_zs)
 
-clustering = SpectralClustering(n_clusters=2,assign_labels="discretize",random_state=10).fit(data_zs)
+#clustering = SpectralClustering(n_clusters=2,assign_labels="discretize",random_state=10).fit(data_zs)
 #
-for i, gamma in enumerate((0.001, 0.01, 0.03, 0.05, 0.07)):
+for gamma in np.arange(0.01, 0.1, 0.0001):
     y_pred = SpectralClustering(n_clusters=2, gamma=gamma).fit_predict(data_zs)
-    print("Calinski-Harabasz Score with gamma=", gamma, "score:",
-    metrics.calinski_harabaz_score(X, y_pred))
+    print(gamma)
+    #print("Calinski-Harabasz Score with gamma=", gamma, "score:",
+    #metrics.calinski_harabaz_score(X, y_pred))
 
     #datalables = y_pred.labels_     
 
     r1 = pd.Series(y_pred).value_counts()
     print(r1)
 
-
+'''
 datapro = np.column_stack((data ,y_pred))
 
 highdata = datapro[datapro[:,8] == 0]
@@ -76,3 +77,4 @@ plt.scatter(lGmag, lparallax, marker='o', color='grey',s=5)
 plt.scatter(hGmag, hparallax, marker='o', color='lightcoral',s=5)
 plt.xlabel('Gmag',fontsize=14)
 plt.ylabel('parallax',fontsize=14)
+'''
