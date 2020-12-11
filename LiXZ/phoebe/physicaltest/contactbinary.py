@@ -13,27 +13,26 @@ logger = phoebe.logger()
 
 b = phoebe.default_binary(contact_binary=True)
 
-times  = np.linspace(0,1,100)
+times  = np.linspace(0,1,150)
 
 #b.add_dataset('lc', times=phoebe.linspace(0,1,100), passband= 'Kepler:mean')#compute_phases
-b.add_dataset('lc', times=phoebe.linspace(0,1,100))
+b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  68
+b['incl@binary'] =   78.91
+b['q@binary'] =  0.074
 
-b['q@binary'] =  0.7
+b['teff@primary'] = 6500   #6208 
 
-#b['teff@primary'] = 6000
-
-#b['teff@secondary'] = 5800  
+b['teff@secondary'] = 6300 #6087
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 0.5#(0.6,0.68)-(0.03,0.11) 
+b['requiv@primary'] = 0.61#(0.6,0.68)-(0.03,0.11) 
 
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
@@ -54,10 +53,10 @@ np.savetxt('data0.lc',
 fluxes_model = b['fluxes@model'].interp_value(times=times)
 fluxcha = fluxes_model-b['value@times@lc01@model']
 
-print(fluxcha)
-'''
+#print(fluxcha)
+
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 8097902.txt'
+file = 'KIC 10007533.txt'
 
 yuandata = np.loadtxt(path+file)
 #datay = 10**(yuandata[:,1]/(-2.512))
@@ -71,12 +70,12 @@ resultflux = -2.5*np.log10(fluxmodel)
 resultflux = resultflux - np.mean(resultflux)
 plt.figure(1)
 plt.plot(yuandata[:,0], datay, '.')
-plt.plot(b['value@times@lc01@model'], resultflux+0.02, '.')
+plt.plot(b['value@times@lc01@model'], resultflux, '.')
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
 '''
 
 
-'''
+
 phases = b.to_phase(times)
 phases_sorted = sorted(phases)
 flux = b['fluxes@model'].interp_value(phases=phases_sorted)

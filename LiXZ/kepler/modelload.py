@@ -10,13 +10,14 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
-model = load_model('phoebemodel.h5') #phoebemodel.h5
-#model = load_model('phmod.h5')
+#model = load_model('phoebemodel.h5') #phoebemodel.h5
+#model = load_model('phmod.h5') #phoebemodel.h5
+model = load_model('phmod.h5')
 #model = load_model('m3.h5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 8097902.txt'
+file = 'KIC 5439790.txt'
 
 data = np.loadtxt(path+file)
 
