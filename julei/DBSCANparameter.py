@@ -18,7 +18,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Be18.txt')
+data = np.loadtxt('NGC6791.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -73,8 +73,10 @@ df2cluster = df.loc[df.n_clusters == 2, :]
 epsdata = df2cluster['eps']
 mindata = df2cluster['min_samples']
 
+'''
 plt.figure(0)
 plt.plot(epsdata, mindata, '*')
 
 plt.figure(1)
 plt.plot(mindata, epsdata, '*')
+'''

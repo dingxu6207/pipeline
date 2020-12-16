@@ -2,7 +2,7 @@ import math
 import copy
 import numpy as np
 from sklearn.cluster import DBSCAN
-
+import matplotlib.pyplot as plt
 
 def loadDataSet(fileName, splitChar='\t'):
     """
@@ -130,3 +130,4 @@ if __name__ == '__main__':
     print(MinptsCandidate)
     print('cluster number list is')
     print(ClusterNumberList)
+    plt.plot(EpsCandidate, '.')
