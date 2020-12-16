@@ -63,7 +63,7 @@ for i in range(lenpath):
     
         testdata.append(lightydata)
         
-        print('it is ok')
+        print('it is ok'+str(i))
     except:
         print('it is error!')
     

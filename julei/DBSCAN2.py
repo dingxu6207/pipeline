@@ -13,13 +13,13 @@ from sklearn import mixture
 from matplotlib.pyplot import MultipleLocator
 from sklearn.preprocessing import StandardScaler
 from sklearn.manifold import TSNE
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('NGC6812.txt')
+data = np.loadtxt('Be18.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -36,7 +36,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.1, min_samples = 14)
+clt = DBSCAN(eps = 0.25, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -105,7 +105,7 @@ ax1.set_title('NGC6819')
 #ax1.view_init(elev=30, azim=30)
 
 
-
+'''
 plt.figure(6)
 ax1 = plt.axes(projection='3d')
 
@@ -130,7 +130,7 @@ for t in range (0,1000):
     gif_images.append(imageio.imread('1.jpg'))
     
 imageio.mimsave("NGC6819.gif",gif_images,fps=20)
-   
+'''  
     
 '''
 plt.figure(4)

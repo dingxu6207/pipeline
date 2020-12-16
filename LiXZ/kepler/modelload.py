@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('phoebemodel.h5') #phoebemodel.h5
 #model = load_model('phmod.h5') #phoebemodel.h5
-model = load_model('phmod.h5')
+model = load_model('phmodsample2x.h5')
 #model = load_model('m3.h5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 5439790.txt'
+file = 'KIC 5022908.txt'
 
 data = np.loadtxt(path+file)
 

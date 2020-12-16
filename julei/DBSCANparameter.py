@@ -18,7 +18,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('NGC6812.txt')
+data = np.loadtxt('Be18.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -68,4 +68,13 @@ for eps in np.arange(0.1,0.5,0.01):
 df = pd.DataFrame(res)
 
 # 根据条件筛选合理的参数组合
-#df.loc[df.n_clusters == 3, :]
+df2cluster = df.loc[df.n_clusters == 2, :]
+
+epsdata = df2cluster['eps']
+mindata = df2cluster['min_samples']
+
+plt.figure(0)
+plt.plot(epsdata, mindata, '*')
+
+plt.figure(1)
+plt.plot(mindata, epsdata, '*')
