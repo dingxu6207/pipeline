@@ -6,21 +6,25 @@ Created on Sun Dec 13 00:05:40 2020
 @author: dingxu
 """
 
+#tensorboard --logdir=./tmp/log
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Activation
+import os
+import shutil
 #from keras.optimizers import adam, rmsprop, adadelta
 
 from random import shuffle
+from keras.callbacks import TensorBoard
 
 data = np.loadtxt('savedatasample2.txt')
 
 data = data[data[:,100]>70]
 data = data[data[:,101]<0.4]
-data = data[data[:,103]<1.2]
+#data = data[data[:,103]<1.2]
 print(len(data))
 
 
@@ -50,7 +54,9 @@ testY = data[duan:,100:104]
 models = Sequential()
 models.add(Dense(200,activation='relu' ,input_dim=100))
 models.add(Dense(160, activation='relu'))
+models.add(Dense(130, activation='relu'))
 models.add(Dense(100, activation='relu'))
+models.add(Dense(80, activation='relu'))
 models.add(Dense(40, activation='relu'))
 models.add(Dense(4))
 #models.add(Dense(3,activation='tanh'))
@@ -58,47 +64,96 @@ models.add(Dense(4))
 #adamoptimizer = adam(lr=0.001, beta_1=0.9, beta_2=0.999, decay=0.00001)
 models.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
 
+modeldir = './model/'
+logdir = './log/'
 
-h = models.fit(dataX, dataY, epochs=7000, batch_size=15, verbose = 1)
+if os.path.exists(modeldir):
+    shutil.rmtree(modeldir)
+os.mkdir(modeldir)
+
+if os.path.exists(logdir):
+    shutil.rmtree(logdir)
+os.mkdir(logdir)
+
+# checkpoint
+filepath = modeldir+'weights-improvement-{epoch:02d}-{val_loss:.2f}.hdf5'
+# 中途训练效果提升, 则将文件保存, 每提升一次, 保存一次
+checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,mode='min')
+#callbacks_list = [checkpoint]
+tensorboard = [TensorBoard(log_dir=logdir)]
+callback_lists = [tensorboard, checkpoint]
+history = models.fit(dataX, dataY, epochs=10000, batch_size=15, validation_data=(testX, testY),callbacks=callback_lists)
+
 predictY = models.predict(testX)
+predictdatay = models.predict(dataX)
+
 score = models.evaluate(dataX, dataY, batch_size=10)
 
 models.save('phmodsample2.h5')
 print(score)
 
-plt.figure(1)
-plt.plot(testY[:,1], predictY[:,1],'.')
-#plt.plot(testY[:,1], testY[:,1]+0.5,label = 'y=x+0.5')
-plt.plot(testY[:,1], testY[:,1],label = 'y=x')
-#plt.plot(testY[:,1], testY[:,1]-0.25,label = 'y=x-0.5')
-plt.title('q')
-n = np.vstack((testY[:,1], testY[:,1]))
-np.savetxt('q.txt', n)
-#plt.plot(predictY[:,1])
-#plt.plot(testY[:,1]-predictY[:,1])
+plt.figure(4)
+history_dict=history.history
+loss_value=history_dict['loss']
+val_loss_value=history_dict['val_loss']
+
+epochs=range(1,len(loss_value)+1)
+plt.plot(epochs,loss_value,'r',label='Training loss')
+plt.plot(epochs,val_loss_value,'b',label='Validation loss')
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.legend()
+
+
 
 plt.figure(0)
 plt.plot(testY[:,0], predictY[:,0],'.')
-#plt.plot(testY[:,0], testY[:,0]+0.5, label = 'y=x+0.5')
-#plt.plot(testY[:,0], testY[:,0], label = 'y=x')
-#plt.plot(testY[:,0], testY[:,0]-1,label = 'y=x-1')
 plt.title('incl')
-n = np.vstack((testY[:,0], testY[:,0]))
+n = np.vstack((testY[:,0], predictY[:,0]))
 np.savetxt('incl.txt', n)
-#plt.plot(predictY[:,0])
-#plt.plot(testY[:,0]-predictY[:,0])
 
+plt.figure(1)
+plt.plot(testY[:,1], predictY[:,1],'.')
+plt.title('q')
+n = np.vstack((testY[:,1], predictY[:,1]))
+np.savetxt('q.txt', n)
 
 plt.figure(2)
 plt.plot(testY[:,2], predictY[:,2],'.')
 plt.title('r')
-n = np.vstack((testY[:,2], testY[:,2]))
+n = np.vstack((testY[:,2], predictY[:,2]))
 np.savetxt('r.txt', n)
-#plt.plot(predictY[:,2])
-#plt.plot(testY[:,2]-predictY[:,2])
+
 
 plt.figure(3)
 plt.plot(testY[:,3], predictY[:,3],'.')
-plt.title('delT')
-n = np.vstack((testY[:,3], testY[:,3]))
-np.savetxt('delT.txt', n)
+plt.title('divT')
+n = np.vstack((testY[:,3], predictY[:,3]))
+np.savetxt('divT.txt', n)
+
+'''
+plt.figure(4)
+plt.plot(dataY[:,0], predictdatay[:,0],'.')
+plt.title('incly')
+n = np.vstack((dataY[:,0], predictdatay[:,0]))
+np.savetxt('incly.txt', n)
+
+plt.figure(5)
+plt.plot(dataY[:,1], predictdatay[:,1],'.')
+plt.title('qy')
+n = np.vstack((dataY[:,1], predictdatay[:,1]))
+np.savetxt('qy.txt', n)
+
+plt.figure(6)
+plt.plot(dataY[:,2], predictdatay[:,2],'.')
+plt.title('ry')
+n = np.vstack((dataY[:,2], predictdatay[:,2]))
+np.savetxt('ry.txt', n)
+
+
+plt.figure(7)
+plt.plot(dataY[:,3], predictdatay[:,3],'.')
+plt.title('divTy')
+n = np.vstack((dataY[:,3], predictdatay[:,3]))
+np.savetxt('divTy.txt', n)
+'''
