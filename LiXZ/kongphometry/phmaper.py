@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from photutils import CircularAperture, CircularAnnulus
 from photutils import aperture_photometry
 from astropy.time import Time
+import imageio
 
 filetemp = []
 count = 0
@@ -39,13 +40,14 @@ def adjustimage(imagedata, coffe):
     maxdata = min(Imax,maxdata)
     return mindata,maxdata
 
-
+gif_images = []
 def displayimage(img, coff, i):
     minimg,maximg = adjustimage(img, coff)
     plt.figure(i)
     plt.imshow(img, cmap='gray', vmin = minimg, vmax = maximg)
-    #plt.plot(376.82, 137.232, '*')
-    #plt.savefig(oripath+str(i)+'.jpg')
+    if (i==1): 
+        plt.savefig('tu.jpg')
+        gif_images.append(imageio.imread('tu.jpg'))
 
 def photometryimg(positions, img, i):
     
@@ -145,3 +147,5 @@ plt.figure(2)
 plt.plot(datatemp,jiaoyantemp,'.')
 arraytime = np.array(datatemp)
 np.savetxt('datatime.txt', arraytime)
+
+imageio.mimsave('test.gif', gif_images, fps=10)

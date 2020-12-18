@@ -17,7 +17,7 @@ model = load_model('weights-improvement-14563-0.0075.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 9453192.txt'
+file = 'KIC 10727655.txt'
 
 data = np.loadtxt(path+file)
 
