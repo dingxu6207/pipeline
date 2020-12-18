@@ -13,11 +13,11 @@ from sklearn import preprocessing
 #model = load_model('phoebemodel.h5') #phoebemodel.h5
 #model = load_model('phmod.h5') #phoebemodel.h5
 #model = load_model('phmodsample2x.h5')
-model = load_model('weights-improvement-6522-0.01.hdf5')
+model = load_model('weights-improvement-14563-0.0075.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 5283839.txt'
+file = 'KIC 9453192.txt'
 
 data = np.loadtxt(path+file)
 

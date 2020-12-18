@@ -32,3 +32,4 @@ cmd/locationcha
 *.lc
 *.rar
 *.h5
+*.hdf5

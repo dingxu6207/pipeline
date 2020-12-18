@@ -6,7 +6,7 @@ Created on Sun Dec 13 00:05:40 2020
 @author: dingxu
 """
 
-#tensorboard --logdir=./tmp/log
+#tensorboard --logdir=./log
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ from keras.layers import Dense, LSTM, Activation
 import os
 import shutil
 import tensorflow as tf
-import time
+import imageio
 #from keras.optimizers import adam, rmsprop, adadelta
 
 from random import shuffle
@@ -77,6 +77,7 @@ if os.path.exists(logdir):
     shutil.rmtree(logdir)
 os.mkdir(logdir)
 
+gif_images = []
 def displayimg(testY, predictY):
     plt.figure(4)
     plt.clf()
@@ -106,8 +107,9 @@ def displayimg(testY, predictY):
     np.savetxt('divT.txt', n)
 
     plt.pause(0.1)
+    plt.savefig('tu.jpg')
 
-
+    gif_images.append(imageio.imread('tu.jpg'))
 
 
 
@@ -134,7 +136,7 @@ checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_
 #callbacks_list = [checkpoint]
 tensorboard = [TensorBoard(log_dir=logdir)]
 callback_lists = [tensorboard, checkpoint, PredictionCallback()]
-history = models.fit(dataX, dataY, epochs=100000, batch_size=1000, validation_data=(testX, testY),shuffle=True,callbacks=callback_lists)
+history = models.fit(dataX, dataY, epochs=50000, batch_size=1000, validation_data=(testX, testY),shuffle=True,callbacks=callback_lists)
 
 predictY = models.predict(testX)
 predictdatay = models.predict(dataX)
@@ -157,6 +159,10 @@ plt.xlabel('epochs')
 plt.ylabel('loss')
 plt.legend()
 
+
+
+
+imageio.mimsave('test.gif', gif_images, fps =10)
 '''
 plt.figure(4)
 plt.plot(dataY[:,0], predictdatay[:,0],'.')
