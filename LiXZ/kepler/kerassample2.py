@@ -15,6 +15,8 @@ from keras.models import Sequential
 from keras.layers import Dense, LSTM, Activation
 import os
 import shutil
+import tensorflow as tf
+import time
 #from keras.optimizers import adam, rmsprop, adadelta
 
 from random import shuffle
@@ -52,9 +54,9 @@ testY = data[duan:,100:104]
 #testY[:,0] = testY[:,0]/90aaa
 
 models = Sequential()
-models.add(Dense(200,activation='relu' ,input_dim=100))
-models.add(Dense(160, activation='relu'))
-models.add(Dense(130, activation='relu'))
+models.add(Dense(500,activation='relu' ,input_dim=100))
+models.add(Dense(500, activation='relu'))
+models.add(Dense(500, activation='relu'))
 models.add(Dense(100, activation='relu'))
 models.add(Dense(80, activation='relu'))
 models.add(Dense(40, activation='relu'))
@@ -75,14 +77,64 @@ if os.path.exists(logdir):
     shutil.rmtree(logdir)
 os.mkdir(logdir)
 
+def displayimg(testY, predictY):
+    plt.figure(4)
+    plt.clf()
+    plt.subplot(221)
+    plt.plot(testY[:,0], predictY[:,0],'.')
+    plt.title('incl')
+    n = np.vstack((testY[:,0], predictY[:,0]))
+    np.savetxt('incl.txt', n)
+
+    plt.subplot(222)
+    plt.plot(testY[:,1], predictY[:,1],'.')
+    plt.title('q')
+    n = np.vstack((testY[:,1], predictY[:,1]))
+    np.savetxt('q.txt', n)
+
+    plt.subplot(223)
+    plt.plot(testY[:,2], predictY[:,2],'.')
+    plt.title('r')
+    n = np.vstack((testY[:,2], predictY[:,2]))
+    np.savetxt('r.txt', n)
+
+
+    plt.subplot(224)
+    plt.plot(testY[:,3], predictY[:,3],'.')
+    plt.title('divT')
+    n = np.vstack((testY[:,3], predictY[:,3]))
+    np.savetxt('divT.txt', n)
+
+    plt.pause(0.1)
+
+
+
+
+
+class PredictionCallback(tf.keras.callbacks.Callback):    
+    def on_epoch_end(self, epoch, logs={}):
+        #print(self.validation_data[0])
+        if (epoch%1 == 0):
+            
+            y_pred = self.model.predict(testX)
+            
+            displayimg(testY, y_pred)
+        #print('prediction: {} at epoch: {}'.format(y_pred, epoch))
+            #plt.figure(5)        
+            #plt.clf()
+            #plt.plot(testY[:,0], y_pred[:,0],'.')
+            #plt.pause(0.1)
+            #plt.ioff()
+    
+    
 # checkpoint
-filepath = modeldir+'weights-improvement-{epoch:02d}-{val_loss:.2f}.hdf5'
+filepath = modeldir+'weights-improvement-{epoch:02d}-{val_loss:.4f}.hdf5'
 # 中途训练效果提升, 则将文件保存, 每提升一次, 保存一次
 checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,mode='min')
 #callbacks_list = [checkpoint]
 tensorboard = [TensorBoard(log_dir=logdir)]
-callback_lists = [tensorboard, checkpoint]
-history = models.fit(dataX, dataY, epochs=10000, batch_size=15, validation_data=(testX, testY),callbacks=callback_lists)
+callback_lists = [tensorboard, checkpoint, PredictionCallback()]
+history = models.fit(dataX, dataY, epochs=100000, batch_size=1000, validation_data=(testX, testY),shuffle=True,callbacks=callback_lists)
 
 predictY = models.predict(testX)
 predictdatay = models.predict(dataX)
@@ -92,44 +144,18 @@ score = models.evaluate(dataX, dataY, batch_size=10)
 models.save('phmodsample2.h5')
 print(score)
 
-plt.figure(4)
+
+
+plt.figure(6)
 history_dict=history.history
 loss_value=history_dict['loss']
 val_loss_value=history_dict['val_loss']
-
 epochs=range(1,len(loss_value)+1)
 plt.plot(epochs,loss_value,'r',label='Training loss')
 plt.plot(epochs,val_loss_value,'b',label='Validation loss')
 plt.xlabel('epochs')
 plt.ylabel('loss')
 plt.legend()
-
-
-
-plt.figure(0)
-plt.plot(testY[:,0], predictY[:,0],'.')
-plt.title('incl')
-n = np.vstack((testY[:,0], predictY[:,0]))
-np.savetxt('incl.txt', n)
-
-plt.figure(1)
-plt.plot(testY[:,1], predictY[:,1],'.')
-plt.title('q')
-n = np.vstack((testY[:,1], predictY[:,1]))
-np.savetxt('q.txt', n)
-
-plt.figure(2)
-plt.plot(testY[:,2], predictY[:,2],'.')
-plt.title('r')
-n = np.vstack((testY[:,2], predictY[:,2]))
-np.savetxt('r.txt', n)
-
-
-plt.figure(3)
-plt.plot(testY[:,3], predictY[:,3],'.')
-plt.title('divT')
-n = np.vstack((testY[:,3], predictY[:,3]))
-np.savetxt('divT.txt', n)
 
 '''
 plt.figure(4)
