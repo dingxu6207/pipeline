@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov 28 21:08:47 2020
+Created on Sat Dec 19 23:52:14 2020
 
 @author: dingxu
 """
@@ -17,18 +17,19 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import imageio
 
-np.random.seed(8)
+bemeberdata = np.loadtxt('Be99member.txt')
+hang = len(bemeberdata)
 
 data = np.loadtxt('Be99.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
 
-data = data[data[:,3]<15]
-data = data[data[:,3]>-15]
+#data = data[data[:,3]<150]
+#data = data[data[:,3]>-150]
 
-data = data[data[:,4]<15]
-data = data[data[:,4]>-15]
+#data = data[data[:,4]<150]
+#data = data[data[:,4]>-150]
 
 X = np.copy(data[:,0:5])
 
@@ -36,7 +37,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.17, min_samples = 6)
+clt = DBSCAN(eps = 0.22, min_samples = 12)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -48,6 +49,19 @@ datapro = np.column_stack((data ,datalables))
 highdata = datapro[datapro[:,8] == 0]
 lowdata = datapro[datapro[:,8] == -1]
 
+plt.figure(0)
+plt.scatter(lowdata[:,0], lowdata[:,1], marker='o', color='grey',s=5.0)
+plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=5.0)
+plt.xlabel('RA',fontsize=14)
+plt.ylabel('DEC',fontsize=14)
+for i in range(10):
+    ra = bemeberdata[i,1]
+    dec = bemeberdata[i,2]
+    #plt.scatter(ra, dec, marker='o', color='darkgreen', s=1)
+    plt.text(ra, dec, 'V'+str(i+17), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+
+#plt.text(350.38229167, 71.76819444, 'V'+str(i+30), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+#plt.text(350.26229167, 71.82222222, 'V'+str(i+30), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
 
 plt.figure(1)
 plt.scatter(lowdata[:,3], lowdata[:,4], marker='o', color='grey',s=5.0)
@@ -58,6 +72,13 @@ plt.xlabel('pmRA',fontsize=14)
 plt.ylabel('pmDEC',fontsize=14)
 plt.xlim((-15,15))
 plt.ylim((-15,15))
+for i in range(10):
+    pmra = bemeberdata[i,4]
+    pmdec = bemeberdata[i,5]
+    plt.scatter(pmra, pmdec, marker='o', color='darkgreen', s=1)
+    if i == 1:
+        plt.text(pmra, pmdec, 'V'+str(i+17), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+
 
 
 plt.figure(2)
@@ -73,6 +94,14 @@ pallaxdata = np.vstack((lGmag, lparallax))
 np.savetxt('parallax.txt', pallaxdata)
 plt.xlabel('Gmag',fontsize=14)
 plt.ylabel('parallax',fontsize=14)
+for i in range(10):
+    mparallax = bemeberdata[i,3]
+    mGmag = bemeberdata[i,6]
+    plt.scatter(mGmag, mparallax, marker='o', color='darkgreen', s=20)
+    plt.text(mGmag, mparallax, 'V'+str(i+17), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+
+
+
 
 plt.figure(3)
 highdataGmag = highdata[:,5]
@@ -92,6 +121,12 @@ ax.xaxis.set_major_locator(x_major_locator)
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
 
+for i in range(10):
+    G = bemeberdata[i,6]
+    BPRP = bemeberdata[i,7]-bemeberdata[i,8]
+    plt.scatter(BPRP, G, marker='o', color='darkgreen', s=20)
+    plt.text(BPRP, G, 'V'+str(i+17), fontsize=10, color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+
 
 plt.figure(5)
 
@@ -109,47 +144,3 @@ ax1.set_title('Be99')
 #ax1.view_init(elev=30, azim=30)
 
 
-'''
-plt.figure(6)
-ax1 = plt.axes(projection='3d')
-
-gif_images = []
-for t in range (0,1000):
-    if t == 360:
-        break
-    plt.cla()
-    
-    #ax1.set_zlim(-5, 5)
-    ax1.scatter3D(lowdata[:,0], lowdata[:,1], lowdata[:,2], c = 'b', marker='o', s=0.01)
-    ax1.scatter3D(highdata[:,0], highdata[:,1], highdata[:,2], c ='r', marker='o', s=1)
-    
-    ax1.set_xlabel('RA')
-    ax1.set_ylabel('DEC')
-    ax1.set_zlabel('Parallax')
-
-    plt.pause(0.01)
-    plt.savefig('1.jpg')
-    
-    ax1.view_init(elev=30, azim=t+1)
-    gif_images.append(imageio.imread('1.jpg'))
-    
-imageio.mimsave("NGC6819.gif",gif_images,fps=20)
-'''  
-    
-'''
-plt.figure(4)
-dataable = np.column_stack((data_zs ,datalables))
-pddata = pd.DataFrame(dataable)
-datazs = pd.DataFrame(data_zs)
-
-tsne = TSNE(n_components=2, learning_rate=100, n_iter=1000, init='pca')
-tsne.fit_transform(data_zs)    #进行降维
-tsne = pd.DataFrame(tsne.embedding_, index=datazs.index)    #转换数据格式
-
-d = tsne[pddata.iloc[:,5] == -1]
-plt.scatter(d[0], d[1], c = 'b', s = 0.1)
-
-#d = tsne[pddata.iloc[:,5] == 0]
-#plt.scatter(d[0], d[1], c = 'r', s = 5)
-
-'''
