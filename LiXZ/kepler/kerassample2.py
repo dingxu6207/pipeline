@@ -77,7 +77,7 @@ if os.path.exists(logdir):
     shutil.rmtree(logdir)
 os.mkdir(logdir)
 
-gif_images = []
+gif_images = [0 for i in range(3000)]
 def displayimg(testY, predictY):
     plt.figure(4)
     plt.clf()
@@ -130,13 +130,13 @@ class PredictionCallback(tf.keras.callbacks.Callback):
     
     
 # checkpoint
-filepath = modeldir+'weights-improvement-{epoch:02d}-{val_loss:.4f}.hdf5'
+filepath = modeldir+'weights-improvement-{epoch:05d}-{val_loss:.4f}.hdf5'
 # 中途训练效果提升, 则将文件保存, 每提升一次, 保存一次
 checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,mode='min')
 #callbacks_list = [checkpoint]
 tensorboard = [TensorBoard(log_dir=logdir)]
 callback_lists = [tensorboard, checkpoint, PredictionCallback()]
-history = models.fit(dataX, dataY, epochs=50000, batch_size=1000, validation_data=(testX, testY),shuffle=True,callbacks=callback_lists)
+history = models.fit(dataX, dataY, epochs=100000, batch_size=300, validation_data=(testX, testY),shuffle=True,callbacks=callback_lists)
 
 predictY = models.predict(testX)
 predictdatay = models.predict(dataX)
