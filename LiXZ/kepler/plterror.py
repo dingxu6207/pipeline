@@ -30,7 +30,7 @@ dataq = np.loadtxt(filetemp+fileq)
 datar = np.loadtxt(filetemp+filer)
 
 plt.figure(0)
-#plt.plot(dataincl[0,:], dataincl[0,:]-dataincl[1,:], '.')
+plt.plot(dataincl[0,:], dataincl[0,:]-dataincl[1,:], '.')
 plt.plot(dataincl[0,:], dataincl[1,:], '.')
 plt.title('incl')
 plt.savefig('incl.jpg')

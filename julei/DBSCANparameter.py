@@ -18,16 +18,16 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Be99.txt')
+data = np.loadtxt('NGC559.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
 
-data = data[data[:,3]<150]
-data = data[data[:,3]>-150]
+data = data[data[:,3]<15]
+data = data[data[:,3]>-15]
 
-data = data[data[:,4]<150]
-data = data[data[:,4]>-150]
+data = data[data[:,4]<15]
+data = data[data[:,4]>-15]
 
 X = np.copy(data[:,0:5])
 
