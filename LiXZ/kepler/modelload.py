@@ -10,16 +10,17 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
-#model = load_model('phoebemodel.h5') #phoebemodel.h5
-#model = load_model('phmod.h5') #phoebemodel.h5
-#model = load_model('phmodsample2x.h5')
-model = load_model('weights-improvement-14563-0.0075.hdf5')
+#model = load_model('weights-improvement-08394-0.0340.hdf5') #phoebemodel.h5
+model = load_model('weights-improvement-03788-0.0377.hdf5') #phoebemodel.h5
+#model = load_model('weights-improvement-14563-0.0075.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 5358200.txt'
+file = 'KIC 11042923.txt'
+#file = 'lightcurve.txt'
 
 data = np.loadtxt(path+file)
+#data = np.loadtxt(file)
 
 #datay = 10**(data[:,1]/(-2.5))
 #datay = (datay-np.min(datay))/(np.max(datay)-np.min(datay))
@@ -47,10 +48,13 @@ for i in range(lendata):
 
         
 plt.figure(2)
+listtemp = temp[0:50]
+resultlist = list(reversed(listtemp))
+#temp = temp[0:50]+resultlist
 plt.plot(temp, '.')
 
-
 nparraydata = np.array(temp)
+plt.plot(nparraydata, '.')
 nparraydata = np.reshape(nparraydata,(1,100))
 
 prenpdata = model.predict(nparraydata)

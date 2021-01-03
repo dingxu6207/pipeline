@@ -20,18 +20,18 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  75.63222
-b['q@binary'] =  38.374416*0.01
+b['incl@binary'] = 66.23246
+b['q@binary'] =  62.789165 *0.01
 b['teff@primary'] =  6500  #6208 
+b['teff@secondary'] = 6500*101.584816*0.01 #6087
 
-b['teff@secondary'] = 6500*103.84069*0.01 #6087
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 49.487133*0.01    #0.61845703
+b['requiv@primary'] = 42.189068*0.01    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -54,8 +54,9 @@ fluxcha = fluxes_model-b['value@times@lc01@model']
 #print(fluxcha)
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 5358200.txt'
-
+file = 'KIC 11042923.txt'
+#file = 'v737per.B'
+#path = 'D:\\Phoebe\\data\\'
 yuandata = np.loadtxt(path+file)
 #datay = 10**(yuandata[:,1]/(-2.512))
 datay = yuandata[:,1]
@@ -70,6 +71,9 @@ plt.figure(1)
 plt.plot(yuandata[:,0], datay, '.')
 plt.plot(b['value@times@lc01@model'], resultflux, '.')
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
+plt.xlabel('phrase',fontsize=14)
+plt.ylabel('mag',fontsize=14)
+
 
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边

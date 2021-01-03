@@ -50,7 +50,7 @@ def fft_combine(freqs, n, loops=1):
 temp = []
 plt.figure(1)
 plt.plot(flux,'.')
-for i in range(10):
+for i in range(100):
     index, data = fft_combine(fy, i+1, 1)  # 计算1个周期的合成波形
     plt.plot(data,label = "N=%s" % i)
     temp.append(data)
@@ -64,7 +64,7 @@ plt.show()
 
 
 
-dataflux =temp[7]
+dataflux =temp[40]
 phrasefluxdata = np.vstack((phrase, dataflux))
 
 np.savetxt('N2data.txt', phrasefluxdata.T)
@@ -75,5 +75,5 @@ phrase = N4data[:,0]
 Nflux = N4data[:,1]
 
 plt.figure(5)
-plt.plot(phrase, Nflux)
+plt.plot(phrase, Nflux, '.')
 plt.plot(phrase, flux,'.')
