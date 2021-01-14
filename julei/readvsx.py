@@ -20,7 +20,7 @@ import imageio
      
 #VSX的星表数据           
 #VSXdata = pd.read_csv('NGC559.csv')
-VSXdata = pd.read_csv('NGC559O.csv')
+VSXdata = pd.read_csv('NGC7142.csv')
 
 dataradec = VSXdata['Coords']
 
@@ -56,7 +56,7 @@ radec = np.float32(radectemp).reshape(-1,2)
 np.savetxt('NGC7142radec.txt', radec)
 
 #GAIA的星表数据
-data = np.loadtxt('NGC559.txt')
+data = np.loadtxt('NGC7142.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -74,7 +74,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.18, min_samples = 14)
+clt = DBSCAN(eps = 0.23, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()

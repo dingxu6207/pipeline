@@ -10,13 +10,17 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
-#model = load_model('weights-improvement-08394-0.0340.hdf5') #phoebemodel.h5
-model = load_model('weights-improvement-03788-0.0377.hdf5') #phoebemodel.h5
+#model = load_model('incl.hdf5')
+model = load_model('all.hdf5')
+#model = load_model('q.hdf5')
+#model = load_model('weights-improvement-05354-0.0293.hdf5')
+#model = load_model('weights-improvement-03594-0.0379.hdf5') #phoebemodel.h5
+#model = load_model('weights-improvement-02175-0.0418.hdf5') #phoebemodel.h5
 #model = load_model('weights-improvement-14563-0.0075.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 11042923.txt'
+file = 'KIC 4999357.txt'
 #file = 'lightcurve.txt'
 
 data = np.loadtxt(path+file)
@@ -28,7 +32,11 @@ datay = data[:,1]-np.mean(data[:,1])
 
 plt.figure(0)
 plt.plot(data[:,0], datay, '.')
-
+ax = plt.gca()
+ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
+ax.invert_yaxis() #y轴反向
+plt.xlabel('Phrase',fontsize=14)
+plt.ylabel('mag',fontsize=14)
 
 
 plt.figure(1)
@@ -54,9 +62,16 @@ resultlist = list(reversed(listtemp))
 plt.plot(temp, '.')
 
 nparraydata = np.array(temp)
-plt.plot(nparraydata, '.')
+plt.plot(nparraydata, '.' , c = 'blue')
 nparraydata = np.reshape(nparraydata,(1,100))
 
 prenpdata = model.predict(nparraydata)
 
 print(prenpdata)
+
+
+ax = plt.gca()
+ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
+ax.invert_yaxis() #y轴反向
+plt.xlabel('Phrase',fontsize=14)
+plt.ylabel('mag',fontsize=14)

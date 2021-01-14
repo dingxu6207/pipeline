@@ -9,7 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as signal
 from scipy import interpolate
-#phraseflux = np.loadtxt('mag.txt') #
+
+'''
 phraseflux = np.loadtxt('D:\\Phoebe\\data\\v737per.B')
 
 phrase = phraseflux[:,0]
@@ -20,19 +21,29 @@ sortIndi = np.argsort(phrase)
 phrase = phrase[sortIndi]
 flux = flux[sortIndi]
 
+ar8 = np.vstack((phrase,flux))
+np.savetxt('V737.txt', ar8.T)
+'''
 
+data = np.loadtxt('V737.txt')
+phrase = data[:,0]
+flux = data[:,1]
 
-a=np.polyfit(phrase,flux,17)#用2次多项式拟合x，y数组
-b=np.poly1d(a)#拟合完之后用这个函数来生成多项式对象
-c=b(phrase)#生成多项式对象之后，就是获取x在这个多项式处的值
 plt.figure(0)
-plt.scatter(phrase,flux,marker='o',label='original datas')#对原始数据画散点图
-plt.plot(phrase,c,ls='--',c='red',label='fitting with second-degree polynomial')#对拟合之后的数据，也就是x，c数组画图
-plt.legend()
+plt.plot(phrase,flux,'.')#对原始数据画散点图
 
-plt.figure(1)
-plt.plot(phrase,c,'.')
-phrasefluxdata = np.vstack((phrase, c))
-np.savetxt('lightcurve.txt', phrasefluxdata.T)
+ax = plt.gca()
+ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
+ax.invert_yaxis() #y轴反向
+plt.xlabel('Phrase',fontsize=14)
+plt.ylabel('mag',fontsize=14)
 
 
+sx1 = np.linspace(0,1,100)
+func1 = interpolate.UnivariateSpline(phrase, flux,s=0.18)#强制通过所有点
+sy1 = func1(sx1)
+
+plt.plot(sx1, sy1,'.', c='r')#对原始数据画散点图
+
+interdata = np.vstack((phrase,flux))
+np.savetxt('V737inter.txt', interdata.T)

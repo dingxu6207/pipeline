@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov 28 22:40:19 2020
+Created on Tue Jan 12 13:53:00 2021
 
 @author: dingxu
 """
+
 import numpy as np
 from sklearn.cluster import KMeans,DBSCAN,AgglomerativeClustering
 import pandas as pd
@@ -18,38 +19,19 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('NGC7142.txt')
+data = np.loadtxt('wanflow.txt')
 print(len(data))
-#data = data[data[:,2]>0]
-#data = data[data[:,2]<1]
 
-data = data[data[:,3]<15]
-data = data[data[:,3]>-15]
-
-data = data[data[:,4]<15]
-data = data[data[:,4]>-15]
-
-X = np.copy(data[:,0:5])
+X = np.copy(data)
 
 
-X = StandardScaler().fit_transform(X)
+#X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
-
-'''
-clt = DBSCAN(eps = 0.1, min_samples = 4)
-datalables = clt.fit_predict(data_zs)
-
-r1 = pd.Series(datalables).value_counts()
-
-print(r1)
-'''
-
-
 
 
 res = []
 i = 0
-for eps in np.arange(0.1,0.5,0.01):
+for eps in np.arange(0.05,2,0.01):
     # 迭代不同的min_samples值
     for min_samples in range(2,15):
         clt = DBSCAN(eps = eps, min_samples = min_samples)
@@ -70,13 +52,6 @@ df = pd.DataFrame(res)
 # 根据条件筛选合理的参数组合
 df2cluster = df.loc[df.n_clusters == 2, :]
 
-epsdata = df2cluster['eps']
-mindata = df2cluster['min_samples']
+df3cluster = df.loc[df.n_clusters == 3, :]
 
-'''
-plt.figure(0)
-plt.plot(epsdata, mindata, '*')
-
-plt.figure(1)
-plt.plot(mindata, epsdata, '*')
-'''
+df4cluster = df.loc[df.n_clusters == 4, :]

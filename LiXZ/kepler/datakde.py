@@ -26,11 +26,11 @@ newdata = lightdata[lightdata[:,101] < 0.5]
 d4data = lightdata[lightdata[:,101] > 0.5]
 
 dfdata = pd.DataFrame(newdata)
-dfdata = dfdata.sample(n=54591)
+dfdata = dfdata.sample(n=86777)
 npdfdata = np.array(dfdata)
 
 df4data = pd.DataFrame(d4data)
-df4data = df4data.sample(n=54591)
+df4data = df4data.sample(n=86777)
 np4dfdata = np.array(df4data)
 
 alldata = np.row_stack((np4dfdata, npdfdata))

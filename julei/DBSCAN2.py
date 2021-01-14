@@ -17,9 +17,8 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import imageio
 
-np.random.seed(8)
 
-data = np.loadtxt('NGC559.txt')
+data = np.loadtxt('NGC7142.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -37,7 +36,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.18, min_samples = 14)
+clt = DBSCAN(eps = 0.23, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -49,6 +48,8 @@ datapro = np.column_stack((data ,datalables))
 highdata = datapro[datapro[:,8] == 0]
 lowdata = datapro[datapro[:,8] == -1]
 
+np.savetxt('highdata.txt', highdata)
+np.savetxt('lowdata.txt',  lowdata)
 
 plt.figure(1)
 plt.scatter(lowdata[:,3], lowdata[:,4], marker='o', color='grey',s=5.0)
@@ -105,7 +106,7 @@ ax1.set_ylabel('DEC')
 #ax1.set_ylim(-4, 6)
 ax1.set_zlabel('Parallax')
 #ax1.set_zlim(-2, 2)
-ax1.set_title('Be99')
+ax1.set_title('NGC7142')
 
 #ax1.view_init(elev=30, azim=30)
 
@@ -134,8 +135,8 @@ for t in range (0,1000):
     ax1.view_init(elev=30, azim=t+1)
     gif_images.append(imageio.imread('1.jpg'))
     
-imageio.mimsave("NGC6819.gif",gif_images,fps=20)
-'''  
+imageio.mimsave("NGC7142.gif",gif_images,fps=20)
+'''
     
 '''
 plt.figure(4)
