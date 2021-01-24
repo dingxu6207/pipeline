@@ -20,10 +20,10 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  80.41336 #58.528934
-b['q@binary'] =  37.896152*0.01
+b['incl@binary'] =  60.194706 #58.528934
+b['q@binary'] =   35.26651*0.01
 b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*102.940636*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500*102.578354*0.01#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -31,7 +31,7 @@ b['teff@secondary'] = 6500*102.940636*0.01#6500*100.08882*0.01 #6087
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 48.417545*0.01    #0.61845703
+b['requiv@primary'] = 49.05414*0.01    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -53,14 +53,15 @@ fluxcha = fluxes_model-b['value@times@lc01@model']
 
 #print(fluxcha)
 
-#path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-#file = 'KIC 10226388.txt'
-file = 'V737.txt'
-#path = 'D:\\Phoebe\\data\\'
-yuandata = np.loadtxt(file)
-#yuandata = np.loadtxt(path+file)
+path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
+file = 'KIC 8977390.txt'
+#file = 'V396Mon_Yang2001B.nrm'
+#path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\nihe\\'
+#yuandata = np.loadtxt(file)
+yuandata = np.loadtxt(path+file)
 #datay = 10**(yuandata[:,1]/(-2.512))
 datay = yuandata[:,1]
+#datay = -2.5*np.log10(yuandata[:,1])
 datay = datay-np.mean(datay)
 
 #datay = datay/np.mean(datay)
@@ -70,9 +71,10 @@ resultflux = -2.5*np.log10(fluxmodel)
 resultflux = resultflux - np.mean(resultflux)
 plt.figure(1)
 plt.plot(yuandata[:,0], datay, '.')
+#plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=80)
 plt.plot(b['value@times@lc01@model'], resultflux, '.')
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
-plt.xlabel('phrase',fontsize=14)
+plt.xlabel('phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 

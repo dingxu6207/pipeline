@@ -26,11 +26,11 @@ newdata = lightdata[lightdata[:,101] < 0.5]
 d4data = lightdata[lightdata[:,101] > 0.5]
 
 dfdata = pd.DataFrame(newdata)
-dfdata = dfdata.sample(n=86777)
+dfdata = dfdata.sample(n=70590)
 npdfdata = np.array(dfdata)
 
 df4data = pd.DataFrame(d4data)
-df4data = df4data.sample(n=86777)
+df4data = df4data.sample(n=50000)
 np4dfdata = np.array(df4data)
 
 alldata = np.row_stack((np4dfdata, npdfdata))
@@ -61,7 +61,7 @@ plt.title('r')
 plt.figure(3)
 tdata = lightdata[:,103]
 sns.kdeplot(tdata,shade=True)
-plt.title('T1/T2')
+plt.title('T2/T1')
 
 np.savetxt('alldata35.txt', alldata)
 

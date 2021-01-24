@@ -19,7 +19,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Gaiadata.txt')
+data = np.loadtxt('NGC7142.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -49,8 +49,8 @@ tempones = np.ones(11,dtype = np.uint)
 sumtemp = np.dot(tempdistance, tempones)
 
 
-#distances = np.sort(distances[:,10], axis=0)
-distances = np.sort(sumtemp/10, axis=0)
+distances = np.sort(distances[:,10], axis=0)
+#distances = np.sort(sumtemp/10, axis=0)
 fig = plt.figure(figsize=(5, 5))
 plt.plot(distances)
 plt.xlabel("Points")

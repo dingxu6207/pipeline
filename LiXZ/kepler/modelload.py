@@ -11,20 +11,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('incl.hdf5')
-model = load_model('all.hdf5')
-#model = load_model('q.hdf5')
-#model = load_model('weights-improvement-05354-0.0293.hdf5')
-#model = load_model('weights-improvement-03594-0.0379.hdf5') #phoebemodel.h5
-#model = load_model('weights-improvement-02175-0.0418.hdf5') #phoebemodel.h5
-#model = load_model('weights-improvement-14563-0.0075.hdf5')
+#model = load_model('all.hdf5')
+model = load_model('alldown.hdf5')
+#model = load_model('accall.hdf5')
+
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 4999357.txt'
-#file = 'lightcurve.txt'
+file = 'KIC 8265951.txt'
+#file = 'V737inter.txt'
 
 data = np.loadtxt(path+file)
 #data = np.loadtxt(file)
+
+#data[:,1] = -2.5*np.log10(data[:,1])
 
 #datay = 10**(data[:,1]/(-2.5))
 #datay = (datay-np.min(datay))/(np.max(datay)-np.min(datay))

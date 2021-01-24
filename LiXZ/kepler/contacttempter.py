@@ -27,18 +27,18 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  70
-b['q@binary'] =  267*0.01
-b['teff@primary'] =  6000  #6208 
+b['incl@binary'] =  57.8
+b['q@binary'] =  32.8224*0.01
+b['teff@primary'] =  6500  #6208 
 
-b['teff@secondary'] = 6000*100*0.01 #6087
+b['teff@secondary'] = 6500*100*0.01 #6087
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 35*0.01    #0.61845703
+b['requiv@primary'] = 48.2*0.01    #0.61845703
 
 #b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -55,7 +55,7 @@ resultflux1 = resultflux - np.mean(resultflux)
 timesx = b['value@times@lc01@model']
 plt.scatter(timesx, resultflux1, s=20, c='b', alpha=0.4)
 
-plt.xlabel('phrase',fontsize=14)
+plt.xlabel('phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 gif_images.append(imageio.imread('img1.jpg'))
@@ -68,11 +68,11 @@ gif_images.append(imageio.imread('img1.jpg'))
 plt.savefig('img1.jpg')
 gif_images.append(imageio.imread('img1.jpg'))
 
-b['incl@binary'] =  70
-b['q@binary'] =  267*0.01
-b['teff@primary'] =  6000  #6208 
-b['teff@secondary'] = 6000*100*0.01 #6087
-b['requiv@primary'] = 35*0.01
+b['incl@binary'] =  57.8
+b['q@binary'] =  32.8224*0.01
+b['teff@primary'] =  5500  #6208 
+b['teff@secondary'] = 5500*100*0.01 #6087
+b['requiv@primary'] =  48.2*0.01
 b.run_compute(irrad_method='none')
 print(b['requiv@secondary'])
 #plt.fig .ure(1)
@@ -84,7 +84,7 @@ resultflux2 = resultflux - np.mean(resultflux)
 #plt.plot(b['value@times@lc01@model'], resultflux, '.',label="70°")
 plt.scatter(timesx, resultflux2,s=20, c='r', alpha=0.4)
 
-plt.legend(('主星r = 0.43', '主星r = 0.5'), loc='upper right')
+plt.legend(('T = 6500K', 'T = 5500K'), loc='upper right')
 #plt.title('5000k')
 
 print(b['requiv@secondary']) 
