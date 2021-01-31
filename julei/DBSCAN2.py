@@ -36,7 +36,7 @@ X = np.copy(data[:,0:5])
 X = StandardScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.23, min_samples = 14)
+clt = DBSCAN(eps = 0.24, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()

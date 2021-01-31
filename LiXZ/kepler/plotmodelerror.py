@@ -10,23 +10,19 @@ from tensorflow.keras.models import load_model
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import preprocessing    
-#model = load_model('incl.hdf5')
-model = load_model('all.hdf5')
-#model = load_model('q.hdf5')
-#model = load_model('weights-improvement-05354-0.0293.hdf5')
-#model = load_model('weights-improvement-03594-0.0379.hdf5') #phoebemodel.h5
-#model = load_model('weights-improvement-02175-0.0418.hdf5') #phoebemodel.h5
-#model = load_model('weights-improvement-14563-0.0075.hdf5')
-model.summary()
+from sklearn import preprocessing 
+import datetime
+import time
 
+   
 data = np.loadtxt('savedatasample3.txt')
-'''
+
 dfdata = pd.DataFrame(data)
-dfdata = dfdata.sample(n=10000)
+dfdata = dfdata.sample(n=100000)
 npdfdata = np.array(dfdata)
-'''
-data = data[data[:,100]>50]
+
+data = np.copy(npdfdata)
+#data = data[data[:,100]>50]
 
 data[:,100] = data[:,100]
 data[:,101] = data[:,101]*100
@@ -40,20 +36,35 @@ for i in range(len(data)):
     
 shuffle(data)
 
-P = 0.9
+P = 0.7
 duan = int(len(data)*P)
 
 dataX = data[:duan,0:100]
-dataY = data[:duan,100:104]
+#dataY = data[:duan,100:104]
+dataY = data[:duan,100]
 #dataY[:,0] = dataY[:,0]/90
 
 testX = data[duan:,0:100]
-testY = data[duan:,100:104]
+#testY = data[duan:,100:104]
+testY = data[duan:,100]
 
-
+start=time.clock()
+#starttime = datetime.datetime.now()
+model = load_model('incl.hdf5')
+#model = load_model('all.hdf5')
+#model = load_model('q.hdf5')
+#model = load_model('weights-improvement-05354-0.0293.hdf5')
+#model = load_model('weights-improvement-03594-0.0379.hdf5') #phoebemodel.h5
+#model = load_model('weights-improvement-02175-0.0418.hdf5') #phoebemodel.h5
+#model = load_model('weights-improvement-14563-0.0075.hdf5')
+model.summary()
 predictY = model.predict(testX)
-predictdatay = model.predict(dataX)
-
+#predictdatay = model.predict(dataX)
+#endtime = datetime.datetime.now()
+#print ((endtime - starttime).seconds)
+end=time.clock()
+total_time=end-start
+print("总耗时:"+str(total_time))
 
 
 def displayimg(testY, predictY):
@@ -87,4 +98,21 @@ def displayimg(testY, predictY):
     plt.pause(0.1)
     plt.savefig('tu.jpg')
     
-displayimg(testY, predictY)
+    
+def displayincl(testY, predictY):
+    plt.figure(0)
+    plt.plot(testY, predictY,'.')
+    predictY = predictY[:,0]
+    sigma = np.std(testY-predictY)
+    sigma = round(sigma, 4)
+    plt.plot(testY, (testY-predictY)+10, '.', c='blue')
+    plt.plot(testY, predictY, '.', color='darkorange')
+    plt.plot(testY, testY, '-', c='black')
+    plt.axhline(y=10, color='r', linestyle='-')
+    plt.axvline(x=45, color='r', linestyle='--')
+    plt.text(54, 12, 'y=10  '+'σ='+str(sigma), fontsize=14, color = "b", style = "italic")
+    plt.text(45, 4, 'x=45', fontsize=14, color = "r", style = "italic")
+    plt.xlabel('incl',fontsize=14)
+    plt.ylabel('predict-incl',fontsize=14)
+    
+displayincl(testY, predictY)

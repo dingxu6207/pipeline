@@ -15,7 +15,8 @@ from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import imageio
-
+from sklearn import metrics
+from sklearn.neighbors import NearestNeighbors
 np.random.seed(8)
 
 data = np.loadtxt('NGC7142.txt')
@@ -54,12 +55,26 @@ for eps in np.arange(0.1,0.5,0.01):
     for min_samples in range(2,15):
         clt = DBSCAN(eps = eps, min_samples = min_samples)
         datalables = clt.fit_predict(data_zs)
+        
+        try:
+            datapro = np.column_stack((data_zs ,datalables))
+            highdata = datapro[datapro[:,5] == 0]
+            nearest_neighbors = NearestNeighbors(n_neighbors=3)
+            neighbors = nearest_neighbors.fit(highdata[0:5])
+            distances, indices = neighbors.kneighbors(highdata[0:5])
+            hang,lie = distances.shape
+            sscore = np.sum(distances[:,1])/hang
+            
+            print(sscore)
+            
+        except:
+            sscore = -1
 
         n_clusters = len([i for i in set(datalables)])
 
         stats = str(pd.Series([i for i in datalables]).value_counts().values)
         
-        res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'stats':stats})
+        res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'score':sscore,'stats':stats})
         
         i = i+1
         print(str(i)+' '+'it is ok!')

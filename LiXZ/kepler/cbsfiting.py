@@ -9,21 +9,34 @@ import phoebe
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+
+def calculater(ydata, caldata):
+    res_ydata  = np.array(ydata) - np.array(caldata)
+    ss_res     = np.sum(res_ydata**2)
+    ss_tot     = np.sum((ydata - np.mean(ydata))**2)
+    r_squared  = 1 - (ss_res / ss_tot)
+    return r_squared
+
+
+
 logger = phoebe.logger()
 
 b = phoebe.default_binary(contact_binary=True)
 
-times  = np.linspace(0,1,150)
+
+lenlight = 150
+times  = np.linspace(0,1,lenlight)
 
 #b.add_dataset('lc', times=phoebe.linspace(0,1,100), passband= 'Kepler:mean')#compute_phases
-b.add_dataset('lc', times=phoebe.linspace(0,1,150))
+b.add_dataset('lc', times = times)
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  76.0 #58.528934
-b['q@binary'] =     38.94706*0.01
+b['incl@binary'] =  65.26318  #58.528934
+b['q@binary'] =     37.003555*0.01
 b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*99*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500*99.01571*0.01#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -31,7 +44,7 @@ b['teff@secondary'] = 6500*99*0.01#6500*100.08882*0.01 #6087
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 48.62837*0.01    #0.61845703
+b['requiv@primary'] = 48.471592*0.01    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -54,7 +67,7 @@ fluxcha = fluxes_model-b['value@times@lc01@model']
 #print(fluxcha)
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 10586874.txt'
+file = 'KIC 4937217.txt'
 #file = 'V396Mon_Yang2001B.nrm'
 #path = 'E:\\shunbianyuan\\phometry\\pipelinecode\\pipeline\\LiXZ\\nihe\\'
 #yuandata = np.loadtxt(file)
@@ -71,12 +84,14 @@ resultflux = -2.5*np.log10(fluxmodel)
 resultflux = resultflux - np.mean(resultflux)
 plt.figure(1)
 plt.plot(yuandata[:,0], datay, '.')
-#plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=80)
-plt.plot(b['value@times@lc01@model'], resultflux, '.')
+plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=40)
+#plt.plot(b['value@times@lc01@model'], resultflux, '.')
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
 plt.xlabel('phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
+#R2data = calculater(datay, resultflux)
+#print('R2data = ', R2data)
 
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边

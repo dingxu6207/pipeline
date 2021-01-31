@@ -12,13 +12,14 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('incl.hdf5')
 #model = load_model('all.hdf5')
-model = load_model('alldown.hdf5')
+#model = load_model('alldown.hdf5')
+model = load_model('alldrop.hdf5')
 #model = load_model('accall.hdf5')
 
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 8265951.txt'
+file = 'KIC 4937217.txt'
 #file = 'V737inter.txt'
 
 data = np.loadtxt(path+file)

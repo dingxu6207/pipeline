@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 14 16:38:42 2021
+Created on Tue Jan 26 21:21:46 2021
 
 @author: dingxu
 """
@@ -12,24 +12,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('incl.hdf5')
-model = load_model('alldrop.hdf5')
+#model = load_model('alldrop.hdf5')
 #model = load_model('alldown.hdf5')
 #model = load_model('all.hdf5')
 #model = load_model('q.hdf5')
-#model = load_model('accall.hdf5')
+model = load_model('accall.hdf5')
 
 
 model.summary()
 
-path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 4937217.txt'
+#path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
+#file = 'KIC 4937217.txt'
 
 
-#file = 'V737inter.txt'
-#data = np.loadtxt(file)
+file = 'CUTau.txt' #'V737inter.txt'
+data = np.loadtxt(file)
+data[:,1] = -2.5*np.log10(data[:,1])
 #data[:,1] = -2.5*np.log10(data[:,1])
-#data[:,1] = -2.5*np.log10(data[:,1])
-data = np.loadtxt(path+file)
+#data = np.loadtxt(path+file)
 datay = data[:,1]-np.mean(data[:,1])
 
 
@@ -57,5 +57,3 @@ nparraydata = np.reshape(sy1,(1,100))
 prenpdata = model.predict(nparraydata)
 
 print(prenpdata)
-
-

@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 
-#lightdata = np.loadtxt('savedatasample3.txt') 
-lightdata = np.loadtxt('alldatasample35.txt') 
+lightdata = np.loadtxt('savedatasample3.txt') 
+#lightdata = np.loadtxt('alldatasample35.txt') 
 
 
 import seaborn as sns
@@ -26,11 +26,11 @@ newdata = lightdata[lightdata[:,101] < 0.5]
 d4data = lightdata[lightdata[:,101] > 0.5]
 
 dfdata = pd.DataFrame(newdata)
-dfdata = dfdata.sample(n=70590)
+#dfdata = dfdata.sample(n=70590)
 npdfdata = np.array(dfdata)
 
 df4data = pd.DataFrame(d4data)
-df4data = df4data.sample(n=50000)
+#df4data = df4data.sample(n=50000)
 np4dfdata = np.array(df4data)
 
 alldata = np.row_stack((np4dfdata, npdfdata))
@@ -46,22 +46,30 @@ print(len(npdfdata))
 plt.figure(0)
 incldata = lightdata[:,100]
 sns.kdeplot(incldata,shade=True)
-plt.title('incl')
+#plt.title('incl')
+plt.xlabel('incl',fontsize=14)
+plt.ylabel('frequency',fontsize=14)
 
 plt.figure(1)
 qdata = lightdata[:,101]
 sns.kdeplot(qdata,shade=True)
-plt.title('q')
+#plt.title('q')
+plt.xlabel('q',fontsize=14)
+plt.ylabel('frequency',fontsize=14)
 
 plt.figure(2)
 rdata = lightdata[:,102]
 sns.kdeplot(rdata,shade=True)
-plt.title('r')
+#plt.title('r')
+plt.xlabel('r',fontsize=14)
+plt.ylabel('frequency',fontsize=14)
 
 plt.figure(3)
 tdata = lightdata[:,103]
 sns.kdeplot(tdata,shade=True)
-plt.title('T2/T1')
+#plt.title('T2/T1')
+plt.xlabel('T2/T1',fontsize=14)
+plt.ylabel('frequency',fontsize=14)
 
 np.savetxt('alldata35.txt', alldata)
 

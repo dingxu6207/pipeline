@@ -51,10 +51,10 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,100))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  89.58849 #58.528934
-b['q@binary'] =  97.289375*0.01
+b['incl@binary'] =  82.71378#58.528934
+b['q@binary'] =  99.04949*0.01
 b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*89.15047*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500*85.1914*0.01#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -62,7 +62,7 @@ b['teff@secondary'] = 6500*89.15047*0.01#6500*100.08882*0.01 #6087
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 48.058174*0.01    #0.61845703
+b['requiv@primary'] = 39.060974*0.01    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -74,7 +74,7 @@ resultflux = resultflux - np.mean(resultflux)
 
 datax = np.arange(0,100,1)/100
 plt.figure(1)
-plt.plot(datax, datay, '.')
+plt.plot(datax, datay)
 plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=40)
 #plt.plot(b['value@times@lc01@model'], resultflux, '.')
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
