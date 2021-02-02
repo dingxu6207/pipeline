@@ -49,7 +49,7 @@ tempones = np.ones(11,dtype = np.uint)
 sumtemp = np.dot(tempdistance, tempones)
 
 
-distances = np.sort(distances[:,10], axis=0)
+distances = np.sort(distances[:,1], axis=0)
 #distances = np.sort(sumtemp/10, axis=0)
 fig = plt.figure(figsize=(5, 5))
 plt.plot(distances)
@@ -59,7 +59,7 @@ plt.savefig("Distance_curve.png", dpi=300)
 
 from kneed import KneeLocator
 i = np.arange(len(distances))
-knee = KneeLocator(i, distances, S=1, curve='concave', direction='increasing', interp_method='polynomial',online=True)
+knee = KneeLocator(i, distances, S=1, curve='convex', direction='increasing', interp_method='polynomial',online=True)
 fig = plt.figure(figsize=(5, 5))
 knee.plot_knee()
 print(knee.all_knees_y)
@@ -69,4 +69,4 @@ plt.ylabel("Distance")
 
 print(distances[knee.knee])
 
-
+plt.text(13092, 0.56, 'eps=0.6', color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签

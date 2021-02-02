@@ -45,7 +45,26 @@ r1 = pd.Series(datalables).value_counts()
 print(r1)
 '''
 
+def thehighdensity(dataset, lable):
+    datasetproable = np.column_stack((dataset, lable))
+    highdensity = datasetproable[datasetproable[:,5] == 0]
+    nearest_neighbors = NearestNeighbors(n_neighbors=3)
+    neighbors = nearest_neighbors.fit(highdensity[0:5])
+    distances, indices = neighbors.kneighbors(highdensity[0:5])
+    hang,lie = distances.shape
+    hscore = np.sum(distances[:,1])/hang
+    return hscore
 
+
+def thelowdensity(dataset, lable):
+    datasetproable = np.column_stack((dataset, lable))
+    highdensity = datasetproable[datasetproable[:,5] == -1]
+    nearest_neighbors = NearestNeighbors(n_neighbors=3)
+    neighbors = nearest_neighbors.fit(highdensity[0:5])
+    distances, indices = neighbors.kneighbors(highdensity[0:5])
+    hang,lie = distances.shape
+    lscore = np.sum(distances[:,1])/hang
+    return lscore
 
 
 res = []
@@ -57,6 +76,7 @@ for eps in np.arange(0.1,0.5,0.01):
         datalables = clt.fit_predict(data_zs)
         
         try:
+            '''
             datapro = np.column_stack((data_zs ,datalables))
             highdata = datapro[datapro[:,5] == 0]
             nearest_neighbors = NearestNeighbors(n_neighbors=3)
@@ -66,15 +86,18 @@ for eps in np.arange(0.1,0.5,0.01):
             sscore = np.sum(distances[:,1])/hang
             
             print(sscore)
-            
+            '''
+            sscore = thehighdensity(data_zs, datalables)
+            lsscore = thelowdensity(data_zs, datalables)
         except:
             sscore = -1
+            lsscore = -1
 
         n_clusters = len([i for i in set(datalables)])
 
         stats = str(pd.Series([i for i in datalables]).value_counts().values)
         
-        res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'score':sscore,'stats':stats})
+        res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'hscore':sscore,'lscore':lsscore,'stats':stats})
         
         i = i+1
         print(str(i)+' '+'it is ok!')
