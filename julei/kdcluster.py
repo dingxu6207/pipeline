@@ -19,7 +19,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('NGC7142.txt')
+data = np.loadtxt('NGC6791.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -49,8 +49,9 @@ tempones = np.ones(11,dtype = np.uint)
 sumtemp = np.dot(tempdistance, tempones)
 
 
-distances = np.sort(distances[:,1], axis=0)
+distances = np.sort(distances[:,10], axis=0)
 #distances = np.sort(sumtemp/10, axis=0)
+plt.plot(0)
 fig = plt.figure(figsize=(5, 5))
 plt.plot(distances)
 plt.xlabel("Points")
@@ -69,4 +70,10 @@ plt.ylabel("Distance")
 
 print(distances[knee.knee])
 
-plt.text(13092, 0.56, 'eps=0.6', color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+plt.text(13279, 0.90, 'eps=0.97', color = "b", style = "italic", weight = "light", verticalalignment='center', horizontalalignment='left',rotation=0) #给散点加标签
+
+
+plt.figure(10)
+plt.hist(np.around(distances,3), bins=700, density = 0, facecolor='blue', alpha=0.5)
+plt.xlabel("Distance")
+plt.ylabel("Points")

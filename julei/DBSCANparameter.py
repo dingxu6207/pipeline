@@ -19,7 +19,7 @@ from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
 np.random.seed(8)
 
-data = np.loadtxt('NGC7142.txt')
+data = np.loadtxt('NGC6791.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
