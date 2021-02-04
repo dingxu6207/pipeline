@@ -70,7 +70,7 @@ plt.legend()
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
-plt.xlabel('Phrase',fontsize=14)
+plt.xlabel('Phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 phrasefluxdata = np.vstack((duanx, c))
 np.savetxt('lightcurve.txt', phrasefluxdata.T)

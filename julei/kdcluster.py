@@ -11,7 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import mixture
 from matplotlib.pyplot import MultipleLocator
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
 from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
@@ -19,11 +19,11 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('NGC6791.txt')
+data = np.loadtxt('Be99.txt')#6791
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
-
+#data[:,2] = data[:,2]
 data = data[data[:,3]<15]
 data = data[data[:,3]>-15]
 
@@ -34,6 +34,7 @@ X = np.copy(data[:,0:5])
 
 
 X = StandardScaler().fit_transform(X)
+#X = MinMaxScaler().fit_transform(X)
 data_zs = np.copy(X)
 
 
@@ -74,6 +75,6 @@ plt.text(13279, 0.90, 'eps=0.97', color = "b", style = "italic", weight = "light
 
 
 plt.figure(10)
-plt.hist(np.around(distances,3), bins=700, density = 0, facecolor='blue', alpha=0.5)
+plt.hist(np.around(distances,3), bins=1000, density = 0, facecolor='blue', alpha=0.5)
 plt.xlabel("Distance")
 plt.ylabel("Points")

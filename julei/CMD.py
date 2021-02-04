@@ -12,7 +12,7 @@ import numpy as np
 
 #df = pd.read_csv('Be9910.tsv', sep = ';', encoding='gbk')
 #df = pd.read_csv('Be18.tsv', sep = ';', encoding='gbk')#NGC6819.tsv
-df = pd.read_csv('NGC7142.tsv', sep = ';', encoding='gbk')#NGC6819.tsv
+df = pd.read_csv('NGC714210.tsv', sep = ';', encoding='gbk')#NGC6819.tsv
 #df = pd.read_csv('NGC559.tsv', sep = ';', encoding='gbk')
 
 dataframe = df.dropna()
@@ -39,4 +39,4 @@ arraydata = np.array(temp)
 
 
 
-np.savetxt('NGC7142.txt', arraydata)
+np.savetxt('NGC714210.txt', arraydata)

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 
-lightdata = np.loadtxt('savedatasample3.txt') 
+lightdata = np.loadtxt('savedatasample1.txt') 
 #lightdata = np.loadtxt('alldatasample35.txt') 
 
 
@@ -19,7 +19,7 @@ sns.set()
 
 
 lightdata = lightdata[lightdata[:,100] > 50]
-lightdata = lightdata[lightdata[:,101] < 1]
+#lightdata = lightdata[lightdata[:,101] < 1]
 #lightdata = lightdata[lightdata[:,103] < 1.15]
 #lightdata = lightdata[lightdata[:,103] > 0.85]
 newdata = lightdata[lightdata[:,101] < 0.5]
@@ -52,7 +52,8 @@ plt.ylabel('frequency',fontsize=14)
 
 plt.figure(1)
 qdata = lightdata[:,101]
-sns.kdeplot(qdata,shade=True)
+#sns.kdeplot(qdata,shade=True)
+plt.hist(qdata, bins=400, density=1, facecolor="blue", edgecolor="black", alpha=0.7)
 #plt.title('q')
 plt.xlabel('q',fontsize=14)
 plt.ylabel('frequency',fontsize=14)
@@ -66,7 +67,8 @@ plt.ylabel('frequency',fontsize=14)
 
 plt.figure(3)
 tdata = lightdata[:,103]
-sns.kdeplot(tdata,shade=True)
+#sns.kdeplot(tdata,shade=True)
+plt.hist(tdata, bins=400, density=1, facecolor="blue", edgecolor="black", alpha=0.7)
 #plt.title('T2/T1')
 plt.xlabel('T2/T1',fontsize=14)
 plt.ylabel('frequency',fontsize=14)

@@ -11,14 +11,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import mixture
 from matplotlib.pyplot import MultipleLocator
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
 from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import imageio
 
 
-data = np.loadtxt('NGC7142.txt')
+data = np.loadtxt('Be99.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -34,9 +34,10 @@ X = np.copy(data[:,0:5])
 
 
 X = StandardScaler().fit_transform(X)
+#X = MinMaxScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.6, min_samples = 10)
+clt = DBSCAN(eps = 0.05, min_samples = 10)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
