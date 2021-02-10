@@ -15,12 +15,12 @@ from sklearn import preprocessing
 #model = load_model('alldown.hdf5')
 #model = load_model('alldrop.hdf5')
 #model = load_model('accall.hdf5')
-model = load_model('all10.hdf5')
+model = load_model('all12.hdf5')
 
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 8977390.txt'
+file = 'KIC 5439790.txt'
 #file = 'ztf1.txt'
 
 data = np.loadtxt(path+file)

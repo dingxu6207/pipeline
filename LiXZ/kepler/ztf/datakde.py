@@ -22,19 +22,21 @@ lightdata = lightdata[lightdata[:,100] > 50]
 #lightdata = lightdata[lightdata[:,101] < 1]
 #lightdata = lightdata[lightdata[:,103] < 1.15]
 #lightdata = lightdata[lightdata[:,103] > 0.85]
-newdata = lightdata[lightdata[:,101] < 0.2]
+newdata = lightdata[lightdata[:,101] < 0.4]
 #d4data = lightdata[lightdata[:,101] > 0.2]
-d4data = lightdata[lightdata[:,101] > 0.2]
+d4data = lightdata[lightdata[:,101] > 0.4]
 
 dfdata = pd.DataFrame(newdata)
 #dfdata = dfdata.sample(n=70590)
 npdfdata = np.array(dfdata)
 
 df4data = pd.DataFrame(d4data)
-#df4data = df4data.sample(n=20000)
+df4data = df4data.sample(n=20000)
 np4dfdata = np.array(df4data)
 
 alldata = np.row_stack((np4dfdata, npdfdata))
+#alldata = np.row_stack((alldata, npdfdata))
+alldata = np.row_stack((alldata, lightdata))
 lightdata = np.copy(alldata)
 
 '''
@@ -54,7 +56,7 @@ plt.ylabel('frequency',fontsize=14)
 plt.figure(1)
 qdata = lightdata[:,101]
 sns.kdeplot(qdata,shade=True)
-#plt.hist(qdata, bins=4000, density=0, facecolor="blue", edgecolor="black", alpha=0.7)
+#plt.hist(qdata, bins=40000, density=0, facecolor="blue", edgecolor="black", alpha=0.7)
 #plt.title('q')
 plt.xlabel('q',fontsize=14)
 plt.ylabel('frequency',fontsize=14)

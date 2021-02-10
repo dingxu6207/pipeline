@@ -19,7 +19,7 @@ import imageio
 
 np.random.seed(8)
 
-data = np.loadtxt('Be99.txt')#6791
+data = np.loadtxt('NGC6791.txt')#6791
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -32,10 +32,16 @@ data = data[data[:,4]>-15]
 
 X = np.copy(data[:,0:5])
 
+plt.figure(20)
+plt.hist(np.around(X[:,3],3), bins=500, density = 0, facecolor='blue', alpha=0.5)
+
 
 X = StandardScaler().fit_transform(X)
 #X = MinMaxScaler().fit_transform(X)
 data_zs = np.copy(X)
+
+plt.figure(21)
+plt.hist(np.around(data_zs[:,3],3), bins=500, density = 0, facecolor='blue', alpha=0.5)
 
 
 from sklearn.neighbors import NearestNeighbors

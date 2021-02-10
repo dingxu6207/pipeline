@@ -23,8 +23,12 @@ for count in range(0,500000):
     try:
         incl = random.uniform(30,90)
         T1divT2 = random.uniform(0.8,1.2)
-        q = random.uniform(0.04,1)
-        r = random.uniform(0.3,0.7)
+        #q1 = random.uniform(3,10)
+        q = np.random.normal(loc=0, scale=0.5)
+        #q1 = np.random.normal(loc=5, scale=2)
+        #q = np.concatenate((q,q1))
+        q = np.abs(q)       
+        r = random.uniform(0.7,0.3)
         
         print('incl=', incl)
         print('temp=', 6500*T1divT2)
@@ -37,7 +41,7 @@ for count in range(0,500000):
         b['q@binary'] = q
         b['teff@primary'] = 6500
         b['teff@secondary'] = 6500*T1divT2
-        
+        '''
         b.run_compute(irrad_method='none')
         print('it is ok1')
     
@@ -50,7 +54,7 @@ for count in range(0,500000):
     
         resultdata = np.row_stack((lightcurvedata, datamq))
         np.savetxt(file, resultdata)
-        
+        '''
         print('it is ok3')
         
     except:
