@@ -12,7 +12,7 @@ from PyAstronomy.pyTiming import pyPDM
 import matplotlib.pylab as plt
 from scipy import interpolate
 
-CSV_FILE_PATH = '55.csv'
+CSV_FILE_PATH = '781596.csv'
 dfdata = pd.read_csv(CSV_FILE_PATH)
 
 hjd = dfdata['HJD']
@@ -21,11 +21,12 @@ mag = dfdata['mag']
 nphjd = np.array(hjd)
 npmag = np.array(mag)
 
-hang = 287
+hang = 196
 nphjd = nphjd[0:hang]
 npmag = npmag[0:hang]-np.mean(npmag[0:hang])
 
-phases = foldAt(nphjd, 0.3702918)
+P = 0.3557922
+phases = foldAt(nphjd, P)
 sortIndi = np.argsort(phases)
 # ... and, second, rearrange the arrays.
 phases = phases[sortIndi]
@@ -54,11 +55,20 @@ phasemag = phasemag.T
 phasemag = phasemag[phasemag[:,0]>0]
 phasemag = phasemag[phasemag[:,0]<1]
 
+#去除异常点
+mendata = np.mean(phasemag[:,1])
+stddata = np.std(phasemag[:,1])
+sigmamax = mendata+2*stddata
+sigmamin = mendata-2*stddata
+
+phasemag = phasemag[phasemag[:,1] > sigmamin]
+phasemag = phasemag[phasemag[:,1] < sigmamax]
+
 
 phrase = phasemag[:,0]
 flux = phasemag[:,1]
 sx1 = np.linspace(0,1,200)
-func1 = interpolate.UnivariateSpline(phrase, flux,s=0.37)#强制通过所有点
+func1 = interpolate.UnivariateSpline(phrase, flux,s=0.72)#强制通过所有点
 sy1 = func1(sx1)
 
 

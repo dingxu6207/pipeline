@@ -21,14 +21,14 @@ inclmodel = load_model('incl.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 9519590.txt'
+#file = 'KIC 10680475.txt'
 
 
-#file = 'ztf1.txt'
-#data = np.loadtxt(file)
+file = 'ztf1.txt'
+data = np.loadtxt(file)
 #data[:,1] = -2.5*np.log10(data[:,1])
 #data[:,1] = -2.5*np.log10(data[:,1])
-data = np.loadtxt(path+file)
+#data = np.loadtxt(path+file)
 datay = data[:,1]-np.mean(data[:,1])
 
 
