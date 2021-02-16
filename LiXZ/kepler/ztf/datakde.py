@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 
+#lightdata = np.loadtxt('savedatasample.txt') 
 lightdata = np.loadtxt('savedatasample1.txt') 
-#lightdata = np.loadtxt('alldatasample35.txt') 
 
 
 import seaborn as sns
@@ -31,7 +31,7 @@ dfdata = pd.DataFrame(newdata)
 npdfdata = np.array(dfdata)
 
 df4data = pd.DataFrame(d4data)
-df4data = df4data.sample(n=20000)
+#df4data = df4data.sample(n=20000)
 np4dfdata = np.array(df4data)
 
 alldata = np.row_stack((np4dfdata, npdfdata))

@@ -12,19 +12,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('incl.hdf5')
-#model = load_model('alldrop.hdf5')
-#model = load_model('allsample.hdf5')
+model = load_model('allzhengtai.hdf5')
+#model = load_model('alldown.hdf5')
+#model = load_model('all.hdf5')
+#model = load_model('q.hdf5')
 #model = load_model('accall.hdf5')
-model = load_model('all11.hdf5')
 
-inclmodel = load_model('incl.hdf5')
+
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 3104113.txt'
+file = 'KIC 8690104.txt'
 
 
-#file = 'ztf1.txt'
+#file = 'V737inter.txt'
 #data = np.loadtxt(file)
 #data[:,1] = -2.5*np.log10(data[:,1])
 #data[:,1] = -2.5*np.log10(data[:,1])
@@ -34,13 +35,13 @@ datay = data[:,1]-np.mean(data[:,1])
 
 plt.figure(0)
 plt.plot(data[:,0], datay, '.')
-plt.xlabel('Phase',fontsize=14)
+plt.xlabel('Phrase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 
 
 sx1 = np.linspace(0,1,100)
-func1 = interpolate.UnivariateSpline(data[:,0], datay,s=0.0)#强制通过所有点
+func1 = interpolate.UnivariateSpline(data[:,0], datay,s=0)#强制通过所有点
 sy1 = func1(sx1)
 plt.figure(0)
 plt.plot(sx1, sy1, '.', c='r')
@@ -54,27 +55,10 @@ plt.ylabel('mag',fontsize=14)
 nparraydata = np.reshape(sy1,(1,100))
 
 prenpdata = model.predict(nparraydata)
-#print(prenpdata)
-prenpdata[0][1] = prenpdata[0][1]/10
+
+prenpdata[0][1] = prenpdata[0][1]/100
 prenpdata[0][2] = prenpdata[0][2]/100
 prenpdata[0][3] = prenpdata[0][3]/100
-
-if (prenpdata[0][0]>50) and (prenpdata[0][1]<1.1):
-    model = load_model('alldrop.hdf5')
-    prenpdata = model.predict(nparraydata)
-    prenpdata[0][1] = prenpdata[0][1]/100
-    prenpdata[0][2] = prenpdata[0][2]/100
-    prenpdata[0][3] = prenpdata[0][3]/100
-
-    if (prenpdata[0][0]>70) and (prenpdata[0][1]<0.4):
-        model = load_model('accall.hdf5')
-        prenpdata = model.predict(nparraydata)
-        prenpdata[0][1] = prenpdata[0][1]/100
-        prenpdata[0][2] = prenpdata[0][2]/100
-        prenpdata[0][3] = prenpdata[0][3]/100
-     
 print(prenpdata)
 
-incldegree = inclmodel.predict(nparraydata)
-print('incl = ', incldegree[0][0])
 
