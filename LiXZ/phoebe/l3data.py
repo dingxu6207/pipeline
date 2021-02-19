@@ -21,7 +21,7 @@ b.add_dataset('lc', times=np.linspace(0,1,101), dataset='lc01')
 
 #b.run_compute(irrad_method='none', model='no_third_light')
 b.set_value('l3_mode', 'fraction')
-b.set_value('l3_frac', 1.01)
+b.set_value('l3_frac', 0.88)
 #b.set_value('l3_mode', 'flux')
 #b.set_value('l3', 5)
 
