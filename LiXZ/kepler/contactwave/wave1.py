@@ -23,13 +23,13 @@ b = phoebe.default_binary(contact_binary=True)
 
 #b.add_dataset('lc', times=phoebe.linspace(0,1,100), passband= 'Kepler:mean')#compute_phases
 #b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'Johnson:B')
-b.add_dataset('lc', times=phoebe.linspace(0,1,150))
+b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'Johnson:B')
 
 
 b['period@binary'] = 1
 
-#b.set_value('l3_mode', 'fraction')
-#b.set_value('l3_frac', 0.9)
+b.set_value('l3_mode', 'fraction')
+b.set_value('l3_frac', 0.2)
 
 b['incl@binary'] =  70
 b['q@binary'] =  32.8224*0.01
@@ -64,6 +64,9 @@ plt.ylabel('mag',fontsize=14)
 
 ar7 = np.vstack((timesx,resultflux1))
 np.savetxt('mag1.txt', ar7)
+
+flux1 = np.vstack((timesx,fluxmodel))
+np.savetxt('flux1.txt', flux1)
 
 for i in range(10):
     print('it is okV1')

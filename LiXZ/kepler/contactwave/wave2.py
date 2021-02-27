@@ -21,9 +21,9 @@ b = phoebe.default_binary(contact_binary=True)
 
 #times  = np.linspace(0,1,150)
 
-b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'LSST:i')#compute_phases
+#b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'LSST:i')#compute_phases
 b.add_dataset('rv', compute_phases=phoebe.linspace(0,1,150))
-#b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'Johnson:B')
+b.add_dataset('lc', times=phoebe.linspace(0,1,150), passband= 'Johnson:B')
 
 b['period@binary'] = 1
 
@@ -64,6 +64,9 @@ plt.ylabel('mag',fontsize=14)
 ar7 = np.vstack((timesx,resultflux1))
 
 np.savetxt('mag2.txt', ar7)
+
+flux2 = np.vstack((timesx,fluxmodel))
+np.savetxt('flux2.txt', flux2)
 
 for i in range(10):
     print('it is okB2')

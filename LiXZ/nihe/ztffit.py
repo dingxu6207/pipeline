@@ -14,7 +14,7 @@ from PyAstronomy.pyTiming import pyPDM
 import matplotlib.pylab as plt
 from scipy import interpolate
 
-CSV_FILE_PATH = '175.csv'
+CSV_FILE_PATH = '175.csv' #175
 dfdata = pd.read_csv(CSV_FILE_PATH)
 
 hjd = dfdata['HJD']
@@ -67,8 +67,8 @@ phasemag = phasemag[phasemag[:,1] < sigmamax]
 
 phrase = phasemag[:,0]
 flux = phasemag[:,1]
-sx1 = np.linspace(0,1,200)
-func1 = interpolate.UnivariateSpline(phrase, flux,s=0.225)#强制通过所有点
+sx1 = np.linspace(0,1,100)
+func1 = interpolate.UnivariateSpline(phrase, flux,s=0.225)#强制通过所有点0.225
 sy1 = func1(sx1)
 
 
@@ -81,7 +81,7 @@ plt.plot(sx1, sy1,'.', c='r')#对原始数据画散点图
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
-plt.xlabel('Phrase',fontsize=14)
+plt.xlabel('phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
 interdata = np.vstack((sx1,sy1))

@@ -14,14 +14,14 @@ from sklearn import preprocessing
 #model = load_model('incl.hdf5')
 #model = load_model('alldrop.hdf5')
 #model = load_model('allsample.hdf5')
-#model = load_model('accall.hdf5')
-model = load_model('alll3.hdf5')
+model = load_model('weights-improvement-48147-0.4684.hdf5')
+#model = load_model('alll3.hdf5')
 
 inclmodel = load_model('incl.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 10727655.txt'
+file = 'KIC 10267044.txt'
 
 
 #file = 'ztf1.txt'
@@ -40,7 +40,7 @@ plt.ylabel('mag',fontsize=14)
 
 
 sx1 = np.linspace(0,1,100)
-func1 = interpolate.UnivariateSpline(data[:,0], datay,s=0.0)#强制通过所有点
+func1 = interpolate.UnivariateSpline(data[:,0], datay,s=0.0002)#强制通过所有点
 sy1 = func1(sx1)
 plt.figure(0)
 plt.plot(sx1, sy1, '.', c='r')
@@ -60,8 +60,8 @@ prenpdata[0][2] = prenpdata[0][2]/100
 prenpdata[0][3] = prenpdata[0][3]/100
 prenpdata[0][4] = prenpdata[0][4]/100
 
-if (prenpdata[0][0]>50) and (prenpdata[0][1]<0.8):
-    model = load_model('l30.hdf5')
+if (prenpdata[0][0]>50) and (prenpdata[0][1]<1.2):
+    model = load_model('l300.hdf5')
     prenpdata = model.predict(nparraydata)
     prenpdata[0][1] = prenpdata[0][1]/100
     prenpdata[0][2] = prenpdata[0][2]/100
