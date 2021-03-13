@@ -9,7 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import load_model
 import phoebe
-
+import time
+from datetime import datetime
 
 data = np.loadtxt('alldata35.txt')
 
@@ -30,15 +31,22 @@ ax.invert_yaxis() #y轴反向
 plt.xlabel('Phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
 
-
 model = load_model('all.hdf5')
-
 nparraydata = np.reshape(datay,(1,100))
 
+time_start=time.time()
+starttime = datetime.now()
 prenpdata = model.predict(nparraydata)
+
+endtime = datetime.now()
+time_end=time.time()
+
 
 print(prenpdata)
 print(labels)
+
+print('totally cost',time_end-time_start)
+print("RunTime: {}h-{}m-{}s".format(endtime.hour-starttime.hour, endtime.minute-starttime.minute, endtime.second-starttime.second))
 
 logger = phoebe.logger()
 
@@ -51,10 +59,10 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,100))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  82.71378#58.528934
-b['q@binary'] =  99.04949*0.01
+b['incl@binary'] =  74.38298#58.528934
+b['q@binary'] =  95.89066*0.01
 b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*85.1914*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500*117.2186*0.01#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -62,7 +70,7 @@ b['teff@secondary'] = 6500*85.1914*0.01#6500*100.08882*0.01 #6087
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 39.060974*0.01    #0.61845703
+b['requiv@primary'] = 46.67052*0.01    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 

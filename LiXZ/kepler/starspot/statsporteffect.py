@@ -26,8 +26,8 @@ cb = phoebe.default_binary(contact_binary = True)
 
 
 #print(cb.filter(component='binary')) 
-cb['q'] = 1.
-cb['period@binary'] = 1.
+cb['q'] = 0.7
+cb['period@binary'] = 1
 #cb['fillout_factor@contact_envelope@envelope@component'] = 0.5
 #cb.run_compute(irrad_method='none')
 

@@ -10,11 +10,11 @@ from astropy.wcs import WCS
 import numpy as np
 
 
-path = "E:/shunbianyuan/phometry/todingx/origindata/"
-file = "ftboYFAk300222.fits"
-filename = path+file
+#path = "E:/shunbianyuan/phometry/todingx/origindata/"
+#file = "ftboYFAk300222.fits"
+#filename = path+file
 
-#filename = 'new-image.fits'
+filename = 'new-image.fits'
 ast = AstrometryNet()
 ast.api_key = "vslojcwowmxjczlq"
 

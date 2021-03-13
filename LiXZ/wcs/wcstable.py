@@ -21,6 +21,8 @@ ast.api_key = 'vslojcwowmxjczlq'
 filename = 'new-image.fits'
 #path = "E:/shunbianyuan/phometry/todingx/origindata/"
 #file = "ftboYFAk300222.fits"
+#path = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'
+#file = 'd4738777L016m000.fit'
 #filename = path+file
 fitshdu = fits.open(filename)
 fitsdata = fitshdu[0].data
@@ -80,9 +82,10 @@ apertures1.plot(color='blue', lw=1.5, alpha=0.5)
 
 image_width,image_height = fitsdata.shape
 #image_height = 3945
+sources1.sort('flux')
 wcs_header = ast.solve_from_source_list(sources1['xcentroid'], sources1['ycentroid'],
                                         image_width, image_height,
-                                        solve_timeout=1000)
+                                        solve_timeout=200)
 
 print(wcs_header)
 

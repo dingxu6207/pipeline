@@ -14,21 +14,21 @@ from sklearn import preprocessing
 #model = load_model('incl.hdf5')
 #model = load_model('alldrop.hdf5')
 #model = load_model('allsample.hdf5')
-model = load_model('weights-improvement-48147-0.4684.hdf5')
-#model = load_model('alll3.hdf5')
+#model = load_model('accall.hdf5')
+model = load_model('all11.hdf5')
 
 inclmodel = load_model('incl.hdf5')
 model.summary()
 
-path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 5015926.txt'
+#path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
+#file = 'KIC 9453192.txt'
 
 
-#file = 'ztf1.txt'
-#data = np.loadtxt(file)
+file = 'ztf1.txt'
+data = np.loadtxt(file)
 #data[:,1] = -2.5*np.log10(data[:,1])
 #data[:,1] = -2.5*np.log10(data[:,1])
-data = np.loadtxt(path+file)
+#data = np.loadtxt(path+file)
 datay = data[:,1]-np.mean(data[:,1])
 
 
@@ -39,7 +39,7 @@ plt.ylabel('mag',fontsize=14)
 
 
 
-sx1 = np.linspace(0,1,100)
+sx1 = np.linspace(0,0.99,100)
 func1 = interpolate.UnivariateSpline(data[:,0], datay,s=0.0002)#强制通过所有点
 sy1 = func1(sx1)
 plt.figure(0)
@@ -58,22 +58,20 @@ prenpdata = model.predict(nparraydata)
 prenpdata[0][1] = prenpdata[0][1]/10
 prenpdata[0][2] = prenpdata[0][2]/100
 prenpdata[0][3] = prenpdata[0][3]/100
-prenpdata[0][4] = prenpdata[0][4]/100
 
-if (prenpdata[0][0]>50) and (prenpdata[0][1]<0.2):
-    model = load_model('l300.hdf5')
+if (prenpdata[0][0]>50) and (prenpdata[0][1]<1.1):
+    model = load_model('alldrop.hdf5')
     prenpdata = model.predict(nparraydata)
     prenpdata[0][1] = prenpdata[0][1]/100
     prenpdata[0][2] = prenpdata[0][2]/100
     prenpdata[0][3] = prenpdata[0][3]/100
-    prenpdata[0][4] = prenpdata[0][4]/100
 
-#    if (prenpdata[0][0]>70) and (prenpdata[0][1]<0.4):
-#        model = load_model('accall.hdf5')
-#        prenpdata = model.predict(nparraydata)
-#        prenpdata[0][1] = prenpdata[0][1]/100
-#        prenpdata[0][2] = prenpdata[0][2]/100
-#        prenpdata[0][3] = prenpdata[0][3]/100
+    if (prenpdata[0][0]>70) and (prenpdata[0][1]<0.4):
+        model = load_model('accall.hdf5')
+        prenpdata = model.predict(nparraydata)
+        prenpdata[0][1] = prenpdata[0][1]/100
+        prenpdata[0][2] = prenpdata[0][2]/100
+        prenpdata[0][3] = prenpdata[0][3]/100
      
 print(prenpdata)
 

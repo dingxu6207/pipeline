@@ -14,7 +14,7 @@ from PyAstronomy.pyTiming import pyPDM
 import matplotlib.pylab as plt
 from scipy import interpolate
 
-CSV_FILE_PATH = '175.csv' #175
+CSV_FILE_PATH = '55.csv' #175
 dfdata = pd.read_csv(CSV_FILE_PATH)
 
 hjd = dfdata['HJD']
@@ -23,13 +23,13 @@ mag = dfdata['mag']
 nphjd = np.array(hjd)
 npmag = np.array(mag)
 
-HANG = 151  #-1
+HANG = 287  #-1
 npmag1 = npmag[0:HANG]-np.mean(npmag[0:HANG])
 npmag2 = npmag[HANG:]-np.mean(npmag[HANG:])
 
 npmag = np.concatenate([npmag1,npmag2],axis=0)
 #npmag = np.row_stack((npmag1, npmag2))
-P = 0.3076834
+P = 0.3702918
 phases = foldAt(nphjd, P)
 sortIndi = np.argsort(phases)
 # ... and, second, rearrange the arrays.
@@ -67,8 +67,8 @@ phasemag = phasemag[phasemag[:,1] < sigmamax]
 
 phrase = phasemag[:,0]
 flux = phasemag[:,1]
-sx1 = np.linspace(0,1,100)
-func1 = interpolate.UnivariateSpline(phrase, flux, s=0.225)#强制通过所有点0.225
+sx1 = np.linspace(0.01,0.99,100)
+func1 = interpolate.UnivariateSpline(phrase, flux, s=0.16)#强制通过所有点0.225
 sy1 = func1(sx1)
 
 
@@ -87,6 +87,8 @@ plt.ylabel('mag',fontsize=14)
 interdata = np.vstack((sx1,sy1))
 np.savetxt('ztf1.txt', interdata.T)
 
+praflux = np.vstack((phrase, flux))
+np.savetxt('ztf2.txt', praflux.T)
 
 
 

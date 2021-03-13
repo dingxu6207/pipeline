@@ -13,28 +13,25 @@ logger = phoebe.logger()
 
 b = phoebe.default_binary(contact_binary=True)
 
-lengthd = 328
-times  = np.linspace(0,1,lengthd)
+times  = np.linspace(0,1,150)
 
 #b.add_dataset('lc', times=phoebe.linspace(0,1,100), passband= 'Kepler:mean')#compute_phases
-b.add_dataset('lc', times=times)
-b.set_value('l3_mode', 'fraction')
+b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
-constfrac = 0.76
-b.set_value('l3_frac', constfrac)
 b['period@binary'] = 1
 
-b['incl@binary'] = 78.71832     #58.528934
-b['q@binary'] =    2.2691324
-b['teff@primary'] =  6500#6500#6500#6500  #6208 
-b['teff@secondary'] = 6500*0.96679384#6500*0.9069584       
+b['incl@binary'] =  67.71408#58.528934
+b['q@binary'] =   2.3844948
+b['teff@primary'] =  6500#6500#6500  #6208 
+b['teff@secondary'] = 6500*0.97162455 #6500*92.307556*0.01#6500*100.08882*0.01 #6087
+
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 0.33427894 #0.61845703
+b['requiv@primary'] =  0.32761434   #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -56,11 +53,11 @@ fluxcha = fluxes_model-b['value@times@lc01@model']
 
 #print(fluxcha)
 
-path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-#file = 'ztf1.txt' #6677225
-file = 'KIC 5015926.txt'
-#yuandata = np.loadtxt(file)
-yuandata = np.loadtxt(path+file)
+#path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
+file = 'ztf2.txt' #6677225
+#file = 'KIC 2437038.txt'
+yuandata = np.loadtxt(file)
+#yuandata = np.loadtxt(path+file)
 #datay = 10**(yuandata[:,1]/(-2.512))
 datay = yuandata[:,1]
 #datay = -2.5*np.log10(yuandata[:,1])
@@ -72,9 +69,10 @@ fluxmodel = b['value@fluxes@lc01@model']
 resultflux = -2.5*np.log10(fluxmodel)
 resultflux = resultflux - np.mean(resultflux)
 plt.figure(1)
-plt.plot(yuandata[:,0], datay, '.')
-plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=40)
-#plt.plot(b['value@times@lc01@model']+0.005, resultflux, '.')
+plt.plot(yuandata[:,0]-0.01, datay, '.')
+#plt.scatter(b['value@times@lc01@model'], resultflux, c='none',marker='o',edgecolors='r', s=80)
+#plt.plot(b['value@times@lc01@model'], resultflux, '.')
+plt.plot(b['value@times@lc01@model'], resultflux)
 #plt.plot(b['value@times@lc01@model'], -2.5*np.log10(b['value@fluxes@lc01@model'])+0.64, '.')
 plt.xlabel('phase',fontsize=14)
 plt.ylabel('mag',fontsize=14)
@@ -83,20 +81,6 @@ plt.ylabel('mag',fontsize=14)
 ax = plt.gca()
 ax.yaxis.set_ticks_position('left') #将y轴的位置设置在右边
 ax.invert_yaxis() #y轴反向
-
-
-def calculater(ydata, caldata):
-    res_ydata  = np.array(ydata) - np.array(caldata)
-    ss_res     = np.sum(res_ydata**2)
-    ss_tot     = np.sum((ydata - np.mean(ydata))**2)
-    r_squared  = 1 - (ss_res / ss_tot)
-    return r_squared
-
-
-R_2 = calculater(datay, resultflux)
-
-print(R_2)
-
 '''
 
 

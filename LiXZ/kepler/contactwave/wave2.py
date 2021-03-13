@@ -52,7 +52,8 @@ gif_images = []
 plt.figure(0)
 fluxmodel = b['value@fluxes@lc01@model']
 resultflux = -2.5*np.log10(fluxmodel)
-resultflux1 = resultflux - np.mean(resultflux)
+#resultflux1 = resultflux - np.mean(resultflux)
+resultflux1 = np.copy(resultflux)
 
 #plt.plot(b['value@times@lc01@model'], resultflux, '.',label="80°")
 timesx = b['value@times@lc01@model']
