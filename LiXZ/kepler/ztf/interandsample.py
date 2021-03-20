@@ -21,7 +21,7 @@ inclmodel = load_model('incl.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 9453192.txt'
+file = 'KIC 4937217.txt'
 
 
 #file = 'ztf1.txt'

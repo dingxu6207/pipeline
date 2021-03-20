@@ -21,9 +21,9 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 b['period@binary'] = 1
 
 b['incl@binary'] =  55.0 #58.528934
-b['q@binary'] =     0.1
+b['q@binary'] =     1
 b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*99*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -31,7 +31,7 @@ b['teff@secondary'] = 6500*99*0.01#6500*100.08882*0.01 #6087
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 0.6    #0.61845703
+b['requiv@primary'] = 0.4    #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -42,7 +42,16 @@ afig, mplfig = b.plot(show=True, legend=True)
 
 print(b['fillout_factor@contact_envelope'])
 
+#print(b.filter(context='component', kind='star', component='primary'))
+#print(b.filter(component='binary'))
+#print(b.filter(context='component'))
+#print(b.filter(context='component', kind='envelope'))
+#print(b.filter(context='system'))
+print(b.compute_pblums())
+#print(b.filter('pblum*'))
+print(b.filter('r*'))
 
+print(b.filter('l3*'))
 
 np.savetxt('data0.lc', 
            np.vstack((b['value@times@lc01@model'], b['value@fluxes@lc01@model'])).T)

@@ -27,11 +27,11 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  57.8
+b['incl@binary'] =  110
 b['q@binary'] =  32.8224*0.01
-b['teff@primary'] =  6500  #6208 
+b['teff@primary'] =  5500  #6208 
 
-b['teff@secondary'] = 6500*100*0.01 #6087
+b['teff@secondary'] = 5500*100*0.01 #6087
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
@@ -68,7 +68,7 @@ gif_images.append(imageio.imread('img1.jpg'))
 plt.savefig('img1.jpg')
 gif_images.append(imageio.imread('img1.jpg'))
 
-b['incl@binary'] =  57.8
+b['incl@binary'] = 70
 b['q@binary'] =  32.8224*0.01
 b['teff@primary'] =  5500  #6208 
 b['teff@secondary'] = 5500*100*0.01 #6087
@@ -84,7 +84,7 @@ resultflux2 = resultflux - np.mean(resultflux)
 #plt.plot(b['value@times@lc01@model'], resultflux, '.',label="70°")
 plt.scatter(timesx, resultflux2,s=20, c='r', alpha=0.4)
 
-plt.legend(('T = 6500K', 'T = 5500K'), loc='upper right')
+plt.legend(('incl = 110', 'incl = 70'), loc='upper right')
 #plt.title('5000k')
 
 print(b['requiv@secondary']) 

@@ -21,7 +21,8 @@ b.add_dataset('lc', times=times)
 b.set_value('l3_mode', 'fraction')
 
 constfrac = 0.76
-b.set_value('l3_frac', constfrac)
+#b.set_value('l3_frac', constfrac)
+b['l3_frac']= constfrac
 b['period@binary'] = 1
 
 b['incl@binary'] = 78.71832     #58.528934

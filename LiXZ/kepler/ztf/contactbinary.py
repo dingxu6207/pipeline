@@ -20,10 +20,10 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 
 b['period@binary'] = 1
 
-b['incl@binary'] =  67.881355#58.528934
-b['q@binary'] =   6.0704117
+b['incl@binary'] =  66.05841#58.528934
+b['q@binary'] =   0.49103367
 b['teff@primary'] =  6500#6500#6500  #6208 
-b['teff@secondary'] = 6500*0.9399242 #6500*92.307556*0.01#6500*100.08882*0.01 #6087
+b['teff@secondary'] = 6500*1.0090852 #6500*92.307556*0.01#6500*100.08882*0.01 #6087
 
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
@@ -31,7 +31,7 @@ b['teff@secondary'] = 6500*0.9399242 #6500*92.307556*0.01#6500*100.08882*0.01 #6
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] =  0.28   #0.61845703
+b['requiv@primary'] =  0.46718815   #0.61845703
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
@@ -41,7 +41,8 @@ plt.figure(0)
 afig, mplfig = b.plot(show=True, legend=True)
 
 print(b['fillout_factor@contact_envelope'])
-
+print(b.compute_pblums())
+print(b.filter('req*'))
 
 
 np.savetxt('data0.lc', 
@@ -55,7 +56,7 @@ fluxcha = fluxes_model-b['value@times@lc01@model']
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
 #file = 'ztf1.txt' #6677225
-file = 'KIC 2437038.txt'
+file = 'KIC 5376552.txt'
 #yuandata = np.loadtxt(file)
 yuandata = np.loadtxt(path+file)
 #datay = 10**(yuandata[:,1]/(-2.512))
