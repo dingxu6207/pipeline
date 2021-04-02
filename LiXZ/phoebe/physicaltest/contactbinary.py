@@ -21,27 +21,39 @@ b.add_dataset('lc', times=phoebe.linspace(0,1,150))
 b['period@binary'] = 1
 
 b['incl@binary'] =  55.0 #58.528934
-b['q@binary'] =     1
+b['q@binary'] =     0.4
 b['teff@primary'] =  6500  #6208 
 b['teff@secondary'] = 6500#6500*100.08882*0.01 #6087
-
+#b['fillout_factor'] = 0.3
+#b['fillout_factor@contact_envelope'] = 0.5
 
 #b['fillout_factor@contact_envelope@envelope@component'] = 0.5
 
 b['sma@binary'] = 1#0.05 2.32
 #print(b['sma@binary'])
 
-b['requiv@primary'] = 0.4    #0.61845703
+b['requiv@primary'] = 0.5    #0.61845703
+
+'''
+b.get_constraint(qualifier='fillout_factor@contact_envelope@envelope@component')
+b['fillout_factor@contact_envelope@envelope@component'] = 0.3
+b.flip_constraint(qualifier='fillout_factor@contact_envelope@envelope@component', solve_for='requiv@primary')
+'''
+#b.get_constraint(qualifier='fillout_factor')
+#b.flip_constraint(qualifier='requiv@secondary@component', solve_for='requiv@primary@component')
+#b.flip_constraint(qualifier='fillout_factor', context='contact_envelope', solve_for='requiv@primary@star@component')
+#b['fillout_factor'] = 0.3
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
 
-b.run_compute(irrad_method='none')
+b.run_compute(ntriangles=5000)
 
 plt.figure(0)
 afig, mplfig = b.plot(show=True, legend=True)
 
 print(b['fillout_factor@contact_envelope'])
 
+#print(b.filter(context='constraint').qualifiers)
 #print(b.filter(context='component', kind='star', component='primary'))
 #print(b.filter(component='binary'))
 #print(b.filter(context='component'))

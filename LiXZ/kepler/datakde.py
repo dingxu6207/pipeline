@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 
-lightdata = np.loadtxt('savedatasample1.txt') 
+lightdata = np.loadtxt('savedatasample3.txt') 
 #lightdata = np.loadtxt('alldatasample35.txt') 
 
 
@@ -18,7 +18,7 @@ import seaborn as sns
 sns.set()
 
 
-lightdata = lightdata[lightdata[:,100] > 50]
+lightdata = lightdata[lightdata[:,100] > 20]
 #lightdata = lightdata[lightdata[:,101] < 1]
 #lightdata = lightdata[lightdata[:,103] < 1.15]
 #lightdata = lightdata[lightdata[:,103] > 0.85]

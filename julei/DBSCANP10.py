@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov 28 22:40:19 2020
+Created on Tue Mar 30 17:26:37 2021
 
 @author: dingxu
 """
+
 import numpy as np
 from sklearn.cluster import KMeans,DBSCAN,AgglomerativeClustering
 import pandas as pd
@@ -19,7 +20,7 @@ from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
 np.random.seed(8)
 
-data = np.loadtxt('Tombaugh.txt')
+data = np.loadtxt('NGC6397.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -69,38 +70,28 @@ def thelowdensity(dataset, lable):
 
 res = []
 i = 0
-for eps in np.arange(0.1,0.5,0.01):
+min_samples = 10
+for eps in np.arange(0.001,0.1,0.001):
     # 迭代不同的min_samples值
-    for min_samples in range(2,15):
-        clt = DBSCAN(eps = eps, min_samples = min_samples)
-        datalables = clt.fit_predict(data_zs)
+    #for min_samples in range(2,15):
+    clt = DBSCAN(eps = eps, min_samples = min_samples)
+    datalables = clt.fit_predict(data_zs)
         
-        try:
-            '''
-            datapro = np.column_stack((data_zs ,datalables))
-            highdata = datapro[datapro[:,5] == 0]
-            nearest_neighbors = NearestNeighbors(n_neighbors=3)
-            neighbors = nearest_neighbors.fit(highdata[0:5])
-            distances, indices = neighbors.kneighbors(highdata[0:5])
-            hang,lie = distances.shape
-            sscore = np.sum(distances[:,1])/hang
-            
-            print(sscore)
-            '''
-            sscore = thehighdensity(data_zs, datalables)
-            lsscore = thelowdensity(data_zs, datalables)
-        except:
-            sscore = -1
-            lsscore = -1
+    try:
+        sscore = thehighdensity(data_zs, datalables)
+        lsscore = thelowdensity(data_zs, datalables)
+    except:
+        sscore = -1
+        lsscore = -1
 
-        n_clusters = len([i for i in set(datalables)])
+    n_clusters = len([i for i in set(datalables)])
 
-        stats = str(pd.Series([i for i in datalables]).value_counts().values)
+    stats = str(pd.Series([i for i in datalables]).value_counts().values)
         
-        res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'hscore':sscore,'lscore':lsscore,'stats':stats})
+    res.append({'eps':eps,'min_samples':min_samples,'n_clusters':n_clusters,'hscore':sscore,'lscore':lsscore,'stats':stats})
         
-        i = i+1
-        print(str(i)+' '+'it is ok!')
+    i = i+1
+    print(str(i)+' '+'it is ok!')
 
 # 将迭代后的结果存储到数据框中        
 df = pd.DataFrame(res)
@@ -110,6 +101,9 @@ df2cluster = df.loc[df.n_clusters == 2, :]
 
 epsdata = df2cluster['eps']
 mindata = df2cluster['min_samples']
+
+plt.figure(1)
+plt.plot(np.array(df2cluster['hscore']))
 
 '''
 plt.figure(0)

@@ -88,7 +88,7 @@ lowdata = datapro[datapro[:,8] == -1]
 
 
 plt.figure(0)
-#plt.scatter(lowdata[:,0], lowdata[:,1], marker='o', color='grey',s=1.0)
+plt.scatter(lowdata[:,0], lowdata[:,1], marker='o', color='grey',s=1.0)
 plt.scatter(highdata[:,0], highdata[:,1], marker='o', color='lightcoral',s=15.0)
 plt.xlabel('RA',fontsize=14)
 plt.ylabel('DEC',fontsize=14)

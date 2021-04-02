@@ -18,7 +18,7 @@ from matplotlib.animation import FuncAnimation
 import imageio
 
 
-data = np.loadtxt('Be99.txt')
+data = np.loadtxt('Tombaugh.txt')
 print(len(data))
 #data = data[data[:,2]>0]
 #data = data[data[:,2]<1]
@@ -37,7 +37,7 @@ X = StandardScaler().fit_transform(X)
 #X = MinMaxScaler().fit_transform(X)
 data_zs = np.copy(X)
 
-clt = DBSCAN(eps = 0.05, min_samples = 10)
+clt = DBSCAN(eps = 0.28, min_samples = 14)
 datalables = clt.fit_predict(data_zs)
 
 r1 = pd.Series(datalables).value_counts()
@@ -61,6 +61,11 @@ plt.xlabel('pmRA',fontsize=14)
 plt.ylabel('pmDEC',fontsize=14)
 plt.xlim((-15,15))
 plt.ylim((-15,15))
+
+plt.figure(10)
+plt.hist(lowdata[:,4], bins=500, density = 1, facecolor='blue', alpha=0.5)
+plt.hist(highdata[:,4], bins=50, density = 1, facecolor='red', alpha=0.5)
+
 
 
 plt.figure(2)
@@ -111,6 +116,9 @@ ax1.set_title('NGC7142')
 
 #ax1.view_init(elev=30, azim=30)
 
+plt.figure(11)
+plt.hist(lowdata[:,0], bins=500, density = 1, facecolor='blue', alpha=0.5)
+plt.hist(highdata[:,0], bins=50, density = 1, facecolor='red', alpha=0.5)
 
 '''
 plt.figure(6)
