@@ -71,7 +71,7 @@ res = []
 i = 0
 for eps in np.arange(0.1,0.5,0.01):
     # 迭代不同的min_samples值
-    for min_samples in range(2,15):
+    for min_samples in range(6,15):
         clt = DBSCAN(eps = eps, min_samples = min_samples)
         datalables = clt.fit_predict(data_zs)
         

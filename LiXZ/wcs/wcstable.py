@@ -18,12 +18,12 @@ from astropy.wcs import WCS
 ast = AstrometryNet()
 ast.api_key = 'vslojcwowmxjczlq'
 
-filename = 'new-image.fits'
-#path = "E:/shunbianyuan/phometry/todingx/origindata/"
-#file = "ftboYFAk300222.fits"
+#filename = 'new-image.fits'
+path = "E:/shunbianyuan/phometry/todingx/origindata/"
+file = "ftboYFAk300222.fits"
 #path = 'E:\\shunbianyuan\\dataxingtuan\\ngc7142\\'
 #file = 'd4738777L016m000.fit'
-#filename = path+file
+filename = path+file
 fitshdu = fits.open(filename)
 fitsdata = fitshdu[0].data
 
@@ -43,7 +43,7 @@ def adjustimage(imagedata, coffe):
 
 def findsource(img):    
     mean, median, std = sigma_clipped_stats(img, sigma=3.0)
-    daofind = DAOStarFinder(fwhm=2, threshold=5.*std)
+    daofind = DAOStarFinder(fwhm=4, threshold=5.*std)
     sources = daofind(img - median)
 
     for col in sources.colnames:
