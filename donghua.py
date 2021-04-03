@@ -50,3 +50,5 @@ for i in range(count):
     plt.clf()
     
 imageio.mimsave('test.gif', gif_images, fps=10)
+
+#img

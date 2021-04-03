@@ -38,3 +38,4 @@ cmd/locationcha
 *.png
 *.jpeg
 *.B
+cluster/NGC4337/*.py
