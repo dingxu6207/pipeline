@@ -9,7 +9,7 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 import os
 import imageio
-
+##it is ok!
 filetemp = []
 count = 0
 oripath = 'E:\\shunbianyuan\\Asteroids_Dingxu\\6478\\20200825_6478\\alligen\\'  #路径参数
