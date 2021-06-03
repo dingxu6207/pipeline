@@ -34,7 +34,7 @@ X = np.copy(data[:,0:5])
 
 plt.figure(20)
 #plt.hist(np.around(X[:,3],3), bins=500, density = 0, facecolor='blue', alpha=0.5)
-plt.hist(X[:,3], bins=500, density = 0, facecolor='blue', alpha=0.5)
+plt.hist(X[:,0], bins=500, density = 0, facecolor='blue', alpha=0.5)
 
 
 X = StandardScaler().fit_transform(X)
