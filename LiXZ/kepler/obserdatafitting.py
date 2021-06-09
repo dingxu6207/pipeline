@@ -81,9 +81,9 @@ resdata = datay-resultflux
 resdata = resdata[resdata<0.05]
 resdata = resdata[resdata>-0.05]
 xres = np.random.random(len(resdata))
-plt.plot(xres,resdata+0.7,'.')
-plt.axhline(y=0.7, color='r', linestyle='-')
-plt.text(0.018, 0.64, 'y=0.7  '+'residual', fontsize=14, color = "b", style = "italic")
+#plt.plot(xres,resdata+0.7,'.')
+#plt.axhline(y=0.7, color='r', linestyle='-')
+#plt.text(0.018, 0.64, 'y=0.7  '+'residual', fontsize=14, color = "b", style = "italic")
 
 
 print(np.std(datay-resultflux))
