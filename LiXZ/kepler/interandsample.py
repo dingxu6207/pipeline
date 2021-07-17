@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing    
 #model = load_model('incl.hdf5')
-model = load_model('alldrop.hdf5')
+model = load_model('nol3module50.hdf5')
 #model = load_model('alldown.hdf5')
 #model = load_model('all.hdf5')
 #model = load_model('q.hdf5')
@@ -22,7 +22,7 @@ model = load_model('alldrop.hdf5')
 model.summary()
 
 path = 'E:\\shunbianyuan\\data\\kepler\\KIC_name\\'
-file = 'KIC 4937217.txt'
+file = 'KIC 2988984.txt'
 
 
 #file = 'V737inter.txt'
