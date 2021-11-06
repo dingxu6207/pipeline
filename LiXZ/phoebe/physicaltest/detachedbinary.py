@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 logger = phoebe.logger()
 
 b = phoebe.default_binary()
+b.add_constraint('semidetached', 'primary')
 
 times  = np.linspace(0,1,100)
 
@@ -21,12 +22,12 @@ b.add_dataset('lc', times=times)
 b['period@binary'] = 1
 b['sma@binary'] = 1#0.05 2.32
 
-b['incl@binary'] =  80 #58.528934
-b['q@binary'] =     2.1913779*0.1
-b['teff@primary'] =  6500  #6208 
-b['teff@secondary'] = 6500*98.992874*0.01#6500*100.08882*0.01 #6087
-b['requiv@primary'] = 0.1
-b['requiv@secondary'] = 0.1
+b['incl@binary'] =  68.37 #58.528934
+b['q@binary'] =     0.28
+b['teff@primary'] =  7400  #6208 
+b['teff@secondary'] = 5116.57#6500*100.08882*0.01 #6087
+#b['requiv@primary'] = 0.1
+b['requiv@secondary'] = 0.23
 #b['ecc@binary@component'] = 0.01
 
 b.add_dataset('mesh', times=[0.25], dataset='mesh01')
