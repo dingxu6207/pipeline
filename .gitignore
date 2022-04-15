@@ -39,3 +39,4 @@ cmd/locationcha
 *.jpeg
 *.B
 cluster/NGC4337/*.py
+*.fit
